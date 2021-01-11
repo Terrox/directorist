@@ -280,9 +280,13 @@
 
   .atbd_listing_type {
     padding-bottom: 20px;
-    h4 {
+    .atbdp_option_title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #0A0B1E;
       margin-bottom: 15px;
     }
+    
     .atbd_listing_type_list{
       display: flex;
       flex-wrap: wrap;
@@ -292,6 +296,73 @@
         padding: 0 10px;
         input[type="radio"]{
           height: auto;
+        }
+      }
+    }
+  }
+  .directorist_type-selection-wrap{
+    display: flex;
+    margin: -10px;
+
+    .atbdp_input_group{
+      
+      margin: 10px;
+
+      input[type="radio"].atbdp_radio_input{
+        
+        &+label{
+          display: flex;
+          flex-direction: column;
+          min-width: 325px;
+          padding: 16px 25px 16px 60px;
+          border: 2px solid #ECECEC;
+          border-radius: 6px;
+          min-height: 95px;
+          box-shadow: 0 3px 5px rgba(#8F8E9F,.05);
+          &:before{
+            width: 22px;
+            height: 22px;
+            left: 22px;
+            top: 22px;
+            transform: translateY(0);
+            border-width: 2px;
+            border-color: #C6D0DC;
+          }
+          &:after{
+            position: absolute;
+            left: 30px;
+            top: 30px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+            visibility: hidden;
+            content: '';
+            background-color: #28A800;
+          }
+        }
+
+        &:checked{
+          &+label{
+            border-color: #28A800;
+            &:before{
+              border-color: #28A800;
+            }
+            &:after{
+              opacity: 1;
+              visibility: visible;
+            }
+          }
+        }
+      }
+
+      .directorist_text-extra{
+        font-size: 14px;
+        font-weight: 400;
+        display: block;
+        color: #51526E;
+        small{
+          font-size: 14px;
         }
       }
     }
