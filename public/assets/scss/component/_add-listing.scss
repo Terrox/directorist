@@ -7,7 +7,7 @@
   }
 
   .select2-container--default .select2-selection {
-    padding: 0 20px;
+    padding: 0 14px;
   }
 
   .atbd_add_listing_title {
@@ -544,6 +544,28 @@
 
 #directorist.atbd_wrapper .atbdp_social_field_wrapper {
   margin-bottom: 15px;
+  align-items: center;
+}
+
+#directorist.atbd_wrapper .directorist-social-info-field{
+  #addNewSocial{
+    font-size: 14px;
+    font-weight: 500;
+    padding: 11.5px 0px;
+    width: 100%;
+    border-radius: 6px;
+    background-color: #F2F3F5 !important;  
+    border-color: #F2F3F5 !important;  
+    color: $dark !important;
+    &:focus{
+      outline: 0 none;
+      box-shadow: 0 0;
+    }
+    .plus-sign{
+      font-size: 14px;
+      margin-right: 5px;
+    }
+  }
 }
 
 #directorist.atbd_wrapper .atbdp_make_str_red {
@@ -643,6 +665,21 @@
   .ezmu__thumbnail-list-item_back {
     height: 200px;
     width: 100%;
+  }
+}
+
+// Add Listing Pricing Option
+.atbd_add_listing_wrapper {
+  .atbd_pricing_options{
+    display: flex;
+    label{
+      font-size: 15px;
+      color: #51526E;
+    }
+    span{
+      display: inline-block;
+      margin: 0 20px;
+    }
   }
 }
 

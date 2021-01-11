@@ -1,0 +1,22 @@
+// Directorist Select Style
+.directorist_select{
+    .select2-selection{
+        .select2-selection__rendered{
+            .select2-selection__choice{
+                display: inline-flex;
+                align-items: center;
+                font-size: 12px;
+                font-weight: 500;
+                padding: 0 10px !important;
+                line-height: 1.75;
+                background-color: #3C3D58 !important;
+                color: #fff;
+                .select2-selection__choice__remove{
+                    color: #fff;
+                    line-height: 1.4;
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

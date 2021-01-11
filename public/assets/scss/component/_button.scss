@@ -37,3 +37,85 @@
     border-color: #444752 !important;
   }
 }
+
+// Directorist Radio
+.directorist_radio{
+  label{
+    
+    input[type=radio]{
+      display: none;
+    }
+  }
+  .directorist_radio-inner{
+    position: relative;
+    margin: 0 !important;
+    padding-left: 28px;
+    &:after{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #C6D0DC;
+      content: '';
+    }
+  }
+  input{
+    &:checked{
+      &+ .directorist_radio-inner{
+        &:after{
+          border-width: 5px;
+          border-color: $dark;
+        }
+      }
+    }
+  }
+}
+
+// Directorist Checkbox
+.directorist_checkbox{
+  label{
+    
+    input[type=checkbox]{
+      display: none;
+    }
+  }
+  .directorist_checkbox-inner{
+    position: relative;
+    margin: 0 !important;
+    padding-left: 28px;
+    &:after{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      border: 2px solid #C6D0DC;
+      transition: .3s ease;
+      content: '';
+    }
+    &:before{
+      font-size: 15px;
+      line-height: 0;
+      position: absolute;
+      left: 1px;
+      top: 50%;
+      font-family: dashicons;
+      color: #fff;
+      content: '\f147';
+      z-index: 99;
+    }
+  }
+  input{
+    &:checked{
+      &+ .directorist_checkbox-inner{
+        &:after{
+          background-color: $dark;
+          border-color: $dark;
+        }
+      }
+    }
+  }
+}

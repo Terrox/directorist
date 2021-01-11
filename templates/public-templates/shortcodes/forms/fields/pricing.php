@@ -26,7 +26,13 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 		if ( $data['pricing_type'] == 'both' || $data['pricing_type'] == 'price_unit' ) {
 			$checked =  ( $atbd_listing_pricing == 'price' || empty($p_id) ) ? ' checked' : '';
 			?>
-			<label for="price_selected" data-option="price"><input type="checkbox" id="price_selected" value="price" name="atbd_listing_pricing"<?php echo $checked; ?>> <?php echo esc_html( $data['price_unit_field_label'] );?></label>
+			<div class="directorist_radio">
+				<label for="price_selected" data-option="price">
+					<input type="radio" id="price_selected" value="price" name="atbd_listing_pricing"<?php echo $checked; ?>>
+					<span class="directorist_radio-inner"><?php echo esc_html( $data['price_unit_field_label'] );?></span>
+				</label>
+			</div>
+			
 			<?php
 		}
 
@@ -34,12 +40,23 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 			?>
 			<span><?php esc_html_e('Or', 'directorist'); ?></span>
 
-			<label for="price_range_selected" data-option="price_range"><input type="checkbox" id="price_range_selected" value="range" name="atbd_listing_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>> <?php echo esc_html( $data['price_range_label'] );?></label>
+			<div class="directorist_radio">
+				<label for="price_range_selected" data-option="price_range">
+					<input type="radio" id="price_range_selected" value="range" name="atbd_listing_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>>
+					<span class="directorist_radio-inner"><?php echo esc_html( $data['price_range_label'] );?></span>
+					
+				</label>
+			</div>
+			
 			<?php
 		}
 		?>
-
-		<small><?php esc_html_e('(Optional - Uncheck to hide pricing for this listing)', 'directorist') ?></small>
+	</div>
+	<div class="directorist_checkbox">
+		<label for="price_range_hide_selected" data-option="price_range">
+			<input type="checkbox" id="price_range_hide_selected" value="range" name="atbd_listing_hide_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>>
+			<span class="directorist_checkbox-inner">Hide pricing for this listing</span>
+		</label>
 	</div>
 
 	<?php
