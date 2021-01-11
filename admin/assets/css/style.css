@@ -34,7 +34,7 @@ css for Custom Field
   display: inline-block;
   font-weight: 500;
   font-size: 15px;
-  color: #202428;
+  color: #0A0B1E;
 }
 
 #directorist.atbd_wrapper .map_wrapper {
@@ -58,7 +58,7 @@ css for Custom Field
 }
 
 #directorist.atbd_wrapper [data-toggle="tooltip"]:hover {
-  color: #202428;
+  color: #0A0B1E;
 }
 
 #directorist.atbd_wrapper .single_prv_attachment {
@@ -243,7 +243,7 @@ css for Custom Field
   text-decoration: none;
   font-weight: 500;
   font-size: 18px;
-  color: #202428;
+  color: #0A0B1E;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
@@ -1464,7 +1464,7 @@ span.atbdp-tick-cross {
   display: inline-block;
   font-weight: 500;
   font-size: 15px;
-  color: #202428;
+  color: #0A0B1E;
   margin-bottom: 10px;
 }
 

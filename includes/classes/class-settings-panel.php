@@ -3,6 +3,7 @@
 if ( ! class_exists('ATBDP_Settings_Panel') ) {
     class ATBDP_Settings_Panel
     {
+        private $extension_url    = '';
         public $fields            = [];
         public $layouts           = [];
         public $config            = [];
@@ -20,6 +21,7 @@ if ( ! class_exists('ATBDP_Settings_Panel') ) {
             add_action( 'admin_menu', [$this, 'add_menu_pages'] );
 
             add_action( 'wp_ajax_save_settings_data', [ $this, 'handle_save_settings_data_request' ] );
+            $this->extension_url = sprintf("<a target='_blank' href='%s'>%s</a>", esc_url(admin_url('edit.php?post_type=at_biz_dir&page=atbdp-extension')), __('Checkout Awesome Extensions', 'directorist'));
         }
 
         // initial_setup
@@ -167,6 +169,70 @@ SWBD;
                     'description' => $description,
                 ];
 
+                
+                // Map Country Restriction Field
+                $fields['country_restriction'] = [
+                    'type'  => 'toggle',
+                    'label' => __('Country Restriction', 'directorist'),
+                    'value' => false,
+                ];
+
+                $countries = atbdp_country_code_to_name();
+                $items = array();
+
+                foreach ($countries as $country => $code) {
+                    $items[] = array(
+                        'value' => $country,
+                        'label' => $code,
+                    );
+                }
+
+                $fields['restricted_countries'] = [
+                    'type'    => 'checkbox',
+                    'label'   => __('Select Countries', 'directorist'),
+                    'options' => $items,
+                    'value'   => '',
+                    'show-if' => [
+                        'where' => "country_restriction",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ];
+
+
+                // Single Listings
+                $fields['submission_confirmation'] = [
+                    'type'  => 'toggle',
+                    'label' => __('Show Submission Confirmation', 'directorist'),
+                    'value' => true,
+                ];
+
+                $fields['pending_confirmation_msg'] = [
+                    'type'  => 'textarea',
+                    'label' => __('Pending Confirmation Message', 'directorist'),
+                    'value' => __('Thank you for your submission. Your listing is being reviewed and it may take up to 24 hours to complete the review.', 'directorist'),
+                    'show-if' => [
+                        'where' => "submission_confirmation",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ];
+
+                $fields['publish_confirmation_msg'] = [
+                    'type'  => 'textarea',
+                    'label' => __('Publish Confirmation Message', 'directorist'),
+                    'value' => __('Congratulations! Your listing has been approved/published. Now it is publicly available.', 'directorist'),
+                    'show-if' => [
+                        'where' => "submission_confirmation",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ];
+
+
                 return $fields;
             });
         }
@@ -194,16 +260,16 @@ SWBD;
         // handle_save_settings_data_request
         public function handle_save_settings_data_request()
         {
-            /* wp_send_json([
-                'status' => false,
-                'field_list' => $this->maybe_json( $_POST['field_list'] ),
-                'status_log' => [
-                    'name_is_missing' => [
-                        'type' => 'error',
-                        'message' => 'Debugging',
-                    ],
-                ],
-            ], 200 ); */
+            // wp_send_json([
+            //     'status' => false,
+            //     'field_list' => $this->maybe_json( $_POST['field_list'] ),
+            //     'status_log' => [
+            //         'name_is_missing' => [
+            //             'type' => 'error',
+            //             'message' => 'Debugging',
+            //         ],
+            //     ],
+            // ], 200 );
 
 
             $status = [ 'success' => false, 'status_log' => [] ];
@@ -280,11 +346,6 @@ SWBD;
                 $string     = (!is_null($string_alt)) ? $string_alt : $string;
             }
 
-            $test_json = json_decode($string, true);
-            if (!is_null($test_json)) {
-                $string = $test_json;
-            }
-
             return $string;
         }
 
@@ -297,16 +358,21 @@ SWBD;
         // prepare_settings
         public function prepare_settings()
         {
-            $countries = [];
-            foreach (atbdp_country_code_to_name() as $code => $country_name) {
-                $country = [
-                    'value' => $code,
-                    'label' => $country_name,
-                ];
-                array_push( $countries, $country );
-            }
-            // e_var_dump($countries);
             $business_hours_label = sprintf(__('Open Now %s', 'directorist'), !class_exists('BD_Business_Hour') ? '(Requires Business Hours extension)' : '');
+
+            $bank_account = <<<KAMAL
+Please make your payment directly to our bank account and use your ORDER ID (#==ORDER_ID==) as a Reference. Our bank account information is given below.
+
+Account details :
+
+Account Name : [Enter your Account Name]
+Account Number : [Enter your Account Number]
+Bank Name : [Enter your Bank Name]
+
+Please remember that your order may be canceled if you do not make your payment within next 72 hours.
+KAMAL;
+
+        $bank_payment_desc = __('You can make your payment directly to our bank account using this gateway. Please use your ORDER ID as a reference when making the payment. We will complete your order as soon as your deposit is cleared in our bank.', 'directorist');
 
             $this->fields = apply_filters('atbdp_listing_type_settings_field_list', [
 
@@ -331,55 +397,23 @@ SWBD;
                     ],
                 ],
 
-                'featured_listing_title' => [
-                    'type' => 'text',
-                    'label' => __('Title', 'directorist'),
-                    'show-if' => [
-                        'where' => "enable_featured_listing",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
-                    'description' => __('You can set the title for featured listing to show on the ORDER PAGE', 'directorist'),
-                    'value' => __('Featured', 'directorist'),
-                ],
-
-                'featured_listing_desc' => [
-                    'type' => 'textarea',
-                    'label' => __('Description', 'directorist'),
-                    'show-if' => [
-                        'where' => "enable_featured_listing",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
-                    'value' => __('(Top of the search result and listings pages for a number days and it requires an additional payment.)', 'directorist'),
-                ],
-
                 'featured_listing_price' => [
                     'label'         => __('Price in ', 'directorist') . atbdp_get_payment_currency(),
                     'type'          => 'number',
-                    'max'           => 0,
                     'value'         => 19.99,
                     'description'   => __('Set the price you want to charge a user if he/she wants to upgrade his/her listing to featured listing. Note: you can change the currency settings under the gateway settings', 'directorist'),
                     'show-if' => [
-                        'where' => "enable_featured_listing",
+                        'where' => "enable_monetization",
                         'conditions' => [
                             ['key' => 'value', 'compare' => '=', 'value' => true],
                         ],
                     ],
                 ],
 
-                'featured_listing_time' => [
-                    'label'         => __('Featured Duration in Days', 'directorist'),
-                    'type'          => 'number',
-                    'value'         => 30,
-                    'show-if' => [
-                        'where' => "enable_featured_listing",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
+                'paypal_gateway_promotion'    => [
+                    'type'          => 'note',
+                    'title'         => __('Need more gateways?', 'directorist'),
+                    'description' => sprintf(__('You can use different payment gateways to process payment including PayPal. %s', 'directorist'), $this->extension_url),
                 ],
 
                 'gateway_test_mode' =>[
@@ -395,12 +429,12 @@ SWBD;
                     'value'     => [
                             'bank_transfer',
                         ],
-                    'options'   => apply_filters('atbdp_active_gateways', [
+                    'options'   => [
                         [
                             'value' => 'bank_transfer',
                             'label' => __('Bank Transfer (Offline Gateway)', 'directorist'),
                         ],
-                    ] ),
+                    ],
                     'description' => __('Check the gateway(s) you would like to use to collect payment from your users. A user will be use any of the active gateways during the checkout process ', 'directorist'),
                 ],
 
@@ -415,6 +449,12 @@ SWBD;
                         ]
                     ] ),
                     'description' => __('Select the default gateway you would like to show as a selected gateway on the checkout page', 'directorist'),
+                ],
+
+                'payment_currency_note'  => [
+                    'type'          => 'note',
+                    'title'         => __('Note About This Currency Settings:', 'directorist'),
+                    'description' => __('This currency settings lets you customize how you would like to accept payment from your user/customer and how to display pricing on the order form/history.', 'directorist'),
                 ],
 
                 'payment_currency' => [
@@ -455,12 +495,39 @@ SWBD;
                     'description' => __('Select where you would like to show the currency symbol. Default is before. Eg. $5', 'directorist'),
                 ],
 
+                // gateway settings 
+                'offline_payment_note'    => [
+                    'type'                => 'note',
+                    'title'               => __('Note About Bank Transfer Gateway:', 'directorist'),
+                    'description'         => __('You should remember that this payment gateway needs some manual action to complete an order. After getting notification of order using this offline payment gateway, you should check your bank if the money is deposited to your account. Then you should change the order status manually from the "Order History" submenu.', 'directorist'),
+                ],
 
                 'bank_transfer_title' => [
-                    'type' => 'text',
-                    'label' => __('Gateway Title', 'directorist'),
-                    'value' => __('Bank Transfer', 'directorist'),
-                    'description' => __('Enter the title of this gateway that should be displayed to the user on the front end.', 'directorist'),
+                    'type'            => 'text',
+                    'label'           => __('Gateway Title', 'directorist'),
+                    'value'           => __('Bank Transfer', 'directorist'),
+                    'description'     => __('Enter the title of this gateway that should be displayed to the user on the front end.', 'directorist'),
+                ],
+
+                'bank_transfer_description' => [
+                    'type'          => 'textarea',
+                    'label'         => __('Gateway Description', 'directorist'),
+                    'value'         => $bank_payment_desc,
+                    'description'   => __('Enter some description for your user to transfer funds to your account.', 'directorist'),
+                ],
+
+                'bank_transfer_instruction' => [
+                    'type'          => 'textarea',
+                    'label'         => __('Bank Information', 'directorist'),
+                    'value'         => $bank_payment_desc,
+                    'description'   => __('Enter your bank information below so that use can make payment directly to your bank account.', 'directorist'),
+                ],
+
+                //extension setting 
+                'extension_promotion'    => [
+                    'type'          => 'note',
+                    'title'         => __('Need more Features?', 'directorist'),
+                    'description'   => sprintf(__('You can add new features and expand the functionality of the plugin even more by using extensions. %s', 'directorist'), $this->extension_url),
                 ],
 
                 'announcement_to' => [
@@ -1167,6 +1234,12 @@ SWBD;
                             'value' => 'publish',
                         ],
                     ],
+                ],
+                'fix_js_conflict' => [
+                    'label' => __('Fix Conflict with Bootstrap JS', 'directorist'),
+                    'type'  => 'toggle',
+                    'value' => true,
+                    'description' => __('If you use a theme that uses Bootstrap Framework especially Bootstrap JS, then Check this setting to fix any conflict with theme bootstrap js.', 'directorist'),
                 ],
                 'font_type' => [
                     'label' => __('Icon Library', 'directorist'),
@@ -1983,7 +2056,11 @@ SWBD;
                     'label' => __('Disable Single Listing View'),
                     'value' => false,
                 ],
-
+                'restrict_single_listing_for_logged_in_user' => [
+                    'type' => 'toggle',
+                    'label' => __('Restrict Single Listings for Logged in User Only', 'directorist'),
+                    'value' => false,
+                ],
                 'single_listing_template' => [
                     'label' => __('Template', 'directorist'),
                     'type'  => 'select',
@@ -2015,33 +2092,6 @@ SWBD;
                         ],
                     ],
                     'value' => 'directory',
-                ],
-                'submission_confirmation' => [
-                    'type' => 'toggle',
-                    'label' => __('Show Submission Confirmation', 'directorist'),
-                    'value' => true,
-                ],
-                'publish_confirmation_msg' => [
-                    'type' => 'textarea',
-                    'label' => __('Publish Confirmation Message', 'directorist'),
-                    'value' => __('Congratulations! Your listing has been approved/published. Now it is publicly available.', 'directorist'),
-                    'show-if' => [
-                        'where' => "submission_confirmation",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
-                ],
-                'pending_confirmation_msg' => [
-                    'type' => 'textarea',
-                    'label' => __('Pending Confirmation Message', 'directorist'),
-                    'value' => __('Thank you for your submission. Your listing is being reviewed and it may take up to 24 hours to complete the review.', 'directorist'),
-                    'show-if' => [
-                        'where' => "submission_confirmation",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                 ],
                 'edit_listing_redirect' => [
                     'label' => __('Redirect after Editing a Listing', 'directorist'),
@@ -2619,7 +2669,12 @@ SWBD;
                         ],
                     ],
                 ],
-                
+                'featured_listing_title' => [
+                    'type' => 'text',
+                    'label' => __('Title', 'directorist'),
+                    'description' => __('You can set the title for featured listing to show on the ORDER PAGE', 'directorist'),
+                    'value' => __('Featured', 'directorist'),
+                ],
                 // review settings 
                 'enable_review' => [
                     'type' => 'toggle',
@@ -2749,29 +2804,6 @@ SWBD;
                             ['key' => 'value', 'compare' => '=', 'value' => 'google'],
                         ],
                     ],
-                ],
-                'country_restriction' => [
-                    'type' => 'toggle',
-                    'label' => __('Country Restriction', 'directorist'),
-                    'value' => false,
-                    'show-if' => [
-                        'where' => "select_listing_map",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => 'google'],
-                        ],
-                    ],
-                ],
-                'restricted_countries' => [
-                    'label' => __('Select Countries', 'directorist'),
-                    'type'  => 'checkbox',
-                    'value' => [],
-                    'show-if' => [
-                        'where' => "country_restriction",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
-                    'options' => $countries,
                 ],
                 'default_latitude'     => [
                     'type'           => 'text',
@@ -4063,8 +4095,8 @@ SWBD;
                 ],
                 //currency settings 
                 'g_currency_note'    => [
-                    'type'          => 'notebox',
-                    'label'         => __('Note About This Currency Settings:', 'directorist'),
+                    'type'          => 'note',
+                    'title'         => __('Note About This Currency Settings:', 'directorist'),
                     'description' => __('This currency settings lets you customize how you would like to display price amount in your website. However, you can accept currency in a different currency. Therefore, for accepting currency in a different currency, Go to Gateway Settings Tab.', 'directorist'),
                 ],
                 'g_currency'    => [
@@ -5077,6 +5109,7 @@ SWBD;
                                     'fields'      => [
                                         'new_listing_status',
                                         'edit_listing_status', 
+                                        'fix_js_conflict', 
                                         'font_type', 'default_expiration', 'can_renew_listing', 'email_to_expire_day', 'email_renewal_day', 'delete_expired_listing', 'delete_expired_listings_after', 'deletion_mode', 'paginate_author_listings', 'display_author_email', 'author_cat_filter', 'atbdp_enable_cache', 'atbdp_reset_cache', 'guest_listings', 
                                     ],
                                 ],
@@ -5103,7 +5136,7 @@ SWBD;
                                     'title'       => __('Single Listing', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
-                                        'disable_single_listing', 'single_listing_template', 'atbdp_listing_slug', 'submission_confirmation', 'publish_confirmation_msg', 'pending_confirmation_msg', 'edit_listing_redirect', 'listing_details_text', 'tags_section_lable', 'custom_section_lable', 'listing_location_text', 'contact_info_text', 'contact_listing_owner', 'atbd_video_title', 'atbd_author_info_title', 'display_back_link', 'dsiplay_slider_single_page', 'single_slider_image_size', 'single_slider_background_type', 'single_slider_background_color', 'dsiplay_thumbnail_img', 'gallery_crop_width', 'gallery_crop_height', 'enable_social_share', 'enable_favourite', 'enable_report_abuse', 'disable_list_price', 'enable_single_location_taxonomy', 'enable_single_tag', 'disable_contact_info', 'address_map_link', 'disable_contact_owner', 'user_email', 'use_nofollow', 'disable_map', 'atbd_video_url', 'enable_rel_listing', 'rel_listings_logic', 'rel_listing_title', 'rel_listing_num', 'rel_listing_column', 'fix_listing_double_thumb'
+                                        'disable_single_listing', 'restrict_single_listing_for_logged_in_user', 'single_listing_template', 'atbdp_listing_slug', 'edit_listing_redirect', 'submission_confirmation', 'pending_confirmation_msg', 'publish_confirmation_msg', 'listing_details_text', 'tags_section_lable', 'custom_section_lable', 'listing_location_text', 'contact_info_text', 'contact_listing_owner', 'atbd_video_title', 'atbd_author_info_title', 'display_back_link', 'dsiplay_slider_single_page', 'single_slider_image_size', 'single_slider_background_type', 'single_slider_background_color', 'dsiplay_thumbnail_img', 'gallery_crop_width', 'gallery_crop_height', 'enable_social_share', 'enable_favourite', 'enable_report_abuse', 'disable_list_price', 'enable_single_location_taxonomy', 'enable_single_tag', 'disable_contact_info', 'address_map_link', 'disable_contact_owner', 'user_email', 'use_nofollow', 'disable_map', 'atbd_video_url', 'enable_rel_listing', 'rel_listings_logic', 'rel_listing_title', 'rel_listing_num', 'rel_listing_column', 'fix_listing_double_thumb'
                                     ],
                                 ],
                             ] ),
@@ -5309,7 +5342,7 @@ SWBD;
                                     'title'       => __('For New Listing', 'directorist'),
                                     'description' => '',
                                     'fields'      => [ 
-                                        'email_sub_new_listing', 'email_tmpl_new_listing'
+                                        'email_note', 'email_sub_new_listing', 'email_tmpl_new_listing'
                                      ],
                                 ],
                                 'approved_listings' => [
@@ -5330,7 +5363,7 @@ SWBD;
                                     'title'       => __('For About To Expire Listings', 'directorist'),
                                     'description' => '',
                                     'fields'      => [ 
-                                        'email_note', 'email_sub_to_expire_listing', 'email_tmpl_to_expire_listing'
+                                       'email_sub_to_expire_listing', 'email_tmpl_to_expire_listing'
                                      ],
                                 ],
                                 'expired_listings' => [
@@ -5645,10 +5678,7 @@ SWBD;
                                     'description' => '',
                                     'fields'      => [ 
                                         'enable_featured_listing',
-                                        'featured_listing_title',
-                                        'featured_listing_desc',
-                                        'featured_listing_price',
-                                        'featured_listing_time',
+                                        'featured_listing_price'
                                     ],
                                 ],
                                 'plan_promo' => [
@@ -5666,9 +5696,11 @@ SWBD;
                                     'title'       => __('Gateways General Settings', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
+                                        'paypal_gateway_promotion',
                                         'gateway_test_mode',
                                         'active_gateways',
                                         'default_gateway',
+                                        'payment_currency_note',
                                         'payment_currency',
                                         'payment_thousand_separator',
                                         'payment_decimal_separator',
@@ -5685,7 +5717,10 @@ SWBD;
                                     'title'       => __('Gateways General Settings', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
+                                        'offline_payment_note',
                                         'bank_transfer_title',
+                                        'bank_transfer_description',
+                                        'bank_transfer_instruction'
                                     ],
                                 ],
                             ] ),
@@ -5695,7 +5730,7 @@ SWBD;
 
                 'extension_settings' => [
                     'label' => __( 'Extensions Settings', 'directorist' ),
-                    'icon' => '<i class="fa fa-magic directorist_warning"></i>',
+                    'icon' => '<i class="fa fa-magic directorist_success"></i>',
                     'submenu' => apply_filters('atbdp_extension_settings_submenu', [
                         'extensions_general' => [
                             'label' => __('Extensions General', 'directorist'),
@@ -5705,7 +5740,7 @@ SWBD;
                                     'title'       => __('Extensions General Settings', 'directorist'),
                                     'description' => 'You can Customize Extensions-related settings here. You can enable or disable any extensions here. Here, YES means Enabled, and NO means disabled. After switching any option, Do not forget to save the changes.',
                                     'fields'      =>  apply_filters( 'atbdp_extension_fields', [
-                                        // 'extension_note'
+                                         'extension_promotion'
                                     ] ) ,
                                 ],
                             ] ),
@@ -5726,6 +5761,9 @@ SWBD;
                                     'description'   => '',
                                     'fields'        => [
                                         'announcement',
+                                        // 'announcement_to',
+                                        // 'announcement_subject',
+                                        // 'announcement_send_to_email',
                                     ]
                                 ],
                             ]),
@@ -5746,23 +5784,24 @@ SWBD;
                                 ),
                             ]),
                         ],
-
-                        'settings_import_export' => [
-                            'label' => __( 'Settings Import/Export', 'directorist' ),
-                            'icon' => '<i class="fa fa-tools"></i>',
-                            'sections'  => apply_filters('atbdp_settings_import_export_controls', [
-                                'import_export' => [
-                                    'title' => __( 'Import/Export', 'directorist' ),
-                                    'fields' => [ 'import_settings', 'export_settings' ]
-                                ],
-                                'restore_default' => [
-                                    'title' => __( 'Restore Default', 'directorist' ),
-                                    'fields' => [ 'restore_default_settings' ]
-                                ],
-                            ]),
-                        ],
                     ]),
                 ],
+
+                'settings_import_export' => [
+                    'label' => __( 'Settings Import/Export', 'directorist' ),
+                    'icon' => '<i class="fa fa-tools"></i>',
+                    'sections' => [
+                        'import_export' => [
+                            'title' => __( 'Import/Export', 'directorist' ),
+                            'fields' => [ 'import_settings', 'export_settings' ]
+                        ],
+                        'restore_default' => [
+                            'title' => __( 'Restore Default', 'directorist' ),
+                            'fields' => [ 'restore_default_settings' ]
+                        ],
+                    ],
+                ]
+
             ]);
 
             $this->config = [

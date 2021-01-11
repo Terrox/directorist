@@ -1192,6 +1192,16 @@
     	return false;
     });
 
+    /* atbd alert dismiss */
+    if($('.atbd-alert-close') !== null){
+        $('.atbd-alert-close').each(function(i,e){
+            $(e).on('click', function(e){
+                e.preventDefault();
+                $(this).parent('.atbd-alert').remove();
+            });
+        });
+    }
+
 })(jQuery);
   // on load of the page: switch to the currently selected tab
   var tab_url = window.location.href.split("/").pop();

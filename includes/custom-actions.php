@@ -194,6 +194,88 @@ function atbdp_get_preview_button()
 }
 
 /**
+ * @param string $plugin
+ * @return array plugin data
+ * @since 6.2.3
+ */
+
+function atbdp_get_plugin_data($plugin)
+{
+    $plugins = get_plugins();
+    foreach ($plugins as $key => $data) {
+        if ($plugin === $key) {
+            return $data;
+        }
+    }
+}
+
+function atbdp_is_extension_active()
+{
+    if (class_exists('BD_Business_Hour') || class_exists('DCL_Base') || class_exists('Listings_fAQs') || class_exists('BD_Gallery') || class_exists('BD_Google_Recaptcha') || class_exists('BD_Map_View') || class_exists('Directorist_Paypal_Gateway') || class_exists('Post_Your_Need') || class_exists('ATBDP_Pricing_Plans') || class_exists('BD_Slider_Carousel') || class_exists('Directorist_Social_Login') || class_exists('Directorist_Stripe_Gateway') || class_exists('DWPP_Pricing_Plans') || class_exists('Directorist_Mark_as_Sold') || class_exists('Directorist_Live_Chat') || class_exists('BD_Booking') || class_exists('ATDListingCompare')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function atbdp_extend_extension_settings_submenus($default)
+{
+    if ( apply_filters( 'atbdp_extension_license_settings_init', atbdp_is_extension_active() ) ) {
+        $array_license = array(
+            'title' => __('Activate License', 'directorist'),
+            'name' => 'extensions_license',
+            'icon' => 'font-awesome:fa-id-card',
+            'controls' => apply_filters('atbdp_license_settings_controls', array(
+                array(
+                    'type' => 'notebox',
+                    'name' => 'businedfssdfss_hours_license',
+                    'description' => sprintf(__('Enter your extension license keys here to receive updates for purchased extensions. Click %s to know more about licensing.', 'directorist'), '<a target="_blank" href="https://directorist.com/documentation/extensions/license">here</a>'),
+                    'status' => 'info',
+                ),
+
+            )),
+        );
+        array_push($default, $array_license);
+    }
+    return $default;
+}
+
+add_filter('atbdp_extension_settings_submenus', 'atbdp_extend_extension_settings_submenus');
+
+/**
+ * @since 6.3.5
+ * @return URL if current theme has the file return the actual file path otherwise return false
+ */
+
+ if ( !function_exists('atbdp_get_file_path') ){
+     function atbdp_get_theme_file( $path = null ) {
+        $file_path = get_theme_file_path( $path );
+        if( file_exists( $file_path ) ){
+            return $file_path;
+        }else{
+            return false;
+        }
+     }
+ }
+
+
+ /* if ( !function_exists('atbdp_get_shortcode_template') ){
+     function atbdp_get_shortcode_template( $path = '' ) {
+        $path = atbdp_get_theme_file("/directorist/$path.php");
+        
+        ob_start();
+        if ( $path ) {
+            include $path;
+        } else {
+            include ATBDP_TEMPLATES_DIR . "shortcode-templates/$path.php";
+        }
+        return ob_get_clean();
+     }
+ } */
+
+
+ 
+/**
  * @since 6.6.5
  * @return URL if current theme has the file return the actual file path otherwise return false
  */
@@ -448,85 +530,5 @@ if(!function_exists('atbdp_country_code_to_name')){
           return $country_code_to_name; 
     }
 }
-
-/**
- * @param string $plugin
- * @return array plugin data
- * @since 6.2.3
- */
-
-function atbdp_get_plugin_data($plugin)
-{
-    $plugins = get_plugins();
-    foreach ($plugins as $key => $data) {
-        if ($plugin === $key) {
-            return $data;
-        }
-    }
-}
-
-function atbdp_is_extension_active()
-{
-    if (class_exists('BD_Business_Hour') || class_exists('DCL_Base') || class_exists('Listings_fAQs') || class_exists('BD_Gallery') || class_exists('BD_Google_Recaptcha') || class_exists('BD_Map_View') || class_exists('Directorist_Paypal_Gateway') || class_exists('Post_Your_Need') || class_exists('ATBDP_Pricing_Plans') || class_exists('BD_Slider_Carousel') || class_exists('Directorist_Social_Login') || class_exists('Directorist_Stripe_Gateway') || class_exists('DWPP_Pricing_Plans') || class_exists('Directorist_Mark_as_Sold') || class_exists('Directorist_Live_Chat') || class_exists('BD_Booking') || class_exists('ATDListingCompare')) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function atbdp_extend_extension_settings_submenus($default)
-{
-    if ( apply_filters( 'atbdp_extension_license_settings_init', atbdp_is_extension_active() ) ) {
-        $array_license = array(
-            'title' => __('Activate License', 'directorist'),
-            'name' => 'extensions_license',
-            'icon' => 'font-awesome:fa-id-card',
-            'controls' => apply_filters('atbdp_license_settings_controls', array(
-                array(
-                    'type' => 'notebox',
-                    'name' => 'businedfssdfss_hours_license',
-                    'description' => sprintf(__('Enter your extension license keys here to receive updates for purchased extensions. Click %s to know more about licensing.', 'directorist'), '<a target="_blank" href="https://directorist.com/documentation/extensions/license">here</a>'),
-                    'status' => 'info',
-                ),
-
-            )),
-        );
-        array_push($default, $array_license);
-    }
-    return $default;
-}
-
-add_filter('atbdp_extension_settings_submenus', 'atbdp_extend_extension_settings_submenus');
-
-/**
- * @since 6.3.5
- * @return URL if current theme has the file return the actual file path otherwise return false
- */
-
- if ( !function_exists('atbdp_get_file_path') ){
-     function atbdp_get_theme_file( $path = null ) {
-        $file_path = get_theme_file_path( $path );
-        if( file_exists( $file_path ) ){
-            return $file_path;
-        }else{
-            return false;
-        }
-     }
- }
-
-
- /* if ( !function_exists('atbdp_get_shortcode_template') ){
-     function atbdp_get_shortcode_template( $path = '' ) {
-        $path = atbdp_get_theme_file("/directorist/$path.php");
-        
-        ob_start();
-        if ( $path ) {
-            include $path;
-        } else {
-            include ATBDP_TEMPLATES_DIR . "shortcode-templates/$path.php";
-        }
-        return ob_get_clean();
-     }
- } */
 
 
