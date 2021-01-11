@@ -19,7 +19,7 @@ if (!class_exists('ATBDP_Custom_Post')):
             /*make column sortable*/
             add_filter('manage_edit-' . ATBDP_POST_TYPE . '_sortable_columns', array($this, 'make_sortable_column'), 10, 1);
             add_filter('post_row_actions', array($this, 'add_listing_id_row'), 10, 2);
-            
+
             add_filter('enter_title_here', array($this, 'change_title_text'));
             add_filter('post_row_actions', array($this, 'add_row_actions_for_quick_view'), 10, 2);
             add_filter('load-edit.php', array($this, 'work_row_actions_for_quick_view'), 10, 2);
@@ -240,23 +240,7 @@ if (!class_exists('ATBDP_Custom_Post')):
                     <span><?php echo esc_attr( $term_name ); ?></span>
                     <?php
                     break;
-
-                    //code for multiselect category
-                    /*  case 'atbdp_category':
-                          $cats = wp_get_post_terms( $post_id, ATBDP_CATEGORY );
-                          if (!empty( $cats ) && is_array( $cats )){
-                              foreach ( $cats as $c ) {
-                          */ ?><!--
-                    <a href="<?/*= ATBDP_Permalink::get_category_archive( $c ); */ ?>">
-                        <i class="fa <?/*= get_cat_icon( $c->term_id ); */ ?>" aria-hidden="true"></i>
-                        <?/*= $c->name; */ ?>
-                    </a>
-                    --><?php
-                /*                        }
-                                    }
-                                    break;*/
-                default:
-                    break;
+      
                 case 'atbdp_author':
                     the_author_posts_link();
                     break;

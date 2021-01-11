@@ -5,7 +5,6 @@
  * @version 6.7
  */
 if( is_admin() ) return;
-$description = get_directorist_option('featured_listing_desc');
 ?>
 <div class="atbd_listing_type">
     <?php $listing_type = !empty($listing_info['listing_type']) ? $listing_info['listing_type'] : ''; ?>

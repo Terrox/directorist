@@ -3,23 +3,34 @@ import helper from './../helpers';
 
 export default {
     mixins: [ helper ],
+
+    watch: {
+        // value() {
+        //     if ( this.dataOnChange ) {
+        //         this.handleDataOnChange();
+        //     }
+        // }
+    },
+
     computed: {
         ...mapState({
             config: 'config',
-            fields: 'fields',
         }),
 
         canShow() {
+            let is_visible = true;
+
             if ( this.showIf ) {
                 let show_if_cond = this.checkShowIfCondition({
                     condition: this.showIf,
                     root: this.root,
                 });
                 
-                return  show_if_cond.status;
+                is_visible = show_if_cond.status;
             }
 
-            return true;
+            this.$emit( 'is-visible', is_visible );
+            return is_visible;
         }
     },
 

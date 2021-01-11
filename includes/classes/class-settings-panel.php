@@ -52,6 +52,16 @@ if ( ! class_exists('ATBDP_Settings_Panel') ) {
                     'restor-data'  => $this->get_simple_data_content( [ 'path' => 'directory/directory-settings.json' ] ),
                 ];
 
+                $fields['enable_multi_directory'] = [
+                    'type'           => 'toggle',
+                    'label'          => 'Enable Multi Directory Builder',
+                    'value'          => false,
+                    'data-on-change' => [ 
+                        'action' => 'updateData',
+                        'args'   => [ 'reload_after_save' => true ]
+                    ],
+                ];
+
                 $fields['regenerate_pages'] = [
                     'type'                       => 'ajax-action',
                     'action'                     => 'atbdp_upgrade_old_pages',
@@ -175,6 +185,12 @@ SWBD;
                     'type'  => 'toggle',
                     'label' => __('Country Restriction', 'directorist'),
                     'value' => false,
+                    'show-if' => [
+                        'where' => "select_listing_map",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => 'google'],
+                        ],
+                    ],
                 ];
 
                 $countries = atbdp_country_code_to_name();
@@ -373,6 +389,7 @@ Please remember that your order may be canceled if you do not make your payment 
 KAMAL;
 
         $bank_payment_desc = __('You can make your payment directly to our bank account using this gateway. Please use your ORDER ID as a reference when making the payment. We will complete your order as soon as your deposit is cleared in our bank.', 'directorist');
+        $pricing_plan = '<a style="color: red" href="https://directorist.com/product/directorist-pricing-plans" target="_blank">Pricing Plans</a>';
 
             $this->fields = apply_filters('atbdp_listing_type_settings_field_list', [
 
@@ -397,17 +414,72 @@ KAMAL;
                     ],
                 ],
 
+                'featured_listing_title' => [
+                    'type' => 'text',
+                    'label' => __('Title', 'directorist'),
+                    'description' => __('You can set the title for featured listing to show on the ORDER PAGE', 'directorist'),
+                    'value' => __('Featured', 'directorist'),
+                    'show-if' => [
+                        'where' => "enable_featured_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ],
+
                 'featured_listing_price' => [
                     'label'         => __('Price in ', 'directorist') . atbdp_get_payment_currency(),
                     'type'          => 'number',
                     'value'         => 19.99,
                     'description'   => __('Set the price you want to charge a user if he/she wants to upgrade his/her listing to featured listing. Note: you can change the currency settings under the gateway settings', 'directorist'),
                     'show-if' => [
-                        'where' => "enable_monetization",
+                        'where' => "enable_featured_listing",
                         'conditions' => [
                             ['key' => 'value', 'compare' => '=', 'value' => true],
                         ],
                     ],
+                ],
+                'featured_listing_desc' => [
+                    'type' => 'textarea',
+                    'label' => __('Description', 'directorist'),
+                    'show-if' => [
+                        'where' => "enable_featured_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                    'value' => __('(Top of the search result and listings pages for a number days and it requires an additional payment.)', 'directorist'),
+                ],
+
+                'featured_listing_price' => [
+                    'label'         => __('Price in ', 'directorist') . atbdp_get_payment_currency(),
+                    'type'          => 'number',
+                    'max'           => 0,
+                    'value'         => 15,
+                    'description'   => __('Set the price you want to charge a user if he/she wants to upgrade his/her listing to featured listing. Note: you can change the currency settings under the gateway settings', 'directorist'),
+                    'show-if' => [
+                        'where' => "enable_featured_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ],
+
+                'featured_listing_time' => [
+                    'label'         => __('Featured Duration in Days', 'directorist'),
+                    'type'          => 'number',
+                    'value'         => 30,
+                    'show-if' => [
+                        'where' => "enable_featured_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ],
+
+                'monetization_promotion'    => [
+                    'type'          => 'note',
+                    'description' => sprintf(__('Monetize your website by selling listing plans using %s extension.', 'directorist'), $pricing_plan),
                 ],
 
                 'paypal_gateway_promotion'    => [
@@ -426,9 +498,7 @@ KAMAL;
                 'active_gateways' => [
                     'label'     => __('Active Gateways', 'directorist'),
                     'type'      => 'checkbox',
-                    'value'     => [
-                            'bank_transfer',
-                        ],
+                    'value'     => ['bank_transfer'],
                     'options'   => [
                         [
                             'value' => 'bank_transfer',
@@ -1238,7 +1308,7 @@ KAMAL;
                 'fix_js_conflict' => [
                     'label' => __('Fix Conflict with Bootstrap JS', 'directorist'),
                     'type'  => 'toggle',
-                    'value' => true,
+                    'value' => false,
                     'description' => __('If you use a theme that uses Bootstrap Framework especially Bootstrap JS, then Check this setting to fix any conflict with theme bootstrap js.', 'directorist'),
                 ],
                 'font_type' => [
@@ -1307,6 +1377,12 @@ KAMAL;
                     'rules' => [
                         'required' => true,
                     ],
+                    'show-if' => [
+                        'where' => "delete_expired_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
                 ],
                 'deletion_mode' => [
                     'label' => __('Delete or Trash Expired Listings', 'directorist'),
@@ -1321,6 +1397,12 @@ KAMAL;
                         [
                             'value' => 'trash',
                             'label' => __('Move to Trash', 'directorist'),
+                        ],
+                    ],
+                    'show-if' => [
+                        'where' => "delete_expired_listing",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
                         ],
                     ],
                 ],
@@ -1378,13 +1460,25 @@ KAMAL;
                 ],
                 'all_listing_title' => [
                     'type' => 'text',
-                    'label' => __('Header Title', 'directorist'),
-                    'value' => __('Items Found', 'directorist'),
+                    'label'   => __('Header Title', 'directorist'),
+                    'value'   => __('Items Found', 'directorist'),
+                    'show-if' => [
+                        'where' => "display_listings_header",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
                 ],
                 'listing_filters_button' => [
                     'type' => 'toggle',
                     'label' => __('Display Filters Button', 'directorist'),
                     'value' => true,
+                    'show-if' => [
+                        'where' => "display_listings_header",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
                 ],
                 'listing_filters_icon' => [
                     'type' => 'toggle',
@@ -2669,12 +2763,7 @@ KAMAL;
                         ],
                     ],
                 ],
-                'featured_listing_title' => [
-                    'type' => 'text',
-                    'label' => __('Title', 'directorist'),
-                    'description' => __('You can set the title for featured listing to show on the ORDER PAGE', 'directorist'),
-                    'value' => __('Featured', 'directorist'),
-                ],
+                
                 // review settings 
                 'enable_review' => [
                     'type' => 'toggle',
@@ -2796,7 +2885,7 @@ KAMAL;
                 'map_api_key' => [
                     'type' => 'text',
                     'label' => __('Google Map API key', 'directorist'),
-                    'description' => sprintf(__('Please replace it by your own API. It\'s required to use Google Map. You can find detailed information %s.', 'directorist'), '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank"> <strong style="color: red;">here</strong> </a>'),
+                    'description' => sprintf(__('Please replace it by your own API. It\'s required to use Google Map. You can find detailed information %s.', 'directorist'), '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank"> <div class="atbdp_shortcodes" style="color: red;">here</div> </a>'),
                     'value' => '',
                     'show-if' => [
                         'where' => "select_listing_map",
@@ -2808,13 +2897,13 @@ KAMAL;
                 'default_latitude'     => [
                     'type'           => 'text',
                     'label'          => __('Default Latitude', 'directorist'),
-                    'description'    => sprintf(__('You can find it %s.', 'directorist'), '<a href="https://www.maps.ie/coordinates.html" target="_blank"> <strong style="color: red;">here</strong> </a>'),
+                    'description'    => sprintf(__('You can find it %s.', 'directorist'), '<a href="https://www.maps.ie/coordinates.html" target="_blank"> <div class="atbdp_shortcodes" style="color: red;">here</div> </a>'),
                     'value'          => '40.7127753',
                 ],
                 'default_longitude'    => [
                     'type'          => 'text',
                     'label'         => __('Default Longitude', 'directorist'),
-                    'description'   => sprintf(__('You can find it %s.', 'directorist'), '<a href="https://www.maps.ie/coordinates.html" target="_blank"> <strong style="color: red;">here</strong> </a>'),
+                    'description'   => sprintf(__('You can find it %s.', 'directorist'), '<a href="https://www.maps.ie/coordinates.html" target="_blank"> <div class="atbdp_shortcodes" style="color: red;">here</div> </a>'),
                     'value'         => '-74.0059728',
                 ],
                 'map_zoom_level'       => [
@@ -3785,7 +3874,7 @@ KAMAL;
                 'add_listing_page' => [
                     'label' => __('Add Listing Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_add_listing]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_add_listing]</div>'),
                     'value' => atbdp_get_option('add_listing_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3793,7 +3882,7 @@ KAMAL;
                 'all_listing_page' => [
                     'label' => __('All Listings Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_all_listing]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_all_listing]</div>'),
                     'value' => atbdp_get_option('all_listing_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3801,7 +3890,7 @@ KAMAL;
                 'single_listing_page' => [
                     'label' => __('Single Listing Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcodes can be used for the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_listing_top_area][directorist_listing_tags][directorist_listing_custom_fields][directorist_listing_video][directorist_listing_map][directorist_listing_contact_information][directorist_listing_contact_owner][directorist_listing_author_info][directorist_listing_review][directorist_related_listings]</strong>'),
+                    'description' => sprintf(__('Following shortcodes can be used for the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_listing_top_area][directorist_listing_tags][directorist_listing_custom_fields][directorist_listing_video][directorist_listing_map][directorist_listing_contact_information][directorist_listing_contact_owner][directorist_listing_author_info][directorist_listing_review][directorist_related_listings]</div>'),
                     'value' => atbdp_get_option('single_listing_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3809,7 +3898,7 @@ KAMAL;
                 'user_dashboard' => [
                     'label' => __('Dashboard Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_user_dashboard]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_user_dashboard]</div>'),
                     'value' => atbdp_get_option('user_dashboard', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3817,7 +3906,7 @@ KAMAL;
                 'author_profile_page' => [
                     'label' => __('User Profile Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_author_profile]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_author_profile]</div>'),
                     'value' => atbdp_get_option('author_profile', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3825,7 +3914,7 @@ KAMAL;
                 'all_categories_page' => [
                     'label' => __('All Categories Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_all_categories]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_all_categories]</div>'),
                     'value' => atbdp_get_option('all_categories', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3833,7 +3922,7 @@ KAMAL;
                 'single_category_page' => [
                     'label' => __('Single Category Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_category]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_category]</div>'),
                     'value' => atbdp_get_option('single_category_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3841,7 +3930,7 @@ KAMAL;
                 'all_locations_page' => [
                     'label' => __('All Locations Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_all_locations]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_all_locations]</div>'),
                     'value' => atbdp_get_option('all_locations', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3849,7 +3938,7 @@ KAMAL;
                 'single_location_page' => [
                     'label' => __('Single Location Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_location]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_location]</div>'),
                     'value' => atbdp_get_option('single_location_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3857,7 +3946,7 @@ KAMAL;
                 'single_tag_page' => [
                     'label' => __('Single Tag Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_tag]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_tag]</div>'),
                     'value' => atbdp_get_option('single_tag_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3865,7 +3954,7 @@ KAMAL;
                 'custom_registration' => [
                     'label' => __('Registration Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_custom_registration]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_custom_registration]</div>'),
                     'value' => atbdp_get_option('custom_registration', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3873,7 +3962,7 @@ KAMAL;
                 'user_login' => [
                     'label' => __('Login Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_user_login]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_user_login]</div>'),
                     'value' => atbdp_get_option('user_login', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3881,7 +3970,7 @@ KAMAL;
                 'search_listing' => [
                     'label' => __('Listing Search Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_search_listing]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_search_listing]</div>'),
                     'value' => atbdp_get_option('search_listing', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3889,7 +3978,7 @@ KAMAL;
                 'search_result_page' => [
                     'label' => __('Listing Search Result Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_search_result]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_search_result]</div>'),
                     'value' => atbdp_get_option('search_result_page', 'atbdp_general'),
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3897,7 +3986,7 @@ KAMAL;
                 'checkout_page' => [
                     'label' => __('Checkout Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_checkout]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_checkout]</div>'),
                     'value' => '',
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3905,7 +3994,7 @@ KAMAL;
                 'payment_receipt_page' => [
                     'label' => __('Payment/Order Receipt Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_payment_receipt]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_payment_receipt]</div>'),
                     'value' => '',
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -3913,7 +4002,7 @@ KAMAL;
                 'transaction_failure_page' => [
                     'label' => __('Transaction Failure Page', 'directorist'),
                     'type'  => 'select',
-                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<strong style="color: #ff4500;">[directorist_transaction_failure]</strong>'),
+                    'description' => sprintf(__('Following shortcode must be in the selected page %s', 'directorist'), '<div class="atbdp_shortcodes" style="color: #ff4500;">[directorist_transaction_failure]</div>'),
                     'value' => '',
                     'showDefaultOption' => true,
                     'options' => $this->get_pages_vl_arrays(),
@@ -5678,13 +5767,16 @@ KAMAL;
                                     'description' => '',
                                     'fields'      => [ 
                                         'enable_featured_listing',
-                                        'featured_listing_price'
+                                        'featured_listing_title',
+                                        'featured_listing_desc',
+                                        'featured_listing_price',
+                                        'featured_listing_time',
                                     ],
                                 ],
                                 'plan_promo' => [
                                     'title'       => __('Monetize by Listing Plans', 'directorist'),
                                     'description' => '',
-                                    'fields'      => [ ],
+                                    'fields'      => [ 'monetization_promotion' ],
                                 ],
                             ] ),
                         ],
@@ -5730,7 +5822,7 @@ KAMAL;
 
                 'extension_settings' => [
                     'label' => __( 'Extensions Settings', 'directorist' ),
-                    'icon' => '<i class="fa fa-magic directorist_success"></i>',
+                    'icon' => '<i class="fa fa-magic directorist_warning"></i>',
                     'submenu' => apply_filters('atbdp_extension_settings_submenu', [
                         'extensions_general' => [
                             'label' => __('Extensions General', 'directorist'),
@@ -5738,7 +5830,6 @@ KAMAL;
                             'sections' => apply_filters( 'atbdp_extension_settings_controls', [
                                 'general_settings' => [
                                     'title'       => __('Extensions General Settings', 'directorist'),
-                                    'description' => 'You can Customize Extensions-related settings here. You can enable or disable any extensions here. Here, YES means Enabled, and NO means disabled. After switching any option, Do not forget to save the changes.',
                                     'fields'      =>  apply_filters( 'atbdp_extension_fields', [
                                          'extension_promotion'
                                     ] ) ,
@@ -5784,23 +5875,33 @@ KAMAL;
                                 ),
                             ]),
                         ],
+
+                        'settings_import_export' => [
+                            'label' => __( 'Settings Import/Export', 'directorist' ),
+                            'icon' => '<i class="fa fa-tools"></i>',
+                            'sections'  => apply_filters('atbdp_settings_import_export_controls', [
+                                'import_export' => [
+                                    'title' => __( 'Import/Export', 'directorist' ),
+                                    'fields' => [ 'import_settings', 'export_settings' ]
+                                ],
+                                'restore_default' => [
+                                    'title' => __( 'Restore Default', 'directorist' ),
+                                    'fields' => [ 'restore_default_settings' ]
+                                ],
+                            ]),
+                        ],
+
+                        'directory_type' => [
+                            'label' => __( 'Multi Directory', 'directorist' ),
+                            'icon' => '<i class="fa fa-plus"></i>',
+                            'sections'  => apply_filters('atbdp_directory_type_controls', [
+                                'restore_default' => [
+                                    'fields' => [ 'enable_multi_directory' ]
+                                ],
+                            ]),
+                        ],
                     ]),
                 ],
-
-                'settings_import_export' => [
-                    'label' => __( 'Settings Import/Export', 'directorist' ),
-                    'icon' => '<i class="fa fa-tools"></i>',
-                    'sections' => [
-                        'import_export' => [
-                            'title' => __( 'Import/Export', 'directorist' ),
-                            'fields' => [ 'import_settings', 'export_settings' ]
-                        ],
-                        'restore_default' => [
-                            'title' => __( 'Restore Default', 'directorist' ),
-                            'fields' => [ 'restore_default_settings' ]
-                        ],
-                    ],
-                ]
 
             ]);
 
