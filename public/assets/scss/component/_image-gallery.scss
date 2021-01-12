@@ -48,9 +48,10 @@
     }
     .directorist_gallery-preview{
         display: flex;
-        margin-top: 20px;
+        margin: 15px -5px -5px -5px;
         .directorist_gallery-preview__single{
             position: relative;
+            margin: 5px;
             .directorist_delete-btn{
                 position: absolute;
                 top: 8px;

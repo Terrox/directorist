@@ -8,7 +8,7 @@
 <div id="directorist" class="directorist atbd_wrapper atbd_add_listing_wrapper">
 	<div class="<?php echo apply_filters('atbdp_add_listing_container_fluid', 'container-fluid'); ?>">
 		<div class="row directorist_add-listing-row">
-			<div class="col-lg-10">
+			<div class="col-xl-8">
 				<form action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" method="post" id="add-listing-form">
 					<fieldset>
 						<?php do_action('atbdb_before_add_listing_from_frontend');?>
