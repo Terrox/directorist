@@ -366,6 +366,14 @@ body.atbd_content_active #directorist.atbd_wrapper {
   }
 }
 
+#directorist.atbd_wrapper {
+  .form-group{
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+}
+
 
 .atbd_rating_color {
   color: #fa8b0c;

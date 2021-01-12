@@ -173,13 +173,15 @@ jQuery(function($) {
                 $('#price').hide();
                 $('#price_range').show();
         }
-        $('.atbd_pricing_options label').on('click', function() {
+        $('.atbd_pricing_options .directorist_radio').on('click', function() {
+                
                 const $this = $(this);
-                $this.children('input[type=checkbox]').prop('checked') == true
+                console.log($this.find('input[type=radio]').prop('checked'));
+                $this.find('input[type=radio]').prop('checked') == true
                         ? $(`#${$this.data('option')}`).show()
                         : $(`#${$this.data('option')}`).hide();
-                const $sibling = $this.siblings('label');
-                $sibling.children('input[type=checkbox]').prop('checked', false);
+                const $sibling = $this.siblings('.directorist_radio');
+                $sibling.find('input[type=radio]').prop('checked', false);
                 $(`#${$sibling.data('option')}`).hide();
         });
 
