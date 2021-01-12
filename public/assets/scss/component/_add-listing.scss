@@ -130,15 +130,17 @@
     }
 
     .cor-wrap {
+      margin-bottom: 14px;
       label {
         margin-bottom: 0;
+        margin-left: 10px;
       }
     }
   }
 
   .hide-map-option {
     label {
-      margin-left: 0;
+      margin-left: 10px;
     }
   }
 
@@ -279,9 +281,26 @@
       }
     }
 
+    .atbd_privacy_policy_area{
+      display: flex;
+      justify-content: center;
+
+      .atbdp_make_str_red{
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+
     .atbd_term_and_condition_area {
       text-align: center;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+
+      .atbdp_make_str_red{
+        display: inline-block;
+        margin-right: 5px;
+      }
 
       >label {
         display: inline-block;
@@ -298,9 +317,13 @@
       text-align: center;
 
       .listing_submit_btn {
+        width: 100%;
+        background-color: $dark !important;
+        border-radius: 6px;
         line-height: 32px;
-        padding: 9px 40px;
-        font-size: 18px;
+        padding: 9.5px 40px;
+        font-size: 15px;
+        font-weight: 500;
         margin-bottom: 15px;
 
         &.atbd_loading {
@@ -654,7 +677,11 @@
     }
   }
 }
-
+.atbd_add_listing_wrapper {
+  .directorist_add-listing-row{
+    justify-content: center;
+  }
+}
 //add listing image upload
 .atbd_add_listing_wrapper {
   .ezmu__thumbnail-list-item {

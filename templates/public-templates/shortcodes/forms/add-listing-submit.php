@@ -33,9 +33,11 @@
     			<span class="atbdp_make_str_red"> *</span>
     			<?php
     		}
-    		?>
-    		<input id="privacy_policy" type="checkbox" name="privacy_policy" <?php checked( $privacy_checked ); ?> <?php echo $privacy_is_required ? 'required="required"' : ''; ?>>
-    		<label for="privacy_policy"><?php echo wp_kses_post( $privacy_text ); ?></label>
+			?>
+			<div class="directorist_checkbox">
+				<input id="privacy_policy" type="checkbox" name="privacy_policy" <?php checked( $privacy_checked ); ?> <?php echo $privacy_is_required ? 'required="required"' : ''; ?>>
+				<label for="privacy_policy"><?php echo wp_kses_post( $privacy_text ); ?></label>
+			</div>
     	</div>
     	<?php
     }
@@ -46,9 +48,11 @@
     			<span class="atbdp_make_str_red"> *</span>
     			<?php
     		}
-    		?>
-    		<input id="listing_t" type="checkbox" name="t_c_check" <?php checked( $terms_checked ); ?> <?php echo $terms_is_required ? 'required="required"' : ''; ?>>
-    		<label for="listing_t"><?php echo wp_kses_post( $terms_text ); ?></label>
+			?>
+			<div class="directorist_checkbox">
+				<input id="listing_t" type="checkbox" name="t_c_check" <?php checked( $terms_checked ); ?> <?php echo $terms_is_required ? 'required="required"' : ''; ?>>
+				<label for="listing_t"><?php echo wp_kses_post( $terms_text ); ?></label>
+			</div>
     	</div>
     	<?php
     }

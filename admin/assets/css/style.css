@@ -703,7 +703,7 @@ css for Custom Field
 }
 
 .plupload-upload-uic .atbdp_button {
-  border: 1px solid #e3e6ef;
+  border: 1px solid #ECECEC;
   background: #f8f9fb;
   font-size: 14px;
   -webkit-box-shadow: none;
@@ -1484,7 +1484,7 @@ span.atbdp-tick-cross {
   width: 100%;
   padding: .375rem .375rem;
   line-height: 1.5;
-  border: 1px solid #e3e6ef;
+  border: 1px solid #ECECEC;
 }
 
 .postbox-container .postbox .form-group textarea {
@@ -1492,7 +1492,7 @@ span.atbdp-tick-cross {
   width: 100%;
   padding: .375rem .375rem;
   line-height: 1.5;
-  border: 1px solid #e3e6ef;
+  border: 1px solid #ECECEC;
   height: 100px;
 }
 
@@ -1535,7 +1535,7 @@ span.atbdp-tick-cross {
 .postbox-container .postbox .form-group .atbdp_social_field_wrapper select,
 .postbox-container .postbox .form-group .atbdp_social_field_wrapper input {
   width: 100%;
-  border: 1px solid #e3e6ef;
+  border: 1px solid #ECECEC;
   height: 35px;
 }
 

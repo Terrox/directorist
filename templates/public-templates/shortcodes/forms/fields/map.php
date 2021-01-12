@@ -17,7 +17,7 @@ $longitude  = ! empty( $manual_lng ) ? $manual_lng : $default_longitude;
 $hide_map = ! empty( get_post_meta( $p_id, '_hide_map', true ) ) ? true : false;
 ?>
 
-<div class="form-group directorist-map-field">
+<div class="directorist-map-field">
 	<div class="map_wrapper">
 
 		<?php if ('google' == $select_listing_map) { ?>
@@ -33,8 +33,10 @@ $hide_map = ! empty( get_post_meta( $p_id, '_hide_map', true ) ) ? true : false;
 		<?php } ?>
 
 		<div class="cor-wrap">
-			<input type="checkbox" name="manual_coordinate" value="1" id="manual_coordinate">
-			<label for="manual_coordinate"><?php echo esc_attr( $data['lat_long'] );?></label>
+			<div class="directorist_checkbox">
+				<input type="checkbox" name="manual_coordinate" value="1" id="manual_coordinate">
+				<label for="manual_coordinate"><?php echo esc_attr( $data['lat_long'] );?></label>
+			</div>
 		</div>
 
 	</div>
@@ -67,9 +69,11 @@ $hide_map = ! empty( get_post_meta( $p_id, '_hide_map', true ) ) ? true : false;
 		</div>
 
 		<div class="col-sm-12">
-			<div class="form-group hide-map-option">
-				<input type="checkbox" name="hide_map" value="1" id="hide_map"<?php checked( $hide_map ); ?>>
-				<label for="hide_map"><?php esc_html_e('Hide Map', 'directorist'); ?> </label>
+			<div class="hide-map-option">
+				<div class="directorist_checkbox">
+					<input type="checkbox" name="hide_map" value="1" id="hide_map"<?php checked( $hide_map ); ?>>
+					<label for="hide_map"><?php esc_html_e('Hide Map', 'directorist'); ?> </label>
+				</div>
 			</div>
 		</div>
 	</div>
