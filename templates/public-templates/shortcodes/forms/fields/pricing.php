@@ -28,7 +28,7 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 			<div class="directorist_radio" data-option="price">
 				<input type="radio" id="price_selected" value="price" name="atbd_listing_pricing"<?php echo $checked; ?>>
 				<label for="price_selected">
-					<span class="directorist_radio-inner"><?php echo esc_html( $data['price_unit_field_label'] );?></span>
+					<?php echo esc_html( $data['price_unit_field_label'] );?>
 				</label>
 			</div>
 			
@@ -42,8 +42,7 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 			<div class="directorist_radio" data-option="price_range">
 				<input type="radio" id="price_range_selected" value="range" name="atbd_listing_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>>
 				<label for="price_range_selected">
-					<span class="directorist_radio-inner"><?php echo esc_html( $data['price_range_label'] );?></span>
-					
+					<?php echo esc_html( $data['price_range_label'] );?>
 				</label>
 			</div>
 			
