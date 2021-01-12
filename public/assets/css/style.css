@@ -10851,6 +10851,110 @@ p.atbd-min {
   margin-right: 5px;
 }
 
+.directorist.atbd_wrapper .directorist_gallery-upload input {
+  display: none;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn {
+  padding: 54px 25px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  border: 2px dashed #C6D0DC !important;
+  background: #F8F9FA !important;
+  border-radius: 8px;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn .directorist_upload-icon:before {
+  line-height: 1.4;
+  content: '\f13b';
+  font: normal 20px/1 dashicons;
+  margin: 0;
+  font-size: 80px;
+  color: #C4C3D2;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn .directorist_upload {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0A0B1E;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn p {
+  font-size: 15px;
+  color: #0A0B1E;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn p .color-pink {
+  color: #FF2D68;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn .directorist-upload__bottom {
+  margin-top: 12px;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-upload .directorist_gallery-upload__btn .directorist-upload__bottom span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8F8E9F;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 20px;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview .directorist_gallery-preview__single {
+  position: relative;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview .directorist_gallery-preview__single .directorist_delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e23636 !important;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview .directorist_gallery-preview__single .directorist_delete-btn .directorist_trash {
+  line-height: 1;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview .directorist_gallery-preview__single .directorist_delete-btn .directorist_trash:before {
+  font-size: 14px;
+  color: #fff;
+  content: '\f182';
+  font: normal 20px/1 dashicons;
+  margin: 0 0 0 2px;
+}
+
+.directorist.atbd_wrapper .directorist_gallery-preview .directorist_gallery-preview__single img {
+  max-width: 80px;
+  border-radius: 4px;
+}
+
 .ads-advanced .bottom-inputs {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;

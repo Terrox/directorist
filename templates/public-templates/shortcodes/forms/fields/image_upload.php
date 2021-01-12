@@ -31,7 +31,7 @@ $max_total_file_size_kb = (float) $max_total_file_size * 1024;//
 ?>
 
 <div class="form-group directorist-image-upload-field">
-	<div id="_listing_gallery" class="ez-media-uploader" data-type="jpg, jpeg, png, gif" data-max-file-items="<?php echo esc_attr( $max_file_items ); ?>" data-min-file-items="<?php echo esc_attr( $min_file_items ); ?>" data-max-file-size="<?php echo esc_attr( $max_file_size_kb ); ?>" data-max-total-file-size="<?php echo esc_attr( $max_total_file_size_kb ); ?>" data-show-alerts="0">
+	<!-- <div id="_listing_gallery" class="ez-media-uploader" data-type="jpg, jpeg, png, gif" data-max-file-items="<?php echo esc_attr( $max_file_items ); ?>" data-min-file-items="<?php echo esc_attr( $min_file_items ); ?>" data-max-file-size="<?php echo esc_attr( $max_file_size_kb ); ?>" data-max-total-file-size="<?php echo esc_attr( $max_total_file_size_kb ); ?>" data-show-alerts="0">
 
 		<div class="ezmu__loading-section ezmu--show">
 			<span class="ezmu__loading-icon"><span class="ezmu__loading-icon-img-bg"></span></span>
@@ -74,6 +74,28 @@ $max_total_file_size_kb = (float) $max_total_file_size * 1024;//
 			<span class="ezmu-dictionary-info-max-file-items" 
 			data-featured="<?php echo !empty($slider_unl) ? '1' : ''; ?>">
 			<?php echo !empty($slider_unl) ? __('Unlimited images with this plan!', 'directorist') : ( ( $plan_image > 1 ) ? __('Maximum __DT__ files are allowed', 'directorist') : __('Maximum __DT__ file is allowed', 'directorist') ); ?></span>
+		</div>
+	</div> -->
+
+	<div class="directorist_listings-img-gallery">
+		<div class="directorist_gallery-upload">
+			<input type="file" name="directorist_img-input" id="directorist_img-input">
+			<a href="javascript:void(0)" class="directorist_gallery-upload__btn">
+				<span class="directorist_upload-icon"></span>
+				<h2 class="directorist_upload-title">Drag and drop an image</h2>
+				<p>or <span class="color-pink">Browse</span> to choose a file</p>
+				<div class="directorist-upload__bottom">
+					<span>Unlimited images with this plan</span>
+				</div>
+			</a>
+		</div>
+		<div class="directorist_gallery-preview">
+			<div class="directorist_gallery-preview__single">
+				<img src="https://picsum.photos/seed/picsum/80/60" alt="">
+				<a href="#" class="directorist_delete-btn">
+					<span class="directorist_trash"></span>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>

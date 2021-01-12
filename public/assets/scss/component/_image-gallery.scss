@@ -1,0 +1,82 @@
+// Image Gallery Style
+.directorist.atbd_wrapper {
+    .directorist_gallery-upload{
+        input{
+            display: none;
+        }
+        .directorist_gallery-upload__btn{
+            padding: 54px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            border: 2px dashed #C6D0DC !important;
+            background: #F8F9FA !important;
+            border-radius: 8px;
+            .directorist_upload-icon{
+                &:before{
+                    line-height: 1.4;
+                    content: '\f13b';
+                    font: normal 20px/1 dashicons;
+                    margin: 0;
+                    font-size: 80px;
+                    color: #C4C3D2;
+                }
+            }
+            .directorist_upload{
+                font-size: 20px;
+                font-weight: 600;
+                color: $dark;
+            }
+            p{
+                font-size: 15px;
+                color: $dark;
+                .color-pink{
+                    color: #FF2D68;
+                }
+            }
+            .directorist-upload__bottom{
+                margin-top: 12px;
+                span{
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #8F8E9F;
+                }
+            }
+        }
+    }
+    .directorist_gallery-preview{
+        display: flex;
+        margin-top: 20px;
+        .directorist_gallery-preview__single{
+            position: relative;
+            .directorist_delete-btn{
+                position: absolute;
+                top: 8px;
+                right: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: $danger !important;
+                .directorist_trash{
+                    line-height: 1;
+                    &:before{
+                        font-size: 14px;
+                        color: #fff;
+                        content: '\f182';
+                        font: normal 20px/1 dashicons;
+                        margin: 0 0 0 2px;
+                    }
+                }
+            }
+            img{
+                max-width: 80px;
+                border-radius: 4px;
+            }
+        }
+    }
+}

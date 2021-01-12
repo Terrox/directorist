@@ -1202,6 +1202,11 @@
         });
     }
 
+    //   Image Uploader
+    $('.directorist_gallery-upload__btn').on("click", function(){
+        $(this).siblings('#directorist_img-input').click();
+    });
+
 })(jQuery);
   // on load of the page: switch to the currently selected tab
   var tab_url = window.location.href.split("/").pop();
