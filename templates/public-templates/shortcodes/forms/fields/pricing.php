@@ -52,12 +52,7 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 		}
 		?>
 	</div>
-	<div class="directorist_checkbox">
-		<label for="price_range_hide_selected" data-option="price_range">
-			<input type="checkbox" id="price_range_hide_selected" value="range" name="atbd_listing_hide_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>>
-			<span class="directorist_checkbox-inner">Hide pricing for this listing</span>
-		</label>
-	</div>
+	
 
 	<?php
 	if ( $data['pricing_type'] == 'both' || $data['pricing_type'] == 'price_unit' ) {
@@ -87,11 +82,18 @@ $c_symbol                = atbdp_currency_symbol( $currency );
 		</select>
 		<?php
 	}
-
+	
 	/**
 	 * @since 4.7.1
 	 */
 	do_action('atbdp_add_listing_after_price_field', $p_id);
 	?>
+
+	<div class="directorist_checkbox">
+		<label for="price_range_hide_selected" data-option="price_range">
+			<input type="checkbox" id="price_range_hide_selected" value="range" name="atbd_listing_hide_pricing"<?php checked( $atbd_listing_pricing, 'range' ); ?>>
+			<span class="directorist_checkbox-inner">Hide pricing for this listing</span>
+		</label>
+	</div>
 
 </div>

@@ -7882,6 +7882,28 @@ span.atbd_get_loc_wid {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: -10px;
+}
+
+#directorist.atbd_wrapper .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+#directorist.atbd_wrapper .atbdp_social_field_wrapper .atbdp_social_field_social-url {
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+}
+
+#directorist.atbd_wrapper .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+#directorist.atbd_wrapper .atbdp_social_field_wrapper .atbdp_social_field_social-url,
+#directorist.atbd_wrapper .atbdp_social_field_wrapper .atbdp_social_field_action {
+  margin: 10px;
+}
+
+#directorist.atbd_wrapper .directorist-hide-owner-field .directorist_checkbox label {
+  top: 3px;
+  left: 10px;
 }
 
 #directorist.atbd_wrapper .directorist-social-info-field #addNewSocial {

@@ -3,8 +3,8 @@ $id = (array_key_exists('id', $args)) ? $args['id'] : 0;
 ?>
 
 
-<div class="directorist row atbdp_social_field_wrapper" id="socialID-<?php echo $id; ?>">
-    <div class="col-md-5 col-sm-12">
+<div class="directorist atbdp_social_field_wrapper" id="socialID-<?php echo $id; ?>">
+    <div class="atbdp_social_field_social-name">
         <div class="form-group">
             <select name="social[<?php echo $id; ?>][id]" class="form-control">
                 <?php foreach ( ATBDP()->helper->social_links() as $nameID => $socialName ) { ?>
@@ -13,12 +13,12 @@ $id = (array_key_exists('id', $args)) ? $args['id'] : 0;
             </select>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12">
+    <div class="atbdp_social_field_social-url">
         <div class="form-group">
             <input type="url" name="social[<?php echo $id; ?>][url]" class="form-control directory_field atbdp_social_input" value="" placeholder="<?php esc_attr_e('eg. http://example.com', 'directorist'); ?>" required>
         </div>
     </div>
-    <div class="col-md-1 col-sm-12">
+    <div class="atbdp_social_field_action">
         <span data-id="<?php echo $id; ?>" class="removeSocialField dashicons dashicons-trash" title="<?php _e('Remove this item', 'directorist'); ?>"></span>
     </div>
 </div>

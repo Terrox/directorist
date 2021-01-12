@@ -568,6 +568,26 @@
 #directorist.atbd_wrapper .atbdp_social_field_wrapper {
   margin-bottom: 15px;
   align-items: center;
+  display: flex;
+  margin: -10px;
+  .atbdp_social_field_social-name,
+  .atbdp_social_field_social-url{
+    flex: auto;
+  }
+  .atbdp_social_field_social-name,
+  .atbdp_social_field_social-url,
+  .atbdp_social_field_action{
+    margin: 10px;
+  }
+}
+
+#directorist.atbd_wrapper .directorist-hide-owner-field {
+  .directorist_checkbox{
+    label{
+      top: 3px;
+      left: 10px;
+    }
+  }
 }
 
 #directorist.atbd_wrapper .directorist-social-info-field{
