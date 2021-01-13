@@ -442,7 +442,7 @@ css for Custom Field
   margin-bottom: 10px;
 }
 
-#directorist.atbd_wrapper .form-group .atbd_pricing_options {
+#directiost-listing-fields_wrapper .atbd_pricing_options {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -453,17 +453,17 @@ css for Custom Field
       flex-wrap: wrap;
 }
 
-#directorist.atbd_wrapper .form-group .atbd_pricing_options label {
+#directiost-listing-fields_wrapper .atbd_pricing_options label {
   margin-bottom: 0;
 }
 
-#directorist.atbd_wrapper .form-group .atbd_pricing_options small {
-  margin-left: 5px;
+#directiost-listing-fields_wrapper .atbd_pricing_options span {
+  display: inline-block;
+  margin: 0 20px;
 }
 
-#directorist.atbd_wrapper .form-group .atbd_pricing_options input[type="checkbox"] {
-  position: relative;
-  top: -2px;
+#directiost-listing-fields_wrapper .atbd_pricing_inputs {
+  margin: 12px 0 30px;
 }
 
 #directorist.atbd_wrapper #category_container .form-group {
@@ -485,12 +485,22 @@ css for Custom Field
 }
 
 #directorist.atbd_wrapper .map-coordinate {
-  margin-top: 15px;
+  margin-top: 25px;
   margin-bottom: 15px;
 }
 
 #directorist.atbd_wrapper .map-coordinate label {
   margin-bottom: 0;
+}
+
+#directorist.atbd_wrapper .map_cor .directorist_checkbox label,
+#directorist.atbd_wrapper .atbd_map_hide .directorist_checkbox label {
+  position: relative;
+  top: 0px;
+}
+
+#directorist.atbd_wrapper .atbd_map_hide {
+  margin-top: 20px;
 }
 
 #directorist.atbd_wrapper #hide_if_no_manual_cor .form-group .form-group {
@@ -1485,6 +1495,11 @@ span.atbdp-tick-cross {
   padding: .375rem .375rem;
   line-height: 1.5;
   border: 1px solid #ECECEC;
+}
+
+.postbox-container .postbox .form-group .form-control {
+  height: 40px;
+  border: 1px solid #C6D0DC !important;
 }
 
 .postbox-container .postbox .form-group textarea {

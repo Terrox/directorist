@@ -44,9 +44,11 @@ $info_content .= "<p> {$ad}</p></div>";
                  <?php } ?>
                 <div class="map-coordinate form-group">
                     <div class="cor-wrap map_cor">
-                        <input type="checkbox" name="manual_coordinate" value="1"
-                            id="manual_coordinate" <?php echo (!empty($manual_coordinate)) ? 'checked' : ''; ?> >
-                        <label for="manual_coordinate"> <?php _e('Or Enter Coordinates (latitude and longitude) Manually.', 'directorist'); ?> </label>
+                        <div class="directorist_checkbox">
+                            <input type="checkbox" name="manual_coordinate" value="1"
+                                id="manual_coordinate" <?php echo (!empty($manual_coordinate)) ? 'checked' : ''; ?> >
+                            <label for="manual_coordinate"> <?php _e('Or Enter Coordinates (latitude and longitude) Manually.', 'directorist'); ?> </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,9 +83,11 @@ $info_content .= "<p> {$ad}</p></div>";
                 </div>
             </div> <!--ends #hide_if_no_manual_cor -->
             <div class="atbd_map_hide form-group">
-                <input type="checkbox" name="hide_map" value="1"
-                    id="hide_map" <?php echo (!empty($hide_map)) ? 'checked' : ''; ?> >
-                <label for="hide_map"> <?php _e('Hide Map', 'directorist'); ?> </label>
+                <div class="directorist_checkbox">
+                    <input type="checkbox" name="hide_map" value="1"
+                        id="hide_map" <?php echo (!empty($hide_map)) ? 'checked' : ''; ?> >
+                    <label for="hide_map"> <?php _e('Hide Map', 'directorist'); ?> </label>
+                </div>
             </div>
                  <?php } ?>
         </div>

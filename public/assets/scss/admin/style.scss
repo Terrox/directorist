@@ -449,10 +449,12 @@ css for Custom Field
 
 #directorist.atbd_wrapper .form-group {
   margin-bottom: 30px;
-
   &>label {
     margin-bottom: 10px;
   }
+}
+
+#directiost-listing-fields_wrapper {
 
   .atbd_pricing_options {
     display: flex;
@@ -463,14 +465,14 @@ css for Custom Field
       margin-bottom: 0;
     }
 
-    small {
-      margin-left: 5px;
+    span{
+      display: inline-block;
+      margin: 0 20px;
     }
-
-    input[type="checkbox"] {
-      position: relative;
-      top: -2px;
-    }
+  }
+  
+  .atbd_pricing_inputs{
+    margin: 12px 0 30px;
   }
 }
 
@@ -496,12 +498,25 @@ css for Custom Field
   }
 
   .map-coordinate {
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 15px;
 
     label {
       margin-bottom: 0;
     }
+  }
+
+  .map_cor,
+  .atbd_map_hide{
+    .directorist_checkbox{
+      label{
+        position: relative;
+        top: 0px;
+      }
+    }
+  }
+  .atbd_map_hide{
+    margin-top: 20px;
   }
 
   #hide_if_no_manual_cor {
@@ -1448,6 +1463,11 @@ span.atbdp-tick-cross {
         padding: .375rem .375rem;
         line-height: 1.5;
         border: 1px solid $border-color;
+      }
+
+      .form-control{
+        height: 40px;
+        border: 1px solid #C6D0DC !important;
       }
 
       textarea {
