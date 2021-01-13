@@ -542,10 +542,6 @@ css for Custom Field
   margin-bottom: 15px;
 }
 
-.atbdp_social_field_wrapper select.form-control {
-  height: 35px !important;
-}
-
 #atbdp-categories-image-wrapper img {
   width: 150px;
 }
@@ -1499,6 +1495,7 @@ span.atbdp-tick-cross {
 
 .postbox-container .postbox .form-group .form-control {
   height: 40px;
+  padding: 10px 16px !important;
   border: 1px solid #C6D0DC !important;
 }
 
@@ -1508,7 +1505,7 @@ span.atbdp-tick-cross {
   padding: .375rem .375rem;
   line-height: 1.5;
   border: 1px solid #ECECEC;
-  height: 100px;
+  height: 100px !important;
 }
 
 .postbox-container .postbox .form-group #excerpt {
@@ -1524,34 +1521,59 @@ span.atbdp-tick-cross {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin: 0 -15px;
+  margin: -15px -20px;
 }
 
-.postbox-container .postbox .form-group .atbdp_social_field_wrapper .col-sm-12 {
-  padding: 0 15px;
+@media only screen and (max-width: 575px) {
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper {
+    margin: -15px 0px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 
-.postbox-container .postbox .form-group .atbdp_social_field_wrapper .col-md-3 {
-  width: 30%;
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-url,
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_action {
+  margin: 15px 10px;
 }
 
-.postbox-container .postbox .form-group .atbdp_social_field_wrapper .col-md-6 {
-  width: 50%;
+@media only screen and (max-width: 575px) {
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-url,
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_action {
+    margin: 15px 0;
+  }
 }
 
-.postbox-container .postbox .form-group .atbdp_social_field_wrapper .col-md-2 {
-  width: 5%;
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-url {
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
 }
 
-.postbox-container .postbox .form-group .atbdp_social_field_wrapper .dashicons {
-  margin-bottom: 30px;
+@media only screen and (max-width: 575px) {
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-name,
+  .postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_social-url {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+    width: 100%;
+  }
+}
+
+.postbox-container .postbox .form-group .atbdp_social_field_wrapper .atbdp_social_field_action .dashicons-trash {
+  cursor: pointer;
 }
 
 .postbox-container .postbox .form-group .atbdp_social_field_wrapper select,
 .postbox-container .postbox .form-group .atbdp_social_field_wrapper input {
   width: 100%;
   border: 1px solid #ECECEC;
-  height: 35px;
+  height: 40px;
 }
 
 .postbox-container .postbox .form-group .btn {
@@ -2167,6 +2189,12 @@ span.atbdp-tick-cross {
 
 #listing_form_info .atbd_content_module .atbdb_content_module_contents {
   padding: 30px;
+}
+
+@media only screen and (max-width: 575px) {
+  #listing_form_info .atbd_content_module .atbdb_content_module_contents {
+    padding: 20px;
+  }
 }
 
 #listing_form_info .atbd_content_module .atbdb_content_module_contents .form-group:last-child {
@@ -3263,6 +3291,7 @@ span.atbdp-tick-cross {
   font-weight: 400;
   padding-left: 65px;
   margin-left: 0;
+  margin-bottom: 0 !important;
   color: #51526E;
 }
 
@@ -3298,6 +3327,12 @@ span.atbdp-tick-cross {
   -o-transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  #directiost-listing-fields_wrapper .dbh-content .directorist_bh_dayzone__single .directorist_bh_dayzone__single--hour-selection {
+    margin-top: 10px;
+  }
 }
 
 /*# sourceMappingURL=map/style.css.map */

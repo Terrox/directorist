@@ -570,10 +570,6 @@ css for Custom Field
   margin-bottom: 15px;
 }
 
-.atbdp_social_field_wrapper select.form-control {
-  height: 35px !important;
-}
-
 #atbdp-categories-image-wrapper {
   img {
     width: 150px;
@@ -1467,6 +1463,7 @@ span.atbdp-tick-cross {
 
       .form-control{
         height: 40px;
+        padding: 10px 16px !important;
         border: 1px solid #C6D0DC !important;
       }
 
@@ -1476,7 +1473,7 @@ span.atbdp-tick-cross {
         padding: .375rem .375rem;
         line-height: 1.5;
         border: 1px solid $border-color;
-        height: 100px;
+        height: 100px !important;
       }
 
       #excerpt {
@@ -1487,33 +1484,42 @@ span.atbdp-tick-cross {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        margin: 0 -15px;
+        margin: -15px -20px;
 
-        .col-sm-12 {
-          padding: 0 15px;
+        @media only screen and (max-width: 575px) {
+          margin: -15px 0px;
+          flex-direction: column;
         }
 
-        .col-md-3 {
-          width: 30%;
+        .atbdp_social_field_social-name,
+        .atbdp_social_field_social-url,
+        .atbdp_social_field_action{
+          margin: 15px 10px;
+          @media only screen and (max-width: 575px) {
+            margin: 15px 0;
+          }
         }
 
-        .col-md-6 {
-          width: 50%;
+        .atbdp_social_field_social-name,
+        .atbdp_social_field_social-url{
+          flex: auto;
+          @media only screen and (max-width: 575px) {
+            flex: 0 0 100%;
+            width: 100%;
+          }
         }
 
-        .col-md-2 {
-          width: 5%;
-        }
-
-        .dashicons {
-          margin-bottom: 30px;
+        .atbdp_social_field_action{
+          .dashicons-trash{
+            cursor: pointer;
+          }
         }
 
         select,
         input {
           width: 100%;
           border: 1px solid $border-color;
-          height: 35px;
+          height: 40px;
         }
       }
 
@@ -2117,6 +2123,10 @@ span.atbdp-tick-cross {
 
     .atbdb_content_module_contents {
       padding: 30px;
+
+      @media only screen and (max-width: 575px) {
+        padding: 20px;
+      }
 
       .form-group:last-child {
         margin-bottom: 0;
@@ -3150,6 +3160,7 @@ span.atbdp-tick-cross {
       font-weight: 400;
       padding-left: 65px;
       margin-left: 0;
+      margin-bottom: 0 !important;
       color: #51526E;
       &:before{
           position: absolute;
@@ -3179,5 +3190,18 @@ span.atbdp-tick-cross {
           transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
           transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
       }
+  }
+}
+
+// Business Hour Css
+#directiost-listing-fields_wrapper{
+  .dbh-content{
+    .directorist_bh_dayzone__single {
+      .directorist_bh_dayzone__single--hour-selection{
+        @media (max-width: 767px) {
+          margin-top: 10px;
+        }
+      }
+    }
   }
 }
