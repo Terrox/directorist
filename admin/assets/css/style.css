@@ -1521,7 +1521,7 @@ span.atbdp-tick-cross {
           align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin: -15px -20px;
+  margin: -15px -10px 10px;
 }
 
 @media only screen and (max-width: 575px) {
