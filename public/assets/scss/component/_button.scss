@@ -37,6 +37,26 @@
     border-color: #444752 !important;
   }
 }
+.directorist-btn{
+  text-decoration: none;
+  border-radius: 4px;
+  &:hover{
+    text-decoration: none;
+  }
+}
+.directorist-btn{
+  &.directorist-btn-dark{
+    background-color: $dark;
+    color: #fff;
+  }
+}
+
+.directorist-btn{
+  &.directorist-btn-md{
+    padding: 0 1.44em;
+    line-height: 2.95 !important;
+  }
+}
 
 // Directorist Checkbox
 .directorist_checkbox{

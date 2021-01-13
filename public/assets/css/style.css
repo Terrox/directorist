@@ -767,6 +767,10 @@ body.atbd_content_active #directorist.atbd_wrapper .plasmaSliderIcon.psi-angle-l
 }
 
 /* Common styles across whole plugin */
+.directorist_mb-30 {
+  margin-bottom: 30px;
+}
+
 body.atbd_content_active #directorist.atbd_wrapper {
   line-height: 24px;
   max-width: 100%;
@@ -1169,6 +1173,14 @@ body.atbd_content_active #directorist.atbd_wrapper {
 
 #directorist.atbd_wrapper .form-group:last-child {
   margin-bottom: 0;
+}
+
+#directorist.atbd_wrapper .form-group .directorist_input-text {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  color: #8F8E9F;
+  margin-top: 4px;
 }
 
 .atbd_rating_color, #directorist.atbd_wrapper .atbd_rated_stars ul li span.rate_active, #directorist.atbd_wrapper .atbd_rating_stars .br-widget a.br-selected:before, #directorist.atbd_wrapper .atbd_rating_stars .br-widget a.br-active:before {
@@ -2993,6 +3005,20 @@ input#privacy_policy,
 
 .atbd-alert a {
   padding: 0 5px;
+}
+
+.directorist_card {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.directorist_card .directorist_card__header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #EFF1F6;
+}
+
+.directorist_card .directorist_card__body {
+  padding: 18px 25px 30px;
 }
 
 .atbd_content_active #directorist.atbd_wrapper .edit_btn_wrap {
@@ -7233,6 +7259,25 @@ span.atbd_get_loc_wid {
   border-color: #444752 !important;
 }
 
+.directorist-btn {
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.directorist-btn:hover {
+  text-decoration: none;
+}
+
+.directorist-btn.directorist-btn-dark {
+  background-color: #0A0B1E;
+  color: #fff;
+}
+
+.directorist-btn.directorist-btn-md {
+  padding: 0 1.44em;
+  line-height: 2.95 !important;
+}
+
 .directorist_checkbox {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -11124,6 +11169,27 @@ p.atbd-min {
   -o-transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.directorist_user-profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.directorist_user-profile .directorist_user-profile__left {
+  min-width: 300px;
+  margin-right: 20px;
+}
+
+.directorist_user-profile .directorist_user-profile__right {
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+}
+
+.directorist_user-profile__left .directorist_change-pass-form button {
+  width: 100%;
 }
 
 .ads-advanced .bottom-inputs {
