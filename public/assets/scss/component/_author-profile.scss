@@ -16,3 +16,28 @@
         }
     }
 }
+.directorist_user-profile__right{
+    .directorist_user-socials{
+        .directorist_user-social-label{
+            font-size: 15px;
+            font-weight: 500;
+            color: $dark;
+            padding-bottom: 18px;
+            margin-bottom: 28px !important;
+            border-bottom: 1px solid #EFF1F6;
+        }
+        label{
+            font-size: 14px;
+            font-weight: 400;
+            color: $dark;
+            .directorit_social-icon{
+                margin-right: 6px;
+                font-size: 16px;
+                color: $dark;
+            }
+        }
+    }
+    #update_user_profile{
+        width: 100% !important;
+    }
+}

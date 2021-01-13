@@ -80,83 +80,84 @@
 
                                 <input type="hidden" name="ID" value="<?php echo get_current_user_id(); ?>">
 
-                                        <div class="form-group">
-                                            <label for="full_name"><?php esc_html_e('Full Name', 'directorist'); ?></label>
-                                            <input class="form-control" type="text" id="full_name" name="user[full_name]" value="<?php echo !empty($c_user->display_name) ? esc_attr($c_user->display_name) : ''; ?>" placeholder="<?php esc_html_e('Enter your full name', 'directorist'); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="user_name"><?php esc_html_e('User Name', 'directorist'); ?></label>
-                                            <input class="form-control" id="user_name" type="text" disabled="disabled" name="user[user_name]" value="<?php echo !empty($c_user->user_login) ? esc_attr($c_user->user_login) : ''; ?>"> <?php esc_html_e('(username can not be changed)', 'directorist'); ?>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="full_name"><?php esc_html_e('Full Name', 'directorist'); ?></label>
+                                        <input class="form-control" type="text" id="full_name" name="user[full_name]" value="<?php echo !empty($c_user->display_name) ? esc_attr($c_user->display_name) : ''; ?>" placeholder="<?php esc_html_e('Enter your full name', 'directorist'); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="user_name"><?php esc_html_e('User Name', 'directorist'); ?></label>
+                                        <input class="form-control" id="user_name" type="text" disabled="disabled" name="user[user_name]" value="<?php echo !empty($c_user->user_login) ? esc_attr($c_user->user_login) : ''; ?>"> <?php esc_html_e('(username can not be changed)', 'directorist'); ?>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="first_name"><?php esc_html_e('First Name', 'directorist'); ?></label>
-                                            <input class="form-control" id="first_name" type="text" name="user[first_name]" value="<?php echo !empty($c_user->first_name) ? esc_attr($c_user->first_name) : ''; ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="last_name"><?php esc_html_e('Last Name', 'directorist'); ?></label>
-                                            <input class="form-control" id="last_name" type="text" name="user[last_name]" value="<?php echo !empty($c_user->last_name) ? esc_attr($c_user->last_name) : ''; ?>">
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="first_name"><?php esc_html_e('First Name', 'directorist'); ?></label>
+                                        <input class="form-control" id="first_name" type="text" name="user[first_name]" value="<?php echo !empty($c_user->first_name) ? esc_attr($c_user->first_name) : ''; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last_name"><?php esc_html_e('Last Name', 'directorist'); ?></label>
+                                        <input class="form-control" id="last_name" type="text" name="user[last_name]" value="<?php echo !empty($c_user->last_name) ? esc_attr($c_user->last_name) : ''; ?>">
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="req_email"><?php esc_html_e('Email (required)', 'directorist'); ?></label>
-                                            <input class="form-control" id="req_email" type="text" name="user[user_email]" value="<?php echo !empty($c_user->user_email) ? esc_attr($c_user->user_email) : ''; ?>" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="phone"><?php esc_html_e('Cell Number', 'directorist'); ?></label>
-                                            <input class="form-control" type="tel" id="phone" name="user[phone]" value="<?php echo esc_attr($u_phone); ?>" placeholder="<?php esc_attr_e('Enter your phone number', 'directorist'); ?>">
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="req_email"><?php esc_html_e('Email (required)', 'directorist'); ?></label>
+                                        <input class="form-control" id="req_email" type="text" name="user[user_email]" value="<?php echo !empty($c_user->user_email) ? esc_attr($c_user->user_email) : ''; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone"><?php esc_html_e('Cell Number', 'directorist'); ?></label>
+                                        <input class="form-control" type="tel" id="phone" name="user[phone]" value="<?php echo esc_attr($u_phone); ?>" placeholder="<?php esc_attr_e('Enter your phone number', 'directorist'); ?>">
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="website"><?php esc_html_e('Website', 'directorist'); ?></label>
-                                            <input class="form-control" id="website" type="text" name="user[website]" value="<?php echo !empty($u_website) ? esc_url($u_website) : ''; ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="address"><?php esc_html_e('Address', 'directorist'); ?></label>
-                                            <input class="form-control" id="address" type="text" name="user[address]" value="<?php echo esc_attr($u_address); ?>">
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="website"><?php esc_html_e('Website', 'directorist'); ?></label>
+                                        <input class="form-control" id="website" type="text" name="user[website]" value="<?php echo !empty($u_website) ? esc_url($u_website) : ''; ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address"><?php esc_html_e('Address', 'directorist'); ?></label>
+                                        <input class="form-control" id="address" type="text" name="user[address]" value="<?php echo esc_attr($u_address); ?>">
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="new_pass"><?php esc_html_e('New Password', 'directorist'); ?></label>
-                                            <input id="new_pass" class="form-control" type="password" name="user[new_pass]" value="<?php echo !empty($new_pass) ? esc_attr($new_pass) : ''; ?>" placeholder="<?php esc_attr_e('Enter a new password', 'directorist'); ?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="confirm_pass"><?php esc_html_e('Confirm New Password', 'directorist'); ?></label>
-                                            <input id="confirm_pass" class="form-control" type="password" name="user[confirm_pass]" value="<?php echo !empty($confirm_pass) ? esc_attr($confirm_pass) : ''; ?>" placeholder="<?php esc_attr_e('Confirm your new password', 'directorist'); ?>">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label for="bio"><?php esc_html_e('Bio', 'directorist'); ?></label>
-                                            <textarea class="wp-editor-area form-control" style="height: 200px" autocomplete="off" cols="40" name="user[bio]" id="bio"><?php echo esc_html($bio); ?></textarea>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="new_pass"><?php esc_html_e('New Password', 'directorist'); ?></label>
+                                        <input id="new_pass" class="form-control" type="password" name="user[new_pass]" value="<?php echo !empty($new_pass) ? esc_attr($new_pass) : ''; ?>" placeholder="<?php esc_attr_e('Enter a new password', 'directorist'); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm_pass"><?php esc_html_e('Confirm New Password', 'directorist'); ?></label>
+                                        <input id="confirm_pass" class="form-control" type="password" name="user[confirm_pass]" value="<?php echo !empty($confirm_pass) ? esc_attr($confirm_pass) : ''; ?>" placeholder="<?php esc_attr_e('Confirm your new password', 'directorist'); ?>">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="bio"><?php esc_html_e('Bio', 'directorist'); ?></label>
+                                        <textarea class="wp-editor-area form-control" style="height: 200px" autocomplete="off" cols="40" name="user[bio]" id="bio"><?php echo esc_html($bio); ?></textarea>
+                                    </div>
 
-                                        <div class="directorist_user-socials">
-                                            <h4 class="directorist_user-social-label">Social Profiles</h4>
-                                        </div>
+                                    <div class="directorist_user-socials">
+                                        <h4 class="directorist_user-social-label">Social Profiles</h4>
                                         <div class="form-group">
-                                            <label for="facebook"><?php esc_html_e('Facebook', 'directorist'); ?></label>
-                                            <p><?php esc_html_e('Leave it empty to hide', 'directorist') ?></p>
+                                            <label for="facebook"><span class="directorit_social-icon"><i class="la la-facebook"></i></span><?php esc_html_e('Facebook', 'directorist'); ?></label>
                                             <input id="facebook" class="form-control" type="url" name="user[facebook]" value="<?php echo esc_attr($facebook); ?>" placeholder="<?php esc_attr_e('Enter your facebook url', 'directorist'); ?>">
+                                            <span class="directorist_input-text"><?php esc_html_e('Leave it empty to hide', 'directorist') ?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="twitter"><?php esc_html_e('Twitter', 'directorist'); ?></label>
-                                            <p><?php esc_html_e('Leave it empty to hide', 'directorist') ?></p>
+                                            <label for="twitter"><span class="directorit_social-icon"><i class="la la-twitter"></i></span><?php esc_html_e('Twitter', 'directorist'); ?></label>
                                             <input id="twitter" class="form-control" type="url" name="user[twitter]" value="<?php echo esc_attr($twitter); ?>" placeholder="<?php esc_attr_e('Enter your twitter url', 'directorist'); ?>">
+                                            <span class="directorist_input-text"><?php esc_html_e('Leave it empty to hide', 'directorist') ?></span>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="linkedIn"><?php esc_html_e('LinkedIn', 'directorist'); ?></label>
-                                            <p><?php esc_html_e('Leave it empty to hide', 'directorist') ?></p>
+                                            <label for="linkedIn"><span class="directorit_social-icon"><i class="la la-linkedin"></i></span><?php esc_html_e('LinkedIn', 'directorist'); ?></label>
                                             <input id="linkedIn" class="form-control" type="url" name="user[linkedIn]" value="<?php echo esc_attr($linkedIn); ?>" placeholder="<?php esc_attr_e('Enter linkedIn url', 'directorist'); ?>">
+                                            <span class="directorist_input-text"><?php esc_html_e('Leave it empty to hide', 'directorist') ?></span>
                                         </div>
                                         <div class="form-group">
-                                            <label for="youtube"><?php esc_html_e('Youtube', 'directorist'); ?></label>
-                                            <p><?php esc_html_e('Leave it empty to hide', 'directorist') ?></p>
+                                            <label for="youtube"><span class="directorit_social-icon"><i class="la la-youtube"></i></span><?php esc_html_e('Youtube', 'directorist'); ?></label>
                                             <input id="youtube" class="form-control" type="url" name="user[youtube]" value="<?php echo esc_attr($youtube); ?>" placeholder="<?php esc_attr_e('Enter youtube url', 'directorist'); ?>">
+                                            <span class="directorist_input-text"><?php esc_html_e('Leave it empty to hide', 'directorist') ?></span>
                                         </div>
+                                    </div>
+                                    
 
 
-                                <button type="submit" class="btn btn-primary" id="update_user_profile"><?php esc_html_e('Save Changes', 'directorist'); ?></button>
+                                    <button type="submit" class="directorist-btn directorist-btn-dark directorist-btn-lg" id="update_user_profile"><?php esc_html_e('Save Changes', 'directorist'); ?></button>
 
                                 <div id="pro_notice" style="padding: 20px"></div>
                             </div>

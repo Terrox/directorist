@@ -7261,7 +7261,7 @@ span.atbd_get_loc_wid {
 
 .directorist-btn {
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 4px !important;
 }
 
 .directorist-btn:hover {
@@ -7269,13 +7269,18 @@ span.atbd_get_loc_wid {
 }
 
 .directorist-btn.directorist-btn-dark {
-  background-color: #0A0B1E;
+  background-color: #0A0B1E !important;
   color: #fff;
 }
 
 .directorist-btn.directorist-btn-md {
   padding: 0 1.44em;
   line-height: 2.95 !important;
+}
+
+.directorist-btn.directorist-btn-lg {
+  padding: 0 1.44em;
+  line-height: 3.35 !important;
 }
 
 .directorist_checkbox {
@@ -11190,6 +11195,31 @@ p.atbd-min {
 
 .directorist_user-profile__left .directorist_change-pass-form button {
   width: 100%;
+}
+
+.directorist_user-profile__right .directorist_user-socials .directorist_user-social-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0A0B1E;
+  padding-bottom: 18px;
+  margin-bottom: 28px !important;
+  border-bottom: 1px solid #EFF1F6;
+}
+
+.directorist_user-profile__right .directorist_user-socials label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #0A0B1E;
+}
+
+.directorist_user-profile__right .directorist_user-socials label .directorit_social-icon {
+  margin-right: 6px;
+  font-size: 16px;
+  color: #0A0B1E;
+}
+
+.directorist_user-profile__right #update_user_profile {
+  width: 100% !important;
 }
 
 .ads-advanced .bottom-inputs {
