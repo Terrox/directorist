@@ -9136,6 +9136,71 @@ span.atbd_get_loc_wid {
   overflow-y: visible;
 }
 
+.atbd_saved_items_wrapper .directorist_favourite-items {
+  background-color: #fff;
+  padding: 20px 10px;
+  border-radius: 4px;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px !important;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: .35s;
+  -o-transition: .35s;
+  transition: .35s;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single:hover {
+  background-color: #F8F9FA;
+  border-radius: 5px;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single:hover .directorist_listing-list__single--action .directorist_favourite-remove {
+  opacity: 1;
+  visibility: visible;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-title a {
+  color: #0A0B1E;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-address {
+  font-size: 14px;
+  margin-bottom: 3px;
+  color: #51526E;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-price {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0A0B1E;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--action .directorist_favourite-remove {
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  border-radius: 6px;
+  padding: 8px 14px;
+  color: #fff !important;
+  background-color: #e23636 !important;
+  opacity: 0;
+  visibility: hidden;
+}
+
 @media (max-width: 767px) {
   .atbd_content_active #directorist.atbd_wrapper .directorist_userDashboard-tab .atbd_tab_nav {
     -webkit-box-orient: vertical;

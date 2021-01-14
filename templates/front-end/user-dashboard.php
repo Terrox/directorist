@@ -709,20 +709,6 @@ if( isset( $_GET['edited'] ) && ( $_GET['edited'] === '1' ) ) {
                                         }
                                         ?>
                                     </table>
-                                    <div class="directorist_favourite-items">
-                                        <ul class="directorist_listing-list">
-                                            <li class="directorist_listing-list__single">
-                                                <div class="directorist_listing-list__single--info">
-                                                    <h4 class="directorist_listing-title">Gravenhurst Cottage</h4>
-                                                    <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
-                                                    <span class="directorist_listing-price">$47.50</span>
-                                                </div>
-                                                <div class="directorist_listing-list__single--action">
-
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         <?php } ?>

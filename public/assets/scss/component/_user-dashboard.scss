@@ -930,7 +930,63 @@
   overflow-x: auto;
   overflow-y: visible;
 }
-
+// Favourite Item Css
+.atbd_saved_items_wrapper{
+  .directorist_favourite-items{
+    background-color: #fff;
+    padding: 20px 10px;
+    border-radius: 4px;
+  }
+  .directorist_listing-list__single{
+    display: flex;
+    padding: 15px !important;
+    justify-content: space-between;
+    align-items: center;
+    transition: .35s;
+    &:hover{
+      background-color: #F8F9FA;
+      border-radius: 5px;
+      .directorist_listing-list__single--action{
+        .directorist_favourite-remove{
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+    .directorist_listing-list__single--info{
+      .directorist_listing-title{
+        font-size: 15px;
+        font-weight: 500;
+        a{
+          color: $dark;
+        }
+      }
+      .directorist_listing-address{
+        font-size: 14px;
+        margin-bottom: 3px;
+        color: #51526E;
+      }
+      .directorist_listing-price{
+        font-size: 16px;
+        font-weight: 500;
+        color: $dark;
+      }
+    }
+    .directorist_listing-list__single--action{
+      .directorist_favourite-remove{
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-block;
+        border-radius: 6px;
+        padding: 8px 14px;
+        color: #fff !important;
+        background-color: $danger !important;
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  }
+}
 // Responsive Css
 @media (max-width: 767px) {
   .atbd_content_active #directorist.atbd_wrapper .directorist_userDashboard-tab .atbd_tab_nav {
