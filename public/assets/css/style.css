@@ -9147,6 +9147,7 @@ span.atbd_get_loc_wid {
   display: -ms-flexbox;
   display: flex;
   padding: 15px !important;
+  margin: 0;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -9166,6 +9167,25 @@ span.atbd_get_loc_wid {
 .atbd_saved_items_wrapper .directorist_listing-list__single:hover .directorist_listing-list__single--action .directorist_favourite-remove {
   opacity: 1;
   visibility: visible;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-img {
+  margin-right: 20px;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-img img {
+  max-width: 100px;
+  border-radius: 6px;
+}
+
+.atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-content {
+  margin-top: -4px;
 }
 
 .atbd_saved_items_wrapper .directorist_listing-list__single .directorist_listing-list__single--info .directorist_listing-title {

@@ -47,11 +47,14 @@
             <ul class="directorist_listing-list">
                 <li class="directorist_listing-list__single">
                     <div class="directorist_listing-list__single--info">
-                        <h4 class="directorist_listing-title">
-                            <a href="#">Gravenhurst Cottage</a>
-                        </h4>
-                        <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
-                        <span class="directorist_listing-price">$47.50</span>
+                        <div class="directorist_listing-img">
+                            <img src="<?php echo esc_url($item['img_src']);?>" alt="<?php echo esc_attr($item['title']);?>">
+                        </div>
+                        <div class="directorist_listing-content">
+                            <h4 class="directorist_listing-title"><a href="#">Gravenhurst Cottage</a></h4>
+                            <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
+                            <span class="directorist_listing-price">$47.50</span>
+                        </div>
                     </div>
                     <div class="directorist_listing-list__single--action">
                         <a href="#" class="directorist_favourite-remove">
@@ -62,9 +65,14 @@
                 </li><!-- End on /.directorist_listing-list__single -->
                 <li class="directorist_listing-list__single">
                     <div class="directorist_listing-list__single--info">
-                        <h4 class="directorist_listing-title"><a href="#">Gravenhurst Cottage</a></h4>
-                        <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
-                        <span class="directorist_listing-price">$47.50</span>
+                        <div class="directorist_listing-img">
+                            <img src="<?php echo esc_url($item['img_src']);?>" alt="<?php echo esc_attr($item['title']);?>">
+                        </div>
+                        <div class="directorist_listing-content">
+                            <h4 class="directorist_listing-title"><a href="#">Gravenhurst Cottage</a></h4>
+                            <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
+                            <span class="directorist_listing-price">$47.50</span>
+                        </div>
                     </div>
                     <div class="directorist_listing-list__single--action">
                         <a href="#" class="directorist_favourite-remove">
@@ -75,9 +83,14 @@
                 </li><!-- End on /.directorist_listing-list__single -->
                 <li class="directorist_listing-list__single">
                     <div class="directorist_listing-list__single--info">
-                        <h4 class="directorist_listing-title"><a href="#">Gravenhurst Cottage</a></h4>
-                        <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
-                        <span class="directorist_listing-price">$47.50</span>
+                        <div class="directorist_listing-img">
+                            <img src="<?php echo esc_url($item['img_src']);?>" alt="<?php echo esc_attr($item['title']);?>">
+                        </div>
+                        <div class="directorist_listing-content">
+                            <h4 class="directorist_listing-title"><a href="#">Gravenhurst Cottage</a></h4>
+                            <p class="directorist_listing-address">Unnamed Road, Las Vegas, NV 89103, USA</p>
+                            <span class="directorist_listing-price">$47.50</span>
+                        </div>
                     </div>
                     <div class="directorist_listing-list__single--action">
                         <a href="#" class="directorist_favourite-remove">

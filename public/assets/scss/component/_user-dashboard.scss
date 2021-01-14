@@ -940,6 +940,7 @@
   .directorist_listing-list__single{
     display: flex;
     padding: 15px !important;
+    margin: 0;
     justify-content: space-between;
     align-items: center;
     transition: .35s;
@@ -954,6 +955,17 @@
       }
     }
     .directorist_listing-list__single--info{
+      display: flex;
+      .directorist_listing-img{
+        margin-right: 20px;
+        img{
+          max-width: 100px;
+          border-radius: 6px;
+        }
+      }
+      .directorist_listing-content{
+        margin-top: -4px;
+      }
       .directorist_listing-title{
         font-size: 15px;
         font-weight: 500;
