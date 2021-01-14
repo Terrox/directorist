@@ -11197,6 +11197,15 @@ p.atbd-min {
   width: 100%;
 }
 
+.directorist_user-profile__right .form-group .directorist_user-bio {
+  min-height: 140px;
+  resize: none !important;
+}
+
+.directorist_user-profile__right .directorist_user-socials {
+  margin-top: 50px;
+}
+
 .directorist_user-profile__right .directorist_user-socials .directorist_user-social-label {
   font-size: 15px;
   font-weight: 500;

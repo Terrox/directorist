@@ -127,7 +127,7 @@
                                     
                                     <div class="form-group">
                                         <label for="bio"><?php esc_html_e('Bio', 'directorist'); ?></label>
-                                        <textarea class="wp-editor-area form-control" style="height: 200px" autocomplete="off" cols="40" name="user[bio]" id="bio"><?php echo esc_html($bio); ?></textarea>
+                                        <textarea class="wp-editor-area form-control directorist_user-bio" autocomplete="off" name="user[bio]" id="bio"><?php echo esc_html($bio); ?></textarea>
                                     </div>
 
                                     <div class="directorist_user-socials">
