@@ -2,15 +2,7 @@ const path                 = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin      = require('vue-loader/lib/plugin');
 
-module.exports = {
-  entry: {
-    admin_app: "./public/assets/src/js/admin-index.js",
-    settings_manager: "./public/assets/src/js/settings-manager.js",
-  },
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "public/assets/js"),
-  },
+const commonConfig = {
   resolve: {
     extensions: [ '.js', '.vue' ],
     alias: {
@@ -93,7 +85,7 @@ module.exports = {
             options: {
               sourceMap: true,
               sassOptions: {
-                outputStyle: 'compressed',
+                // outputStyle: 'compressed',
               },
             },
           },
@@ -104,3 +96,42 @@ module.exports = {
 
   devtool: 'source-map'
 };
+
+// Public Config
+const publicConfig = {
+  entry: {
+    ['main']: "./public/assets/src/js/main.js",
+  },
+
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "public/assets/js"),
+  },
+
+  ...commonConfig
+};
+
+// Admin Config
+const adminConfig  = {
+  entry: {
+    ['main']: "./public/assets/src/js/admin/main.js",
+    ['custom-field']: "./public/assets/src/js/admin/custom-field.js",
+    ['directorist-plupload']: "./public/assets/src/js/admin/directorist-plupload.js",
+    ['extension-update']: "./public/assets/src/js/admin/extension-update.js",
+    ['import-export']: "./public/assets/src/js/admin/import-export.js",
+    ['plugins']: "./public/assets/src/js/admin/plugins.js",
+    ['setup-wizard']: "./public/assets/src/js/admin/setup-wizard.js",
+    ['tooltip']: "./public/assets/src/js/admin/tooltip.js",
+    ['muilti-directory-builder']: "./public/assets/src/js/admin/muilti-directory-builder.js",
+    ['muilti-directory-archive']: "./public/assets/src/js/admin/muilti-directory-archive.js",
+  },
+
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "admin/assets/js"),
+  },
+
+  ...commonConfig
+};
+
+module.exports = [ publicConfig, adminConfig ];

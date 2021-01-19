@@ -4,7 +4,7 @@ const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WebpackRTLPlugin     = require("webpack-rtl-plugin");
 
-module.exports = merge(common, {
+const prodConfig = {
   mode: "production", // production | development
   plugins: [
     new MiniCssExtractPlugin({
@@ -15,4 +15,12 @@ module.exports = merge(common, {
       minify: true,
     }),
   ],
+};
+
+let configs = [];
+common.forEach(element => {
+  const _config = merge( element, prodConfig );
+  configs.push( _config );
 });
+
+module.exports = configs;
