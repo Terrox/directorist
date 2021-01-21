@@ -48,7 +48,7 @@ const commonConfig = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-env"],
+              presets: ["@babel/preset-react"],
             }
           },
         ]
@@ -121,9 +121,9 @@ const adminConfig  = {
     ['import-export']: "./public/assets/src/js/admin/import-export.js",
     ['plugins']: "./public/assets/src/js/admin/plugins.js",
     ['setup-wizard']: "./public/assets/src/js/admin/setup-wizard.js",
-    ['tooltip']: "./public/assets/src/js/admin/tooltip.js",
-    ['muilti-directory-builder']: "./public/assets/src/js/admin/muilti-directory-builder.js",
-    ['muilti-directory-archive']: "./public/assets/src/js/admin/muilti-directory-archive.js",
+    ['multi-directory-builder']: "./public/assets/src/js/admin/multi-directory-builder.js",
+    ['multi-directory-archive']: "./public/assets/src/js/admin/multi-directory-archive.js",
+    ['settings-manager']: "./public/assets/src/js/admin/settings-manager.js",
   },
 
   output: {
