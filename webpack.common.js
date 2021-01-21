@@ -1,6 +1,7 @@
 const path                 = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin      = require('vue-loader/lib/plugin');
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 
 const commonConfig = {
   resolve: {
@@ -10,7 +11,10 @@ const commonConfig = {
     }
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new DependencyExtractionWebpackPlugin({
+      injectPolyfill: true,
+    })
   ],
   module: {
     rules: [
@@ -48,7 +52,7 @@ const commonConfig = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-env"],
+              presets: ["@wordpress/default"],
             }
           },
         ]
@@ -101,6 +105,7 @@ const commonConfig = {
 const publicConfig = {
   entry: {
     ['main']: "./public/assets/src/js/main.js",
+    ['taxonomy']: "./public/assets/src/js/taxonomy.js",
   },
 
   output: {

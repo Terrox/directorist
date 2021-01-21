@@ -316,7 +316,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
     $.post(ajaxurl, data, function (response) {
       if (response) {
-        var atbdp_tooltip = function atbdp_tooltip() {
+        var response = "<div class=\"form-group atbd_content_module\">\n                                <div class=\"atbdb_content_module_contents\">\n                                  ".concat(response, "\n                                </div>\n                              </div>");
+        $('.atbdp_category_custom_fields').empty().append(response);
+
+        function atbdp_tooltip() {
           var atbd_tooltip = document.querySelectorAll('.atbd_tooltip');
           atbd_tooltip.forEach(function (el) {
             if (el.getAttribute('aria-label') !== ' ') {
@@ -329,10 +332,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               }, false);
             }
           });
-        };
+        }
 
-        var response = "<div class=\"form-group atbd_content_module\">\n                                <div class=\"atbdb_content_module_contents\">\n                                  ".concat(response, "\n                                </div>\n                              </div>");
-        $('.atbdp_category_custom_fields').empty().append(response);
         atbdp_tooltip();
       } else {
         $('.atbdp_category_custom_fields').empty();
@@ -355,7 +356,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
     $.post(ajaxurl, data, function (response) {
       if (response) {
-        var atbdp_tooltip = function atbdp_tooltip() {
+        var response = "<div class=\"form-group atbd_content_module\">\n                                  <div class=\"atbdb_content_module_contents\">\n                                    ".concat(response, "\n                                  </div>\n                                </div>");
+        $('.atbdp_category_custom_fields').empty().append(response);
+
+        function atbdp_tooltip() {
           var atbd_tooltip = document.querySelectorAll('.atbd_tooltip');
           atbd_tooltip.forEach(function (el) {
             if (el.getAttribute('aria-label') !== ' ') {
@@ -368,10 +372,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               }, false);
             }
           });
-        };
+        }
 
-        var response = "<div class=\"form-group atbd_content_module\">\n                                  <div class=\"atbdb_content_module_contents\">\n                                    ".concat(response, "\n                                  </div>\n                                </div>");
-        $('.atbdp_category_custom_fields').empty().append(response);
         atbdp_tooltip();
       }
     });

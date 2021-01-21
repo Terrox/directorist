@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
 if ( ! class_exists( 'ATBDP_Enqueuer' ) ):
 class ATBDP_Enqueuer {
     /**
@@ -17,6 +14,7 @@ class ATBDP_Enqueuer {
     public $listing_id;
     public $type;
     public $enable_multiple_image = 0;
+    public $wp_scripts_dependency = ['wp-block-editor', 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-polyfill'];
 
     public function __construct() {
         global $pagenow;
@@ -201,6 +199,7 @@ class ATBDP_Enqueuer {
         global $typenow, $post;
         $select_listing_map       = get_directorist_option( 'select_listing_map', 'google' );
         $front_scripts_dependency = array( 'jquery' );
+        
         // @Todo; make unminified css minified then enqueue them.
         wp_register_style( 'atbdp-bootstrap-style', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
         wp_register_style( 'atbdp-bootstrap-style-rtl', ATBDP_PUBLIC_ASSETS . 'css/bootstrap-rtl.css', false, ATBDP_VERSION );
