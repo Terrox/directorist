@@ -16,6 +16,9 @@ const devConfig = {
         minify: false,
       }),
     ],
+    output: {
+      filename: "[name].js",
+    },
 };
 
 let configs = [];

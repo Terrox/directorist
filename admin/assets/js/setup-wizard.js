@@ -1,2 +1,233 @@
-!function(e){var t={};function n(i){if(t[i])return t[i].exports;var a=t[i]={i:i,l:!1,exports:{}};return e[i].call(a.exports,a,a.exports,n),a.l=!0,a.exports}n.m=e,n.c=t,n.d=function(e,t,i){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:i})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var a in e)n.d(i,a,function(t){return e[t]}.bind(null,a));return i},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=187)}({187:function(e,t,n){"use strict";n.r(t);n(188);jQuery(document).ready((function(e){var t=e("#atbdp_dummy_form"),n=0,i="";e(t).on("submit",(function(t){t.preventDefault(),e(".atbdp_dummy_body").fadeOut(300),e(".atbdp-c-footer").fadeOut(300),e(".directorist-importer__importing").fadeIn(300),e(this).parent(".csv-fields").fadeOut(300),e(".atbdp-mapping-step").removeClass("active").addClass("done"),e(".atbdp-progress-step").addClass("active");var a=0;!function t(){var o=new FormData;o.append("action","atbdp_dummy_data_import"),o.append("file",e("#dummy_csv_file").val()),o.append("limit",e("#atbdp-listings-to-import").val()),o.append("image",e("#atbdp-import-image").is(":checked")?1:""),o.append("delimiter",","),o.append("update_existing",""),o.append("position",n),o.append("wpnonce",e('input[name="_wpnonce"]').val()),o.append("pre_mapped",!0),e.ajax({method:"POST",processData:!1,contentType:!1,url:import_export_data.ajaxurl,data:o,success:function(o){o.imported,o.failed,i=o.url,e(".importer-details").html("Imported ".concat(o.next_position," out of ").concat(o.total)),e(".directorist-importer-progress").val(o.percentage),"100"!=o.percentage&&a<150?(n=o.next_position,t(),a++):window.location=o.url,e('input[name="save_step"]').addClass("btn-hide")},error:function(e){window.location=i}})}()})),e(".atbdp-sw-gmap-key").hide(),e("#select_map").on("change",(function(t){"google"===e(this).val()?e(".atbdp-sw-gmap-key").show():e(".atbdp-sw-gmap-key").hide()})),"google"===e("#select_map").val()?e(".atbdp-sw-gmap-key").show():e(".atbdp-sw-gmap-key").hide(),e(".atbdp-sw-featured-listing").hide(),e("#enable_monetization").on("change",(function(){!0===e(this).prop("checked")?e(".atbdp-sw-featured-listing").show():e(".atbdp-sw-featured-listing").hide()})),!0===e("#enable_monetization").prop("checked")?e(".atbdp-sw-featured-listing").show():e(".atbdp-sw-featured-listing").hide(),e(".atbdp-sw-listing-price").hide(),e("#enable_featured_listing").on("change",(function(){!0===e(this).prop("checked")?e(".atbdp-sw-listing-price").show():e(".atbdp-sw-listing-price").hide()})),!0===e("#enable_monetization").prop("checked")?e(".atbdp-sw-listing-price").show():e(".atbdp-sw-listing-price").hide(),e("#select_map").select2({minimumResultsForSearch:-1}),e("#atbdp-listings-to-import").select2({minimumResultsForSearch:-1})}))},188:function(e,t,n){}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./public/assets/src/js/admin/setup-wizard.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./public/assets/src/js/admin/setup-wizard.js":
+/*!****************************************************!*\
+  !*** ./public/assets/src/js/admin/setup-wizard.js ***!
+  \****************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _scss_layout_admin_setup_wizard_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../scss/layout/admin/setup-wizard.scss */ "./public/assets/src/scss/layout/admin/setup-wizard.scss");
+/* harmony import */ var _scss_layout_admin_setup_wizard_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_layout_admin_setup_wizard_scss__WEBPACK_IMPORTED_MODULE_0__);
+
+/* eslint-disable */
+
+jQuery(document).ready(function ($) {
+  var import_dummy = $('#atbdp_dummy_form');
+  var position = 0;
+  var failed = 0;
+  var imported = 0;
+  var redirect_url = '';
+  $(import_dummy).on('submit', function (e) {
+    e.preventDefault();
+    $('.atbdp_dummy_body').fadeOut(300);
+    $('.atbdp-c-footer').fadeOut(300);
+    $('.directorist-importer__importing').fadeIn(300);
+    $(this).parent('.csv-fields').fadeOut(300);
+    $('.atbdp-mapping-step').removeClass('active').addClass('done');
+    $('.atbdp-progress-step').addClass('active');
+    var counter = 0;
+
+    var run_import = function run_import() {
+      var form_data = new FormData(); // ajax action
+
+      form_data.append('action', 'atbdp_dummy_data_import');
+      form_data.append('file', $('#dummy_csv_file').val());
+      form_data.append('limit', $('#atbdp-listings-to-import').val());
+      form_data.append('image', $('#atbdp-import-image').is(':checked') ? 1 : '');
+      form_data.append('delimiter', ',');
+      form_data.append('update_existing', '');
+      form_data.append('position', position);
+      form_data.append('wpnonce', $('input[name="_wpnonce"]').val());
+      form_data.append('pre_mapped', true);
+      $.ajax({
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        // async: false,
+        url: import_export_data.ajaxurl,
+        data: form_data,
+        success: function success(response) {
+          imported += response.imported;
+          failed += response.failed;
+          redirect_url = response.url;
+          $('.importer-details').html("Imported ".concat(response.next_position, " out of ").concat(response.total));
+          $('.directorist-importer-progress').val(response.percentage);
+
+          if (response.percentage != '100' && counter < 150) {
+            position = response.next_position;
+            run_import();
+            counter++;
+          } else {
+            window.location = response.url;
+          }
+
+          $('input[name="save_step"]').addClass("btn-hide");
+        },
+        error: function error(response) {
+          window.location = redirect_url;
+        }
+      });
+    };
+
+    run_import();
+  }); //options
+
+  $('.atbdp-sw-gmap-key').hide();
+  $('#select_map').on('change', function (e) {
+    if ($(this).val() === 'google') {
+      $('.atbdp-sw-gmap-key').show();
+    } else {
+      $('.atbdp-sw-gmap-key').hide();
+    }
+  });
+
+  if ($('#select_map').val() === 'google') {
+    $('.atbdp-sw-gmap-key').show();
+  } else {
+    $('.atbdp-sw-gmap-key').hide();
+  }
+
+  $('.atbdp-sw-featured-listing').hide();
+  $('#enable_monetization').on('change', function () {
+    if ($(this).prop("checked") === true) {
+      $('.atbdp-sw-featured-listing').show();
+    } else {
+      $('.atbdp-sw-featured-listing').hide();
+    }
+  });
+
+  if ($('#enable_monetization').prop("checked") === true) {
+    $('.atbdp-sw-featured-listing').show();
+  } else {
+    $('.atbdp-sw-featured-listing').hide();
+  }
+
+  $('.atbdp-sw-listing-price').hide();
+  $('#enable_featured_listing').on('change', function () {
+    if ($(this).prop("checked") === true) {
+      $('.atbdp-sw-listing-price').show();
+    } else {
+      $('.atbdp-sw-listing-price').hide();
+    }
+  });
+
+  if ($('#enable_monetization').prop("checked") === true) {
+    $('.atbdp-sw-listing-price').show();
+  } else {
+    $('.atbdp-sw-listing-price').hide();
+  }
+  /* custom select */
+
+
+  $('#select_map').select2({
+    minimumResultsForSearch: -1
+  });
+  $('#atbdp-listings-to-import').select2({
+    minimumResultsForSearch: -1
+  });
+});
+
+/***/ }),
+
+/***/ "./public/assets/src/scss/layout/admin/setup-wizard.scss":
+/*!***************************************************************!*\
+  !*** ./public/assets/src/scss/layout/admin/setup-wizard.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+/******/ });
 //# sourceMappingURL=setup-wizard.js.map

@@ -48,7 +48,7 @@ const commonConfig = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-react"],
+              presets: ["@babel/preset-env"],
             }
           },
         ]
@@ -104,7 +104,7 @@ const publicConfig = {
   },
 
   output: {
-    filename: "[name].js",
+    // filename: "[name].js",
     path: path.resolve(__dirname, "public/assets/js"),
   },
 
@@ -127,7 +127,7 @@ const adminConfig  = {
   },
 
   output: {
-    filename: "[name].js",
+    // filename: "[name].js",
     path: path.resolve(__dirname, "admin/assets/js"),
   },
 
