@@ -10,8 +10,24 @@ class ATBDP_Enqueue_Assets {
      * Constuctor
      */
     function __construct() {
-        add_action( 'init', [ $this, 'load_css_scripts' ] );
-        add_action( 'init', [ $this, 'load_js_scripts' ] );
+        // Vendor
+        $this->add_vendor_css_scripts();
+        $this->add_vendor_js_scripts();
+
+        // Public
+        $this->add_public_css_scripts();
+        $this->add_public_js_scripts();
+
+        // Admin
+        $this->add_admin_css_scripts();
+        $this->add_admin_js_scripts();
+
+        // Global
+        $this->add_global_css_scripts();
+        $this->add_global_js_scripts();
+        
+        // Apply Hook to Scripts
+        add_action( 'init', [ $this, 'apply_hook_to_scripts' ] );
 
         // Enqueue Public Scripts
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_public_scripts' ] );
@@ -23,15 +39,66 @@ class ATBDP_Enqueue_Assets {
         add_action( 'init', [ $this, 'enqueue_global_scripts' ] );
     }
 
+
+    // apply_hook_to_scripts
+    public function apply_hook_to_scripts() {
+        $this->css_scripts = apply_filters( 'directorist_css_scripts', $this->css_scripts );
+        $this->js_scripts = apply_filters( 'directorist_js_scripts', $this->js_scripts );
+    }
+
     /**
-     * Load CSS Scripts
+     * Load Vendor CSS Scripts
      *
      * @return void
      */
-    public function load_css_scripts() {
+    public function add_vendor_css_scripts() {
+        // $scripts = [];
+
+        // $scripts['directorist-main-style'] = [
+        //     'file_name' => 'main-style',
+        //     'base_path' => DIRECTORIST_PUBLIC_CSS,
+        //     'deps'      => [],
+        //     'ver'       => false,
+        //     'group'     => 'public', // public || admin  || global
+        //     'section'   => '',
+        // ];
+
+        // $scripts = array_merge( $this->css_scripts, $scripts);
+        // $this->css_scripts = $scripts;
+    }
+
+    /**
+     * Load Vendor JS Scripts
+     *
+     * @return void
+     */
+    public function add_vendor_js_scripts() {
+        // $scripts = [];
+
+        // // Public Group
+        // $scripts['directorist-main-script'] = [
+        //     'file_name' => 'main',
+        //     'base_path' => DIRECTORIST_PUBLIC_JS,
+        //     'deps'      => [],
+        //     'ver'       => false,
+        //     'group'     => 'public', // public || admin  || global
+        //     'section'   => '',
+        //     'enable'    => true,
+        // ];
+
+        // $scripts = array_merge( $this->js_scripts, $scripts);
+        // $this->js_scripts = $scripts;
+    }
+
+
+    /**
+     * Load Public CSS Scripts
+     *
+     * @return void
+     */
+    public function add_public_css_scripts() {
         $scripts = [];
 
-        // Public Group
         $scripts['directorist-main-style'] = [
             'file_name' => 'main-style',
             'base_path' => DIRECTORIST_PUBLIC_CSS,
@@ -41,28 +108,16 @@ class ATBDP_Enqueue_Assets {
             'section'   => '',
         ];
 
-        // Admin Group
-        $scripts['directorist-admin-style'] = [
-            'file_name' => 'admin-style',
-            'base_path' => DIRECTORIST_ADMIN_CSS,
-            'deps'      => [],
-            'ver'       => false,
-            'group'     => 'admin',
-            'section'   => '',
-        ];
-
-        // Global Group
-
-        $this->css_scripts = apply_filters( 'directorist_css_scripts', $scripts );
+        $scripts = array_merge( $this->css_scripts, $scripts);
+        $this->css_scripts = $scripts;
     }
 
-
     /**
-     * Load JS Scripts
+     * Load Public JS Scripts
      *
      * @return void
      */
-    public function load_js_scripts() {
+    public function add_public_js_scripts() {
         $scripts = [];
 
         // Public Group
@@ -73,7 +128,41 @@ class ATBDP_Enqueue_Assets {
             'ver'       => false,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
+            'enable'    => true,
         ];
+
+        $scripts = array_merge( $this->js_scripts, $scripts);
+        $this->js_scripts = $scripts;
+    }
+
+    /**
+     * Load Admin CSS Scripts
+     *
+     * @return void
+     */
+    public function add_admin_css_scripts() {
+        $scripts = [];
+
+        $scripts['directorist-admin-style'] = [
+            'file_name' => 'admin-style',
+            'base_path' => DIRECTORIST_ADMIN_CSS,
+            'deps'      => [],
+            'ver'       => false,
+            'group'     => 'admin',
+            'section'   => '',
+        ];
+
+        $scripts = array_merge( $this->css_scripts, $scripts);
+        $this->css_scripts = $scripts;
+    }
+
+    /**
+     * Load Admin JS Scripts
+     *
+     * @return void
+     */
+    public function add_admin_js_scripts() {
+        $scripts = [];
 
         // Admin Group
         $scripts['directorist-admin-script'] = [
@@ -85,9 +174,51 @@ class ATBDP_Enqueue_Assets {
             'section'   => '',
         ];
 
-        // Global Group
+        $scripts = array_merge( $this->js_scripts, $scripts);
+        $this->js_scripts = $scripts;
+    }
 
-        $this->js_scripts = apply_filters( 'directorist_js_scripts', $scripts );
+    /**
+     * Load Global CSS Scripts
+     *
+     * @return void
+     */
+    public function add_global_css_scripts() {
+        // $scripts = [];
+
+        // $scripts['directorist-admin-style'] = [
+        //     'file_name' => 'admin-style',
+        //     'base_path' => DIRECTORIST_ADMIN_CSS,
+        //     'deps'      => [],
+        //     'ver'       => false,
+        //     'group'     => 'admin',
+        //     'section'   => '',
+        // ];
+
+        // $scripts = array_merge( $this->css_scripts, $scripts);
+        // $this->css_scripts = $scripts;
+    }
+    
+    /**
+     * Load Global JS Scripts
+     *
+     * @return void
+     */
+    public function add_global_js_scripts() {
+        // $scripts = [];
+
+        // // Admin Group
+        // $scripts['directorist-admin-script'] = [
+        //     'file_name' => 'admin',
+        //     'base_path' => DIRECTORIST_ADMIN_JS,
+        //     'deps'      => [],
+        //     'ver'       => false,
+        //     'group'     => 'admin',
+        //     'section'   => '',
+        // ];
+
+        // $scripts = array_merge( $this->js_scripts, $scripts);
+        // $this->js_scripts = $scripts;
     }
 
 
@@ -148,6 +279,11 @@ class ATBDP_Enqueue_Assets {
         $args    = array_merge( $default, $args );
 
         foreach( $args['scripts'] as $handle => $script_args ) {
+
+            if ( ! empty( $script_args['enable'] ) && false === $script_args['enable'] ) {
+                continue;
+            }
+
             if (  ! ( ! empty( $script_args['group'] ) && $args['group'] === $script_args['group'] ) ) {
                 continue;
             }
@@ -161,7 +297,7 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'] ) . '.css';
+            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'], $script_args ) . '.css';
 
             wp_register_style( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['media']);
         }
@@ -200,6 +336,11 @@ class ATBDP_Enqueue_Assets {
         $args    = array_merge( $default, $args );
 
         foreach( $args['scripts'] as $handle => $script_args ) {
+
+            if ( ! empty( $script_args['enable'] ) && false === $script_args['enable'] ) {
+                continue;
+            }
+
             if (  ! ( ! empty( $script_args['group'] ) && $args['group'] === $script_args['group'] ) ) {
                 continue;
             }
@@ -213,7 +354,7 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'] ) . '.js';
+            $src  = $script_args['base_path'] . $script_args['file_name'] . '.js';
 
             wp_register_script( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['in_footer']);
         }
@@ -243,19 +384,25 @@ class ATBDP_Enqueue_Assets {
     /**
      * Get Script File Name
      *
-     * @param string $file_name
+     * @param array $args
      * @return $file_name
      */
-    public function get_script_file_name( string $file_name = '' ) {
+    public function get_script_file_name( array $args = [] ) {
+        $default = [ 'has_min' => true, 'has_rtl' => true ];
+        $args    = array_merge( $default, $args );
+
+        $file_name  = ( ! empty( $args['name'] ) ) ? $args['name'] : '';
+        $has_min    = ( ! empty( $args['has_min'] ) ) ? true : false;
+        $has_rtl    = ( ! empty( $args['has_rtl'] ) ) ? true : false;
         
         $load_min = true;
         $is_rtl   = false;
 
-        if ( $load_min ) {
+        if ( $has_min && $load_min ) {
             $file_name = "${$file_name}.min";
         }
 
-        if ( $is_rtl ) {
+        if ( $has_rtl && $is_rtl ) {
             $file_name = "${$file_name}.rtl";
         }
 
