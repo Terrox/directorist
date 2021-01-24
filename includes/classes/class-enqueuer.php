@@ -260,7 +260,7 @@ class ATBDP_Enqueuer {
         wp_register_script( 'atbdp_validator', ATBDP_PUBLIC_ASSETS . 'js/validator.min.js', array( 'jquery' ), ATBDP_VERSION, true );
         wp_register_script( 'atbdp_checkout_script', ATBDP_PUBLIC_ASSETS . 'js/checkout.js', array( 'jquery' ), ATBDP_VERSION, true );
         wp_register_script( 'atbdp_slick_slider', ATBDP_PUBLIC_ASSETS . 'js/slick.min.js', array( 'jquery' ), ATBDP_VERSION, true );
-        wp_register_script( 'adminmainassets', ATBDP_PUBLIC_ASSETS . 'js/main.js', array( 'jquery' ), ATBDP_VERSION, true );
+        // wp_register_script( 'adminmainassets', ATBDP_PUBLIC_ASSETS . 'js/main.js', array( 'jquery' ), ATBDP_VERSION, true );
         wp_register_script( 'loc_cat_assets', ATBDP_PUBLIC_ASSETS . 'js/loc_cat.js', array( 'jquery' ), ATBDP_VERSION, true );
         $modal_dependency = apply_filters( 'atbdp_modal_dependency', array( 'jquery' ) );
         wp_register_script( 'at_modal', ATBDP_PUBLIC_ASSETS . 'js/atmodal.js', $modal_dependency, ATBDP_VERSION, true );
@@ -363,7 +363,7 @@ class ATBDP_Enqueuer {
         if (  ( is_object( $post ) && ATBDP_POST_TYPE == $post->post_type ) || $force ) {
             wp_enqueue_style( 'sweetalertcss' );
             wp_enqueue_script( 'sweetalert' );
-            wp_enqueue_script( 'atbdp-public-script', ATBDP_PUBLIC_ASSETS . 'js/main.js', apply_filters( 'atbdp_front_script_dependency', $front_scripts_dependency ), ATBDP_VERSION, true );
+            // wp_enqueue_script( 'atbdp-public-script', ATBDP_PUBLIC_ASSETS . 'js/main.js', apply_filters( 'atbdp_front_script_dependency', $front_scripts_dependency ), ATBDP_VERSION, true );
 
             wp_localize_script( 'atbdp-public-script', 'atbdp_public_data', $data );
             wp_enqueue_style( 'wp-color-picker' );
