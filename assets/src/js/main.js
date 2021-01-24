@@ -691,7 +691,10 @@
         };
 
     })();
-    pureScriptTab('.atbd_tab');
+    
+    if($('.atbd_tab')){
+        pureScriptTab('.atbd_tab');
+    }
     pureScriptTab('.directorist_userDashboard-tab');
     pureScriptTabChild('.atbdp-bookings-tab');
     pureScriptTabChild2('.atbdp-bookings-tab-inner');
