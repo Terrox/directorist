@@ -297,7 +297,7 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'], $script_args ) . '.css';
+            $src = $script_args['base_path'] . $this->get_script_file_name( $script_args ) . '.css';
 
             wp_register_style( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['media']);
         }
@@ -354,7 +354,9 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $script_args['file_name'] . '.js';
+            $script_args['has_rtl'] = false;
+
+            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args ) . '.js';
 
             wp_register_script( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['in_footer']);
         }
@@ -391,7 +393,7 @@ class ATBDP_Enqueue_Assets {
         $default = [ 'has_min' => true, 'has_rtl' => true ];
         $args    = array_merge( $default, $args );
 
-        $file_name  = ( ! empty( $args['name'] ) ) ? $args['name'] : '';
+        $file_name  = ( ! empty( $args['file_name'] ) ) ? $args['file_name'] : '';
         $has_min    = ( ! empty( $args['has_min'] ) ) ? true : false;
         $has_rtl    = ( ! empty( $args['has_rtl'] ) ) ? true : false;
         
@@ -399,11 +401,11 @@ class ATBDP_Enqueue_Assets {
         $is_rtl   = false;
 
         if ( $has_min && $load_min ) {
-            $file_name = "${$file_name}.min";
+            $file_name = "{$file_name}.min";
         }
 
         if ( $has_rtl && $is_rtl ) {
-            $file_name = "${$file_name}.rtl";
+            $file_name = "{$file_name}.rtl";
         }
 
         return $file_name;
