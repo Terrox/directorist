@@ -39,6 +39,8 @@ class ATBDP_Enqueue_Assets {
             'ver'       => false,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
+            'has_min'   => true,
+            'has_rtl'   => true,
         ];
 
         // Admin Group
@@ -73,6 +75,7 @@ class ATBDP_Enqueue_Assets {
             'ver'       => false,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
+            'enable'    => true,
         ];
 
         // Admin Group
@@ -148,6 +151,11 @@ class ATBDP_Enqueue_Assets {
         $args    = array_merge( $default, $args );
 
         foreach( $args['scripts'] as $handle => $script_args ) {
+
+            if ( ! empty( $script_args['enable'] ) && false === $script_args['enable'] ) {
+                continue;
+            }
+
             if (  ! ( ! empty( $script_args['group'] ) && $args['group'] === $script_args['group'] ) ) {
                 continue;
             }
@@ -161,7 +169,7 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'] ) . '.css';
+            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'], $script_args ) . '.css';
 
             wp_register_style( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['media']);
         }
@@ -200,6 +208,11 @@ class ATBDP_Enqueue_Assets {
         $args    = array_merge( $default, $args );
 
         foreach( $args['scripts'] as $handle => $script_args ) {
+            
+            if ( ! empty( $script_args['enable'] ) && false === $script_args['enable'] ) {
+                continue;
+            }
+
             if (  ! ( ! empty( $script_args['group'] ) && $args['group'] === $script_args['group'] ) ) {
                 continue;
             }
@@ -243,19 +256,25 @@ class ATBDP_Enqueue_Assets {
     /**
      * Get Script File Name
      *
-     * @param string $file_name
+     * @param array $args
      * @return $file_name
      */
-    public function get_script_file_name( string $file_name = '' ) {
+    public function get_script_file_name( array $args = [] ) {
+        $default = [ 'has_min' => true, 'has_rtl' => true ];
+        $args    = array_merge( $default, $args );
+
+        $file_name  = ( ! empty( $args['name'] ) ) ? $args['name'] : '';
+        $has_min    = ( ! empty( $args['has_min'] ) ) ? true : false;
+        $has_rtl    = ( ! empty( $args['has_rtl'] ) ) ? true : false;
         
         $load_min = true;
         $is_rtl   = false;
 
-        if ( $load_min ) {
+        if ( $has_min && $load_min ) {
             $file_name = "${$file_name}.min";
         }
 
-        if ( $is_rtl ) {
+        if ( $has_rtl && $is_rtl ) {
             $file_name = "${$file_name}.rtl";
         }
 
