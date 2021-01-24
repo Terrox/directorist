@@ -5,6 +5,8 @@
     Author URI: www.aazztech.com
 */
 /* eslint-disable */
+
+
 ;(function ($) {
     $('.atbdp_sorting_item').click( function() {
         var href = $(this).attr('data');
