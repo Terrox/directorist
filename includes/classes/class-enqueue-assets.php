@@ -213,7 +213,7 @@ class ATBDP_Enqueue_Assets {
             ];
 
             $script_args = array_merge( $default, $script_args );
-            $src  = $script_args['base_path'] . $this->get_script_file_name( $script_args['file_name'] ) . '.js';
+            $src  = $script_args['base_path'] . $script_args['file_name'] . '.js';
 
             wp_register_script( $handle, $src, $script_args['deps'], $script_args['ver'], $script_args['in_footer']);
         }
