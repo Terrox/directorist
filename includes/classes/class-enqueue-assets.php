@@ -452,7 +452,7 @@ class Enqueue_Assets {
             $ver  = ( isset( $script_args['ver'] ) && is_string( $script_args['ver'] ) ) ? $script_args['ver'] : '';
 
             if ( isset( $asset_source['dependencies'] ) ) {
-                $deps = array_merge( $deps, $asset_source['dependencies'] );
+                $deps = array_unique( array_merge( $deps, $asset_source['dependencies'] ) );
             }
 
             if ( isset( $asset_source['version'] ) ) {
