@@ -6,17 +6,9 @@
 */
 /* eslint-disable */
 
+import './components/itemSorting';
 
 ;(function ($) {
-    $('.atbdp_sorting_item').click( function() {
-        var href = $(this).attr('data');
-        $('#atbdp_sort').attr('action', href);
-        $('#atbdp_sort').submit();
-    });
-    //sorting toggle
-    $('.sorting span').on('click', function () {
-        $(this).toggleClass('fa-sort-amount-asc fa-sort-amount-desc');
-    });
 
     /* Externel Library init
      ------------------------*/
@@ -107,17 +99,17 @@
         var $data = $form.serialize();
 
         var field_field_map = [
-      { type: 'name', field_key: 'post_id' },
-      { type: 'id', field_key: '#atbdp_review_nonce_form' },
-      { type: 'id', field_key: '#guest_user_email' },
-      { type: 'id', field_key: '#reviewer_name' },
-      { type: 'id', field_key: '#review_content' },
-      { type: 'id', field_key: '#review_rating' },
-      { type: 'id', field_key: '#review_duplicate' },
-    ];
+            { type: 'name', field_key: 'post_id' },
+            { type: 'id', field_key: '#atbdp_review_nonce_form' },
+            { type: 'id', field_key: '#guest_user_email' },
+            { type: 'id', field_key: '#reviewer_name' },
+            { type: 'id', field_key: '#review_content' },
+            { type: 'id', field_key: '#review_rating' },
+            { type: 'id', field_key: '#review_duplicate' },
+        ];
 
-    var _data = { action: 'save_listing_review' };
-    _data = prepear_form_data( $form, field_field_map, _data );
+        var _data = { action: 'save_listing_review' };
+        _data = prepear_form_data( $form, field_field_map, _data );
 
         // atbdp_do_ajax($form, 'save_listing_review', _data, function (response) {
 
@@ -580,126 +572,125 @@
 
 
     });
-
     /*
         Plugin: PureScriptTab
         Version: 1.0.0
         License: MIT
     */
-    (function () {
-        pureScriptTab = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.atbd_tn_link');
+    // (function () {
+    //     pureScriptTab = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.atbd_tn_link');
 
 
-                a.forEach((element, index) => {
+    //             a.forEach((element, index) => {
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
 
-                        var ul = event.target.closest('.atbd_tab_nav'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.atbd_tn_link'),
-                            section = main.querySelectorAll('.atbd_tab_inner');
+    //                     var ul = event.target.closest('.atbd_tab_nav'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.atbd_tn_link'),
+    //                         section = main.querySelectorAll('.atbd_tab_inner');
 
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('tabItemActive');
-                        });
-                        event.target.classList.add('tabItemActive');
-
-
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('tabContentActive');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('tabContentActive');
-                    });
-                });
-            });
-        };
-
-        pureScriptTabChild = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.pst_tn_link');
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('tabItemActive');
+    //                     });
+    //                     event.target.classList.add('tabItemActive');
 
 
-                a.forEach((element, index) => {
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('tabContentActive');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('tabContentActive');
+    //                 });
+    //             });
+    //         });
+    //     };
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var ul = event.target.closest('.pst_tab_nav'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.pst_tn_link'),
-                            section = main.querySelectorAll('.pst_tab_inner');
-
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('pstItemActive');
-                        });
-                        event.target.classList.add('pstItemActive');
-
-
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('pstContentActive');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('pstContentActive');
-                    });
-                });
-            });
-        };
-
-        pureScriptTabChild2 = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.pst_tn_link-2');
+    //     pureScriptTabChild = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.pst_tn_link');
 
 
-                a.forEach((element, index) => {
+    //             a.forEach((element, index) => {
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
 
-                        var ul = event.target.closest('.pst_tab_nav-2'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.pst_tn_link-2'),
-                            section = main.querySelectorAll('.pst_tab_inner-2');
+    //                     var ul = event.target.closest('.pst_tab_nav'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.pst_tn_link'),
+    //                         section = main.querySelectorAll('.pst_tab_inner');
 
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('pstItemActive2');
-                        });
-                        event.target.classList.add('pstItemActive2');
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('pstItemActive');
+    //                     });
+    //                     event.target.classList.add('pstItemActive');
 
 
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('pstContentActive2');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('pstContentActive2');
-                    });
-                });
-            });
-        };
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('pstContentActive');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('pstContentActive');
+    //                 });
+    //             });
+    //         });
+    //     };
 
-    })();
+    //     pureScriptTabChild2 = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.pst_tn_link-2');
+
+
+    //             a.forEach((element, index) => {
+
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
+
+    //                     var ul = event.target.closest('.pst_tab_nav-2'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.pst_tn_link-2'),
+    //                         section = main.querySelectorAll('.pst_tab_inner-2');
+
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('pstItemActive2');
+    //                     });
+    //                     event.target.classList.add('pstItemActive2');
+
+
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('pstContentActive2');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('pstContentActive2');
+    //                 });
+    //             });
+    //         });
+    //     };
+
+    // })();
     
-    if($('.atbd_tab')){
-        pureScriptTab('.atbd_tab');
-    }
-    pureScriptTab('.directorist_userDashboard-tab');
-    pureScriptTabChild('.atbdp-bookings-tab');
-    pureScriptTabChild2('.atbdp-bookings-tab-inner');
+    // if($('.atbd_tab')){
+    //     pureScriptTab('.atbd_tab');
+    // }
+    // pureScriptTab('.directorist_userDashboard-tab');
+    // pureScriptTabChild('.atbdp-bookings-tab');
+    // pureScriptTabChild2('.atbdp-bookings-tab-inner');
 
 
     // Validate forms

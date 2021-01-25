@@ -86,6 +86,30 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/src/js/components/itemSorting.js":
+/*!*************************************************!*\
+  !*** ./assets/src/js/components/itemSorting.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+;
+
+(function ($) {
+  // Sorting Js 
+  $('.atbdp_sorting_item').click(function () {
+    var href = $(this).attr('data');
+    $('#atbdp_sort').attr('action', href);
+    $('#atbdp_sort').submit();
+  }); //sorting toggle
+
+  $('.sorting span').on('click', function () {
+    $(this).toggleClass('fa-sort-amount-asc fa-sort-amount-desc');
+  });
+})(jQuery);
+
+/***/ }),
+
 /***/ "./assets/src/js/main.js":
 /*!*******************************!*\
   !*** ./assets/src/js/main.js ***!
@@ -97,6 +121,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
 /* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/itemSorting */ "./assets/src/js/components/itemSorting.js");
+/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_itemSorting__WEBPACK_IMPORTED_MODULE_1__);
 
 
 /*
@@ -107,22 +133,13 @@ __webpack_require__.r(__webpack_exports__);
 */
 
 /* eslint-disable */
+
 ;
 
 (function ($) {
-  $('.atbdp_sorting_item').click(function () {
-    var href = $(this).attr('data');
-    $('#atbdp_sort').attr('action', href);
-    $('#atbdp_sort').submit();
-  }); //sorting toggle
-
-  $('.sorting span').on('click', function () {
-    $(this).toggleClass('fa-sort-amount-asc fa-sort-amount-desc');
-  });
   /* Externel Library init
    ------------------------*/
   //Star rating
-
   if ($('.stars').length) {
     $(".stars").barrating({
       theme: 'fontawesome-stars'
@@ -680,97 +697,96 @@ __webpack_require__.r(__webpack_exports__);
       Version: 1.0.0
       License: MIT
   */
-
-  (function () {
-    pureScriptTab = function pureScriptTab(selector1) {
-      var selector = document.querySelectorAll(selector1);
-      selector.forEach(function (el, index) {
-        a = el.querySelectorAll('.atbd_tn_link');
-        a.forEach(function (element, index) {
-          element.style.cursor = 'pointer';
-          element.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var ul = event.target.closest('.atbd_tab_nav'),
-                main = ul.nextElementSibling,
-                item_a = ul.querySelectorAll('.atbd_tn_link'),
-                section = main.querySelectorAll('.atbd_tab_inner');
-            item_a.forEach(function (ela, ind) {
-              ela.classList.remove('tabItemActive');
-            });
-            event.target.classList.add('tabItemActive');
-            section.forEach(function (element1, index) {
-              //console.log(element1);
-              element1.classList.remove('tabContentActive');
-            });
-            var target = event.target.target;
-            document.getElementById(target).classList.add('tabContentActive');
-          });
-        });
-      });
-    };
-
-    pureScriptTabChild = function pureScriptTabChild(selector1) {
-      var selector = document.querySelectorAll(selector1);
-      selector.forEach(function (el, index) {
-        a = el.querySelectorAll('.pst_tn_link');
-        a.forEach(function (element, index) {
-          element.style.cursor = 'pointer';
-          element.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var ul = event.target.closest('.pst_tab_nav'),
-                main = ul.nextElementSibling,
-                item_a = ul.querySelectorAll('.pst_tn_link'),
-                section = main.querySelectorAll('.pst_tab_inner');
-            item_a.forEach(function (ela, ind) {
-              ela.classList.remove('pstItemActive');
-            });
-            event.target.classList.add('pstItemActive');
-            section.forEach(function (element1, index) {
-              //console.log(element1);
-              element1.classList.remove('pstContentActive');
-            });
-            var target = event.target.target;
-            document.getElementById(target).classList.add('pstContentActive');
-          });
-        });
-      });
-    };
-
-    pureScriptTabChild2 = function pureScriptTabChild2(selector1) {
-      var selector = document.querySelectorAll(selector1);
-      selector.forEach(function (el, index) {
-        a = el.querySelectorAll('.pst_tn_link-2');
-        a.forEach(function (element, index) {
-          element.style.cursor = 'pointer';
-          element.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var ul = event.target.closest('.pst_tab_nav-2'),
-                main = ul.nextElementSibling,
-                item_a = ul.querySelectorAll('.pst_tn_link-2'),
-                section = main.querySelectorAll('.pst_tab_inner-2');
-            item_a.forEach(function (ela, ind) {
-              ela.classList.remove('pstItemActive2');
-            });
-            event.target.classList.add('pstItemActive2');
-            section.forEach(function (element1, index) {
-              //console.log(element1);
-              element1.classList.remove('pstContentActive2');
-            });
-            var target = event.target.target;
-            document.getElementById(target).classList.add('pstContentActive2');
-          });
-        });
-      });
-    };
-  })();
-
-  pureScriptTab('.atbd_tab');
-  pureScriptTab('.directorist_userDashboard-tab');
-  pureScriptTabChild('.atbdp-bookings-tab');
-  pureScriptTabChild2('.atbdp-bookings-tab-inner'); // Validate forms
+  // (function () {
+  //     pureScriptTab = (selector1) => {
+  //         var selector = document.querySelectorAll(selector1);
+  //         selector.forEach((el, index) => {
+  //             a = el.querySelectorAll('.atbd_tn_link');
+  //             a.forEach((element, index) => {
+  //                 element.style.cursor = 'pointer';
+  //                 element.addEventListener('click', (event) => {
+  //                     event.preventDefault();
+  //                     event.stopPropagation();
+  //                     var ul = event.target.closest('.atbd_tab_nav'),
+  //                         main = ul.nextElementSibling,
+  //                         item_a = ul.querySelectorAll('.atbd_tn_link'),
+  //                         section = main.querySelectorAll('.atbd_tab_inner');
+  //                     item_a.forEach((ela, ind) => {
+  //                         ela.classList.remove('tabItemActive');
+  //                     });
+  //                     event.target.classList.add('tabItemActive');
+  //                     section.forEach((element1, index) => {
+  //                         //console.log(element1);
+  //                         element1.classList.remove('tabContentActive');
+  //                     });
+  //                     var target = event.target.target;
+  //                     document.getElementById(target).classList.add('tabContentActive');
+  //                 });
+  //             });
+  //         });
+  //     };
+  //     pureScriptTabChild = (selector1) => {
+  //         var selector = document.querySelectorAll(selector1);
+  //         selector.forEach((el, index) => {
+  //             a = el.querySelectorAll('.pst_tn_link');
+  //             a.forEach((element, index) => {
+  //                 element.style.cursor = 'pointer';
+  //                 element.addEventListener('click', (event) => {
+  //                     event.preventDefault();
+  //                     event.stopPropagation();
+  //                     var ul = event.target.closest('.pst_tab_nav'),
+  //                         main = ul.nextElementSibling,
+  //                         item_a = ul.querySelectorAll('.pst_tn_link'),
+  //                         section = main.querySelectorAll('.pst_tab_inner');
+  //                     item_a.forEach((ela, ind) => {
+  //                         ela.classList.remove('pstItemActive');
+  //                     });
+  //                     event.target.classList.add('pstItemActive');
+  //                     section.forEach((element1, index) => {
+  //                         //console.log(element1);
+  //                         element1.classList.remove('pstContentActive');
+  //                     });
+  //                     var target = event.target.target;
+  //                     document.getElementById(target).classList.add('pstContentActive');
+  //                 });
+  //             });
+  //         });
+  //     };
+  //     pureScriptTabChild2 = (selector1) => {
+  //         var selector = document.querySelectorAll(selector1);
+  //         selector.forEach((el, index) => {
+  //             a = el.querySelectorAll('.pst_tn_link-2');
+  //             a.forEach((element, index) => {
+  //                 element.style.cursor = 'pointer';
+  //                 element.addEventListener('click', (event) => {
+  //                     event.preventDefault();
+  //                     event.stopPropagation();
+  //                     var ul = event.target.closest('.pst_tab_nav-2'),
+  //                         main = ul.nextElementSibling,
+  //                         item_a = ul.querySelectorAll('.pst_tn_link-2'),
+  //                         section = main.querySelectorAll('.pst_tab_inner-2');
+  //                     item_a.forEach((ela, ind) => {
+  //                         ela.classList.remove('pstItemActive2');
+  //                     });
+  //                     event.target.classList.add('pstItemActive2');
+  //                     section.forEach((element1, index) => {
+  //                         //console.log(element1);
+  //                         element1.classList.remove('pstContentActive2');
+  //                     });
+  //                     var target = event.target.target;
+  //                     document.getElementById(target).classList.add('pstContentActive2');
+  //                 });
+  //             });
+  //         });
+  //     };
+  // })();
+  // if($('.atbd_tab')){
+  //     pureScriptTab('.atbd_tab');
+  // }
+  // pureScriptTab('.directorist_userDashboard-tab');
+  // pureScriptTabChild('.atbdp-bookings-tab');
+  // pureScriptTabChild2('.atbdp-bookings-tab-inner');
+  // Validate forms
 
   if ($.fn.validator) {
     // Validate report abuse form
