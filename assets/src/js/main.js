@@ -6,6 +6,7 @@
 */
 /* eslint-disable */
 
+import './../scss/layout/public/main-style.scss';
 import './components/itemSorting';
 
 ;(function ($) {

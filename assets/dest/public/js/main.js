@@ -121,8 +121,10 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
 /* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/itemSorting */ "./assets/src/js/components/itemSorting.js");
-/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_itemSorting__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../scss/layout/public/main-style.scss */ "./assets/src/scss/layout/public/main-style.scss");
+/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/itemSorting */ "./assets/src/js/components/itemSorting.js");
+/* harmony import */ var _components_itemSorting__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_itemSorting__WEBPACK_IMPORTED_MODULE_2__);
 
 
 /*
@@ -133,6 +135,7 @@ __webpack_require__.r(__webpack_exports__);
 */
 
 /* eslint-disable */
+
 
 ;
 
@@ -1374,6 +1377,17 @@ var fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
 if (flatWrapper != null && fAvailableTime != null) {
   flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
 }
+
+/***/ }),
+
+/***/ "./assets/src/scss/layout/public/main-style.scss":
+/*!*******************************************************!*\
+  !*** ./assets/src/scss/layout/public/main-style.scss ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
