@@ -51,8 +51,6 @@ class Enqueue_Assets {
         // Inject Scripts Meta
         $this->inject_scripts_meta();
 
-        atbdp_console_log( $this->js_scripts );
-
         // Apply Hook to Scripts
         $this->apply_hook_to_scripts();
     }
