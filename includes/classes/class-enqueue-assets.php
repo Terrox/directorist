@@ -4,6 +4,7 @@ class Enqueue_Assets {
 
     public $js_scripts  = [];
     public $css_scripts = [];
+    public $script_version = false;
 
     /**
      * Constuctor
@@ -28,6 +29,9 @@ class Enqueue_Assets {
      * @return void
      */
     public function load_assets() {
+
+        $this->script_version = apply_filters( 'directorist_script_version', ATBDP_VERSION );
+
         // Load Vendor Assets
         $this->add_vendor_css_scripts();
         $this->add_vendor_js_scripts();
@@ -76,7 +80,7 @@ class Enqueue_Assets {
         //     'file_name' => 'main-style',
         //     'base_path' => DIRECTORIST_PUBLIC_CSS,
         //     'deps'      => [],
-        //     'ver'       => false,
+        //     'ver'       => $this->script_version,
         //     'group'     => 'public', // public || admin  || global
         //     'section'   => '',
         // ];
@@ -98,7 +102,7 @@ class Enqueue_Assets {
         //     'file_name' => 'main',
         //     'base_path' => DIRECTORIST_PUBLIC_JS,
         //     'deps'      => [],
-        //     'ver'       => false,
+        //     'ver'       => $this->script_version,
         //     'group'     => 'public', // public || admin  || global
         //     'section'   => '',
         //     'enable'    => true,
@@ -121,7 +125,7 @@ class Enqueue_Assets {
             'file_name' => 'main-style',
             'base_path' => DIRECTORIST_PUBLIC_CSS,
             'deps'      => [],
-            'ver'       => false,
+            'ver'       => $this->script_version,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
         ];
@@ -143,7 +147,7 @@ class Enqueue_Assets {
             'file_name' => 'main',
             'base_path' => DIRECTORIST_PUBLIC_JS,
             'deps'      => [],
-            'ver'       => false,
+            'ver'       => $this->script_version,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
             'enable'    => true,
@@ -165,7 +169,7 @@ class Enqueue_Assets {
             'file_name' => 'admin-style',
             'base_path' => DIRECTORIST_ADMIN_CSS,
             'deps'      => [],
-            'ver'       => false,
+            'ver'       => $this->script_version,
             'group'     => 'admin',
             'section'   => '',
         ];
@@ -187,7 +191,7 @@ class Enqueue_Assets {
             'file_name' => 'admin',
             'base_path' => DIRECTORIST_ADMIN_JS,
             'deps'      => [],
-            'ver'       => false,
+            'ver'       => $this->script_version,
             'group'     => 'admin',
             'section'   => '',
         ];
@@ -208,7 +212,7 @@ class Enqueue_Assets {
         //     'file_name' => 'admin-style',
         //     'base_path' => DIRECTORIST_ADMIN_CSS,
         //     'deps'      => [],
-        //     'ver'       => false,
+        //     'ver'       => $this->script_version,
         //     'group'     => 'admin',
         //     'section'   => '',
         // ];
@@ -230,7 +234,7 @@ class Enqueue_Assets {
         //     'file_name' => 'admin',
         //     'base_path' => DIRECTORIST_ADMIN_JS,
         //     'deps'      => [],
-        //     'ver'       => false,
+        //     'ver'       => $this->script_version,
         //     'group'     => 'admin',
         //     'section'   => '',
         // ];
