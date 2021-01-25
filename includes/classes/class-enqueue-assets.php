@@ -436,7 +436,6 @@ class Enqueue_Assets {
      */
     public function inject_scripts_meta() {
         // Add js script meta
-
         foreach( $this->js_scripts as $handle => $script_args ) {
             // Inject WP dependency meta
             if (  empty( $script_args['file_name'] ) ||  empty( $script_args['group'] ) ) {
