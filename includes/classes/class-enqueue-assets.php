@@ -213,7 +213,7 @@ class Enqueue_Assets {
         //     'base_path' => DIRECTORIST_ADMIN_CSS,
         //     'deps'      => [],
         //     'ver'       => $this->script_version,
-        //     'group'     => 'admin',
+        //     'group'     => 'global',
         //     'section'   => '',
         // ];
 
@@ -235,7 +235,7 @@ class Enqueue_Assets {
         //     'base_path' => DIRECTORIST_ADMIN_JS,
         //     'deps'      => [],
         //     'ver'       => $this->script_version,
-        //     'group'     => 'admin',
+        //     'group'     => 'global',
         //     'section'   => '',
         // ];
 
