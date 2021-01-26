@@ -140,9 +140,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 (function ($) {
+  console.log('ere');
   /* Externel Library init
    ------------------------*/
   //Star rating
+
   if ($('.stars').length) {
     $(".stars").barrating({
       theme: 'fontawesome-stars'

@@ -10,7 +10,7 @@ import './../scss/layout/public/main-style.scss';
 import './components/itemSorting';
 
 ;(function ($) {
-
+    console.log('ere')
     /* Externel Library init
      ------------------------*/
     //Star rating
