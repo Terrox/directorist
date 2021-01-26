@@ -110,9 +110,7 @@ const publicConfig = {
     ['checkout']: ["./assets/src/js/checkout.js"],
     
     // CSS
-    ['main-style']: ["./assets/src/scss/layout/public/main-style.scss"],
     ['search-style']: ["./assets/src/scss/layout/public/search-style.scss"],
-    ['atmodal']: ["./assets/src/scss/layout/public/atmodal.scss"],
     ['openstreet-map']: ["./assets/src/scss/component/openstreet-map/index.scss"],
   },
 

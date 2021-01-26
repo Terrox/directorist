@@ -5,6 +5,9 @@
 		Author URI: http://aazztech.com
 	*/
 /* disable-eslint */
+
+import './../../scss/component/atmodal.scss';
+
 const aazztechModal1 = selector => {
         const element = document.querySelectorAll(selector);
 
