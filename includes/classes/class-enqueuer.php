@@ -209,7 +209,7 @@ class ATBDP_Enqueuer {
         wp_register_style( 'slickcss', ATBDP_PUBLIC_ASSETS . 'css/slick.css', false, ATBDP_VERSION );
         wp_register_style( 'atmodal', ATBDP_PUBLIC_ASSETS . 'css/atmodal.css', false, ATBDP_VERSION );
         wp_register_style( 'atbd_googlefonts', '//fonts.googleapis.com/css?family=Roboto:400,500', false, ATBDP_VERSION );
-        wp_register_style( 'atbdp-style', ATBDP_PUBLIC_ASSETS . 'css/style.css', array( 'atbdp-font-awesome', 'atbdp-line-awesome' ), ATBDP_VERSION );
+        // wp_register_style( 'atbdp-style', ATBDP_PUBLIC_ASSETS . 'css/style.css', array( 'atbdp-font-awesome', 'atbdp-line-awesome' ), ATBDP_VERSION );
         if ( is_rtl() ) {
             wp_register_style( 'atbdp-media-uploader-style-rtl', ATBDP_PUBLIC_ASSETS . 'css/ez-media-uploader-rtl.css', array( 'atbdp-font-awesome', 'atbdp-line-awesome' ), ATBDP_VERSION );
         } else {
