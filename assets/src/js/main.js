@@ -8,9 +8,18 @@
 
 import './../scss/layout/public/main-style.scss';
 import './components/itemSorting';
+import './components/atbdModal';
+// Dashboard Js
+import './components/dashboard/dashboardSidebar';
+import './components/dashboard/dashboardTab';
+import './components/dashboard/dashBoardMoreBtn';
+import './components/dashboard/dashboardPagination';
+import './components/dashboard/dashboardSearch';
+import './components/dashboard/dashboardListing';
+import './components/dashboard/dashboardResponsive';
+import './components/dashboard/dashboardAnnouncement';
 
 ;(function ($) {
-    console.log('ere')
     /* Externel Library init
      ------------------------*/
     //Star rating
@@ -55,32 +64,32 @@ import './components/itemSorting';
     });
 
     // 	prepear_form_data
-  function prepear_form_data ( form, field_map, data ) {
-    if ( ! data || typeof data !== 'object' ) {
-      var data = {};
+    function prepear_form_data ( form, field_map, data ) {
+        if ( ! data || typeof data !== 'object' ) {
+        var data = {};
+        }
+
+        for ( var key in field_map) {
+        var field_item = field_map[ key ];
+        var field_key = field_item.field_key;
+        var field_type = field_item.type;
+
+        if ( 'name' === field_type ) {
+            var field = form.find( '[name="'+ field_key +'"]' );
+        } else {
+            var field = form.find( field_key );
+        }
+
+        if ( field.length ) {
+            var data_key = ( 'name' === field_type ) ? field_key : field.attr('name') ;
+            var data_value = ( field.val() ) ? field.val() : '';
+
+            data[data_key] = data_value;
+        }
+        }
+
+        return data;
     }
-
-    for ( var key in field_map) {
-      var field_item = field_map[ key ];
-      var field_key = field_item.field_key;
-      var field_type = field_item.type;
-
-      if ( 'name' === field_type ) {
-        var field = form.find( '[name="'+ field_key +'"]' );
-      } else {
-        var field = form.find( field_key );
-      }
-
-      if ( field.length ) {
-        var data_key = ( 'name' === field_type ) ? field_key : field.attr('name') ;
-        var data_value = ( field.val() ) ? field.val() : '';
-
-        data[data_key] = data_value;
-      }
-    }
-
-    return data;
-  }
 
     /* Add review to the database using ajax*/
     var submit_count = 1;
@@ -578,120 +587,118 @@ import './components/itemSorting';
         Version: 1.0.0
         License: MIT
     */
-    (function () {
-        pureScriptTab = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.atbd_tn_link');
+    // (function () {
+    //     pureScriptTab = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.atbd_tn_link');
 
 
-                a.forEach((element, index) => {
+    //             a.forEach((element, index) => {
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
 
-                        var ul = event.target.closest('.atbd_tab_nav'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.atbd_tn_link'),
-                            section = main.querySelectorAll('.atbd_tab_inner');
+    //                     var ul = event.target.closest('.atbd_tab_nav'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.atbd_tn_link'),
+    //                         section = main.querySelectorAll('.atbd_tab_inner');
 
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('tabItemActive');
-                        });
-                        event.target.classList.add('tabItemActive');
-
-
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('tabContentActive');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('tabContentActive');
-                    });
-                });
-            });
-        };
-
-        pureScriptTabChild = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.pst_tn_link');
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('tabItemActive');
+    //                     });
+    //                     event.target.classList.add('tabItemActive');
 
 
-                a.forEach((element, index) => {
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('tabContentActive');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('tabContentActive');
+    //                 });
+    //             });
+    //         });
+    //     };
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var ul = event.target.closest('.pst_tab_nav'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.pst_tn_link'),
-                            section = main.querySelectorAll('.pst_tab_inner');
-
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('pstItemActive');
-                        });
-                        event.target.classList.add('pstItemActive');
-
-
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('pstContentActive');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('pstContentActive');
-                    });
-                });
-            });
-        };
-
-        pureScriptTabChild2 = (selector1) => {
-            var selector = document.querySelectorAll(selector1);
-            selector.forEach((el, index) => {
-                a = el.querySelectorAll('.pst_tn_link-2');
+    //     pureScriptTabChild = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.pst_tn_link');
 
 
-                a.forEach((element, index) => {
+    //             a.forEach((element, index) => {
 
-                    element.style.cursor = 'pointer';
-                    element.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
 
-                        var ul = event.target.closest('.pst_tab_nav-2'),
-                            main = ul.nextElementSibling,
-                            item_a = ul.querySelectorAll('.pst_tn_link-2'),
-                            section = main.querySelectorAll('.pst_tab_inner-2');
+    //                     var ul = event.target.closest('.pst_tab_nav'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.pst_tn_link'),
+    //                         section = main.querySelectorAll('.pst_tab_inner');
 
-                        item_a.forEach((ela, ind) => {
-                            ela.classList.remove('pstItemActive2');
-                        });
-                        event.target.classList.add('pstItemActive2');
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('pstItemActive');
+    //                     });
+    //                     event.target.classList.add('pstItemActive');
 
 
-                        section.forEach((element1, index) => {
-                            //console.log(element1);
-                            element1.classList.remove('pstContentActive2');
-                        });
-                        var target = event.target.target;
-                        document.getElementById(target).classList.add('pstContentActive2');
-                    });
-                });
-            });
-        };
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('pstContentActive');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('pstContentActive');
+    //                 });
+    //             });
+    //         });
+    //     };
 
-    })();
-    
-    if($('.atbd_tab')){
-        pureScriptTab('.atbd_tab');
-    }
-    pureScriptTab('.directorist_userDashboard-tab');
-    pureScriptTabChild('.atbdp-bookings-tab');
-    pureScriptTabChild2('.atbdp-bookings-tab-inner');
+    //     pureScriptTabChild2 = (selector1) => {
+    //         var selector = document.querySelectorAll(selector1);
+    //         selector.forEach((el, index) => {
+    //             a = el.querySelectorAll('.pst_tn_link-2');
+
+
+    //             a.forEach((element, index) => {
+
+    //                 element.style.cursor = 'pointer';
+    //                 element.addEventListener('click', (event) => {
+    //                     event.preventDefault();
+    //                     event.stopPropagation();
+
+    //                     var ul = event.target.closest('.pst_tab_nav-2'),
+    //                         main = ul.nextElementSibling,
+    //                         item_a = ul.querySelectorAll('.pst_tn_link-2'),
+    //                         section = main.querySelectorAll('.pst_tab_inner-2');
+
+    //                     item_a.forEach((ela, ind) => {
+    //                         ela.classList.remove('pstItemActive2');
+    //                     });
+    //                     event.target.classList.add('pstItemActive2');
+
+
+    //                     section.forEach((element1, index) => {
+    //                         //console.log(element1);
+    //                         element1.classList.remove('pstContentActive2');
+    //                     });
+    //                     var target = event.target.target;
+    //                     document.getElementById(target).classList.add('pstContentActive2');
+    //                 });
+    //             });
+    //         });
+    //     };
+    //     if($('.atbd_tab')){
+    //         pureScriptTab('.atbd_tab');
+    //     }
+    //     pureScriptTab('.directorist_userDashboard-tab');
+    //     pureScriptTabChild('.atbdp-bookings-tab');
+    //     pureScriptTabChild2('.atbdp-bookings-tab-inner');
+    // })();
 
 
     // Validate forms
@@ -860,38 +867,6 @@ import './components/itemSorting';
     }
     atbdp_tooltip();
 
-    // User Dashboard Table More Button
-    $('.directorist-dashboard-listings-tbody').on("click", '.directorist_btn-more', function(e){
-        e.preventDefault();
-        $(this).toggleClass('active');
-        $(".directorist_dropdown-menu").removeClass("active");
-        // $(this).siblings(".directorist_dropdown-menu").removeClass("active");
-        $(this).next(".directorist_dropdown-menu").toggleClass("active");
-        e.stopPropagation();
-    });
-
-    $(document).bind("click", function (e) {
-        console.log($(e.target).parents().hasClass('directorist_dropdown-menu__list'))
-        if(!$(e.target).parents().hasClass('directorist_dropdown-menu__list')){
-            $(".directorist_dropdown-menu").removeClass("active");
-            $(".directorist_btn-more").removeClass("active");
-        }
-    });
-
-    /* User Dashboard tab */
-    $(function () {
-        var hash = window.location.hash;
-        var selectedTab = $('.navbar .menu li a [target= "' + hash + '"]');
-    });
-
-
-    // store the currently selected tab in the hash value
-    $("ul.atbd-dashboard-nav > li > a.atbd_tn_link").on("click", function (e) {
-        var id = $(e.target).attr("target").substr();
-        window.location.hash = "#active_" + id;
-        e.stopPropagation();
-    });
-
     /* $(window).on("load", function () {
         UIkit.grid(".data-uk-masonry");
     }); */
@@ -954,263 +929,11 @@ import './components/itemSorting';
         $("body").addClass("atbd_post_draft");
     }
 
-    //atbd_dropdown
-    $(".atbd_dropdown").on("click", function (e) {
-        if ($(this).attr("class") === "atbd_dropdown") {
-            e.preventDefault();
-            $(this).siblings(".atbd_dropdown").removeClass("atbd_drop--active");
-            $(this).toggleClass("atbd_drop--active");
-            e.stopPropagation();
-        }
-    });
-    $(document).on("click", function (e) {
-        if ($(e.target).is(".atbd_dropdown, .atbd_drop--active") === false) {
-            $(".atbd_dropdown").removeClass("atbd_drop--active");
-        }
-    });
-    $(".atbd_dropdown-toggle").on("click", function (e) {
-        e.preventDefault();
-    });
-
     //
     $('.atbd_listing_no_image .atbd_lower_badge').each(function(i, elm){
         if( !$.trim( $(elm).html() ).length ) {
             $(this).addClass('atbd-no-spacing');
         }
-    });
-
-    //dashboard sidebar nav toggler
-    $(".atbd-dashboard-nav-toggler").on("click", function(e){
-        e.preventDefault();
-        $(".atbd_user_dashboard_nav").toggleClass("atbd-dashboard-nav-collapsed");
-    });
-    if($(window).innerWidth() < 767){
-      $(".atbd_user_dashboard_nav").addClass("atbd-dashboard-nav-collapsed");
-      $(".atbd_user_dashboard_nav").addClass("atbd-dashboard-nav-collapsed--fixed");
-      $("body").on("click", function(e){
-            if($(e.target).is(".atbd_user_dashboard_nav, .atbdp_all_booking_nav-link, .atbd-dashboard-nav-toggler, .atbd-dashboard-nav-toggler i, .atbdp_tab_nav--content-link") === false) {
-                $(".atbd_user_dashboard_nav").addClass("atbd-dashboard-nav-collapsed");
-            }
-        });
-    }
-
-    //dashboard nav dropdown
-    $(".atbdp_tab_nav--has-child .atbd-dash-nav-dropdown").on("click", function(e){
-      e.preventDefault();
-      $(this).siblings("ul").slideToggle();
-    });
-
-     // Modal
-    $( '.atbdp-toggle-modal' ).on( 'click', function( e ) {
-        e.preventDefault();
-
-        var data_target = $( this ).data( 'target' );
-
-        $( data_target ).toggleClass( 'show' );
-    });
-
-    // Announcement
-    // --------------------------------------------
-    // Cleare seen announcements
-    var cleared_seen_announcements = false;
-    $( '.atbd_tn_link' ).on( 'click', function() {
-        if ( cleared_seen_announcements ) { return; }
-        var terget = $( this ).attr( 'target' );
-
-        if ( 'announcement' === terget ) {
-            // console.log( terget, 'clear seen announcements' );
-
-            $.ajax({
-                type: "post",
-                url: atbdp_public_data.ajaxurl,
-                data: { action: 'atbdp_clear_seen_announcements' },
-                success: function( response ) {
-                    // console.log( response );
-
-                    if ( response.success ) {
-                        cleared_seen_announcements = true;
-                        $( '.new-announcement-count' ).removeClass( 'show' );
-                        $( '.new-announcement-count' ).html( '' );
-                    }
-                },
-                error: function( error ) {
-                    console.log( { error } );
-                },
-            })
-        }
-    });
-
-    // Closing the announcement
-    var closing_announcement = false;
-    $('.close-announcement').on('click', function ( e ) {
-        e.preventDefault;
-
-        if ( closing_announcement ) { console.log( 'Please wait...' ); return; }
-
-        var post_id = $( this ).data( 'post-id' );
-        var form_data = {
-            action: 'atbdp_close_announcement',
-            post_id: post_id,
-        }
-
-        var button_default_html = $( self ).html();
-        closing_announcement = true;
-        var self = this;
-
-        $.ajax({
-            type: "post",
-            url: atbdp_public_data.ajaxurl,
-            data: form_data,
-            beforeSend() {
-                $( self ).html( '<span class="fas fa-spinner fa-spin"></span> ' );
-                $( self ).addClass( 'disable' );
-                $( self ).attr( 'disable', true );
-            },
-            success: function( response ) {
-                // console.log( { response } );
-                closing_announcement = false;
-
-                $( self ).removeClass( 'disable' );
-                $( self ).attr( 'disable', false );
-
-                if ( response.success ) {
-                    $( '.announcement-id-' + post_id ).remove();
-
-                    if ( ! $( '.announcement-item' ).length ) {
-                        location.reload();
-                    }
-                } else {
-                    $( self ).html( 'Close' );
-                }
-            },
-            error: function( error ) {
-                console.log( { error } );
-
-                $( self ).html( button_default_html );
-                $( self ).removeClass( 'disable' );
-                $( self ).attr( 'disable', false );
-
-                closing_announcement = false;
-            },
-        })
-    });
-
-    // -------------------[ Announcement End ]-------------------------
-
-
-    //dashboard content responsive fix
-    var tabContentWidth = $(".atbd_dashboard_wrapper .atbd_tab-content").innerWidth();
-    if(tabContentWidth < 650){
-      $(".atbd_dashboard_wrapper .atbd_tab-content").addClass("atbd_tab-content--fix");
-    }
-
-    // Dashboard Listing Ajax
-    function directorist_dashboard_listing_ajax($activeTab,paged=1,search='',task='',taskdata='') {
-        var tab = $activeTab.data('tab');
-        $.ajax({
-            url: atbdp_public_data.ajaxurl,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                'action': 'directorist_dashboard_listing_tab',
-                'tab': tab,
-                'paged': paged,
-                'search': search,
-                'task': task,
-                'taskdata': taskdata,
-            },
-			beforeSend: function () {
-				$('#directorist-dashboard-preloader').show();
-			},
-            success: function success(response) {
-                $('.directorist-dashboard-listings-tbody').html(response.data.content);
-                $('.directorist-dashboard-pagination .nav-links').html(response.data.pagination);
-                $('.directorist-dashboard-listing-nav-js a').removeClass('tabItemActive');
-                $activeTab.addClass('tabItemActive');
-                $('#my_listings').data('paged',paged);
-            },
-			complete: function () {
-				$('#directorist-dashboard-preloader').hide();
-			}
-        });
-    }
-
-    // Dashboard Listing Tabs
-    $('.directorist-dashboard-listing-nav-js a').on('click', function(event) {
-        var $item = $(this);
-
-    	if ($item.hasClass('tabItemActive')) {
-    		return false;
-    	}
-
-        directorist_dashboard_listing_ajax($item);
-        $('#directorist-dashboard-listing-searchform input[name=searchtext').val('');
-        $('#my_listings').data('search','');
-
-    	return false;
-    });
-
-    // Dashboard pagination
-    $('.directorist-dashboard-pagination .nav-links').on('click', 'a', function(event) {
-        var $link = $(this);
-        var paged = $link.attr('href');
-        paged = paged.split('/page/')[1];
-        paged = parseInt(paged);
-
-        var search = $('#my_listings').data('search');
-
-        $activeTab = $('.directorist-dashboard-listing-nav-js a.tabItemActive');
-        directorist_dashboard_listing_ajax($activeTab,paged,search);
-
-    	return false;
-    });
-
-    // Dashboard Tasks eg. delete
-    $('.directorist-dashboard-listings-tbody').on('click', '.directorist-dashboard-listing-actions a[data-task]', function(event) {
-    	var task       = $(this).data('task');
-    	var postid     = $(this).closest('tr').data('id');
-    	var $activeTab = $('.directorist-dashboard-listing-nav-js a.tabItemActive');
-    	var paged      = $('#my_listings').data('paged');
-    	var search     = $('#my_listings').data('search');
-
-		if (task=='delete') {
-	        swal({
-	            title: atbdp_public_data.listing_remove_title,
-	            text: atbdp_public_data.listing_remove_text,
-	            type: "warning",
-	            cancelButtonText: atbdp_public_data.review_cancel_btn_text,
-	            showCancelButton: true,
-	            confirmButtonColor: "#DD6B55",
-	            confirmButtonText: atbdp_public_data.listing_remove_confirm_text,
-	            showLoaderOnConfirm: true,
-	            closeOnConfirm: false
-	        },
-
-	        function (isConfirm) {
-	            if (isConfirm) {
-	            	directorist_dashboard_listing_ajax($activeTab,paged,search,task,postid);
-
-                    swal({
-                        title: atbdp_public_data.listing_delete,
-                        type: "success",
-                        timer: 200,
-                        showConfirmButton: false
-                    });
-	            }
-	        });
-		}
-
-    	return false;
-    });
-
-    // Dashboard Search
-    $('#directorist-dashboard-listing-searchform input[name=searchtext').val(''); //onready
-    $('#directorist-dashboard-listing-searchform').on('submit', function(event) {
-    	var $activeTab = $('.directorist-dashboard-listing-nav-js a.tabItemActive');
-    	var search = $(this).find('input[name=searchtext]').val();
-    	directorist_dashboard_listing_ajax($activeTab,1,search);
-    	$('#my_listings').data('search',search);
-    	return false;
     });
 
     /* atbd alert dismiss */
@@ -1223,30 +946,8 @@ import './components/itemSorting';
         });
     }
 
-    // Dropdown 
-    $('body').on('click', '.directorist_dropdown .directorist_dropdown-toggle', function(e){
-        e.preventDefault();
-        $(this).siblings('.directorist_dropdown-option').toggle();
-    });
-
-    // Select Option after click
-    $('body').on('click','.directorist_dropdown .directorist_dropdown-option ul li a', function(e){
-        e.preventDefault();
-        let optionText = $(this).html();
-        $(this).children('.directorist_dropdown-toggle__text').html(optionText)
-        $(this).closest('.directorist_dropdown-option').siblings('.directorist_dropdown-toggle').children('.directorist_dropdown-toggle__text').html(optionText);
-        $('.directorist_dropdown-option').hide();
-    });
-
-    // Hide Clicked Anywhere
-    $(document).bind('click', function(e) {
-        let clickedDom = $(e.target);
-        if(!clickedDom.parents().hasClass('directorist_dropdown'))
-        $('.directorist_dropdown-option').hide();
-    });
-
-
 })(jQuery);
+
   // on load of the page: switch to the currently selected tab
   var tab_url = window.location.href.split("/").pop();
   if (tab_url.startsWith("#active_")) {
@@ -1257,68 +958,8 @@ import './components/itemSorting';
   }
 
 
-  /* custom dropdown */
-  const atbdDropdown = document.querySelectorAll('.atbd-dropdown');
-
-  // toggle dropdown
-  let clickCount = 0;
-  if (atbdDropdown !== null) {
-    atbdDropdown.forEach(function (el) {
-        el.querySelector('.atbd-dropdown-toggle').addEventListener('click', function (e) {
-            e.preventDefault();
-            clickCount++;
-            if (clickCount % 2 === 1) {
-                document.querySelectorAll('.atbd-dropdown-items').forEach(function (elem) {
-                    elem.classList.remove('atbd-show');
-                });
-                el.querySelector('.atbd-dropdown-items').classList.add('atbd-show');
-            } else {
-                document.querySelectorAll('.atbd-dropdown-items').forEach(function (elem) {
-                    elem.classList.remove('atbd-show');
-                });
-            }
-        });
-    });
-  }
-
-  // remvoe toggle when click outside
-  document.body.addEventListener('click', function (e) {
-    if (e.target.getAttribute('data-drop-toggle') !== 'atbd-toggle') {
-        clickCount = 0;
-        document.querySelectorAll('.atbd-dropdown-items').forEach(function (el) {
-            el.classList.remove('atbd-show');
-        });
-    }
-  });
-
-  //custom select
-  const atbdSelect = document.querySelectorAll('.atbd-drop-select');
-  if (atbdSelect !== null) {
-    atbdSelect.forEach(function (el) {
-        el.querySelectorAll('.atbd-dropdown-item').forEach(function (item) {
-            item.addEventListener('click', function (e) {
-                e.preventDefault();
-                el.querySelector('.atbd-dropdown-toggle').textContent = item.textContent;
-                el.querySelectorAll('.atbd-dropdown-item').forEach(function (elm) {
-                    elm.classList.remove('atbd-active');
-                });
-                item.classList.add('atbd-active');
-            });
-        });
-    });
-  }
-
-  // select data-status
-  const atbdSelectData = document.querySelectorAll('.atbd-drop-select.with-sort');
-  atbdSelectData.forEach(function (el) {
-    el.querySelectorAll('.atbd-dropdown-item').forEach(function (item) {
-        let ds = el.querySelector('.atbd-dropdown-toggle');
-        let itemds = item.getAttribute('data-status');
-        item.addEventListener('click', function (e) {
-            ds.setAttribute('data-status', `${itemds}`);
-        });
-    });
-  });
+  import './components/atbdDropdown';
+  import './components/atbdSelect';
 
   const flatWrapper = document.querySelector(".flatpickr-calendar");
   const fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
