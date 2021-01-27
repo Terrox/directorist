@@ -5,7 +5,6 @@
     Author URI: www.aazztech.com
 */
 /* eslint-disable */
-
 // Modules
 import './modules/helpers';
 import './modules/review';
@@ -14,7 +13,7 @@ import './modules/review';
 import './../scss/layout/public/main-style.scss';
 import './components/atbdSorting';
 import './components/atbdAlert';
-// import './components/pureScriptTab';
+import './components/pureScriptTab';
 import './components/profileForm';
 import './components/atbdModal';
 import './components/gridResponsive';
@@ -37,22 +36,8 @@ import './components/dashboard/dashboardListing';
 import './components/dashboard/dashboardResponsive';
 import './components/dashboard/dashboardAnnouncement';
 
-;(function ($) {
+// Single Listing Page
+import './components/single-listing-page/slider';
 
-    // Plasma Slider Initialization 
-    var single_listing_slider = new PlasmaSlider({
-        containerID: "single-listing-slider",
-    });
-
-    single_listing_slider.init();
-
-})(jQuery);
-
-// Booking Available Time
-
-const flatWrapper = document.querySelector(".flatpickr-calendar");
-const fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
-
-if (flatWrapper != null && fAvailableTime != null) {
-    flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
-}
+// Booking
+import './components/booking';
