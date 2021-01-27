@@ -22,6 +22,10 @@ import './components/formValidation';
 import './components/atbdFavourite';
 import './components/atbdTooltip';
 import './components/login';
+import './components/tab';
+import './components/atbdDropdown';
+import './components/atbdSelect';
+
 // Dashboard Js
 import './components/dashboard/dashboardImageUploader';
 import './components/dashboard/dashboardSidebar';
@@ -32,9 +36,6 @@ import './components/dashboard/dashboardSearch';
 import './components/dashboard/dashboardListing';
 import './components/dashboard/dashboardResponsive';
 import './components/dashboard/dashboardAnnouncement';
-import './components/tab';
-import './components/atbdDropdown';
-import './components/atbdSelect';
 
 ;(function ($) {
 
@@ -47,9 +48,11 @@ import './components/atbdSelect';
 
 })(jQuery);
 
+// Booking Available Time
 
 const flatWrapper = document.querySelector(".flatpickr-calendar");
 const fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
+
 if (flatWrapper != null && fAvailableTime != null) {
-flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
+    flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
 }

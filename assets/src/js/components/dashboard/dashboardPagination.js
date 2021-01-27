@@ -1,5 +1,7 @@
 ;(function ($) {
+
     // Dashboard pagination
+
     $('.directorist-dashboard-pagination .nav-links').on('click', 'a', function(event) {
         var $link = $(this);
         var paged = $link.attr('href');
@@ -13,4 +15,5 @@
 
         return false;
     });
+    
 })(jQuery);

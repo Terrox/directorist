@@ -11,7 +11,6 @@
         $.post(atbdp_public_data.ajaxurl, data, function (response) {
             $('#atbdp-favourites').html(response);
         });
-
     });
 
 })(jQuery);

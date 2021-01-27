@@ -1,6 +1,7 @@
 ;(function ($) {
     
     // Dashboard Listing Ajax
+
     function directorist_dashboard_listing_ajax($activeTab,paged=1,search='',task='',taskdata='') {
         var tab = $activeTab.data('tab');
         $.ajax({
@@ -32,6 +33,7 @@
     }
 
     // Dashboard Listing Tabs
+
     $('.directorist-dashboard-listing-nav-js a').on('click', function(event) {
         var $item = $(this);
 
@@ -47,6 +49,7 @@
     });
 
     // Dashboard Tasks eg. delete
+
     $('.directorist-dashboard-listings-tbody').on('click', '.directorist-dashboard-listing-actions a[data-task]', function(event) {
     	var task       = $(this).data('task');
     	var postid     = $(this).closest('tr').data('id');
@@ -84,7 +87,8 @@
     	return false;
     });
 
-    /*USER DASHBOARD RELATED SCRIPTS*/
+    // Remove Listing
+    
     $(document).on('click', '#remove_listing', function (e) {
         e.preventDefault();
 

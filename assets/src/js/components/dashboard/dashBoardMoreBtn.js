@@ -1,6 +1,7 @@
 ;(function ($) {
 
     // User Dashboard Table More Button
+    
     $('.directorist-dashboard-listings-tbody').on("click", '.directorist_btn-more', function(e){
         e.preventDefault();
         $(this).toggleClass('active');

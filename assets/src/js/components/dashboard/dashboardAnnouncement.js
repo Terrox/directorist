@@ -1,6 +1,9 @@
 ;(function ($) {
-    // Cleare seen Announcements
+    
+    // Clear seen Announcements
+
     var cleared_seen_announcements = false;
+
     $( '.atbd_tn_link' ).on( 'click', function() {
         if ( cleared_seen_announcements ) { return; }
         var terget = $( this ).attr( 'target' );
@@ -30,6 +33,7 @@
 
     // Closing the Announcement
     var closing_announcement = false;
+
     $('.close-announcement').on('click', function ( e ) {
         e.preventDefault;
 
@@ -82,4 +86,5 @@
             },
         })
     });
+
 })(jQuery);

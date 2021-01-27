@@ -387,7 +387,7 @@ atbdSelectData.forEach(function (el) {
 ;
 
 (function ($) {
-  // Cleare seen Announcements
+  // Clear seen Announcements
   var cleared_seen_announcements = false;
   $('.atbd_tn_link').on('click', function () {
     if (cleared_seen_announcements) {
@@ -592,8 +592,7 @@ atbdSelectData.forEach(function (el) {
     }
 
     return false;
-  });
-  /*USER DASHBOARD RELATED SCRIPTS*/
+  }); // Remove Listing
 
   $(document).on('click', '#remove_listing', function (e) {
     e.preventDefault();
@@ -758,7 +757,7 @@ atbdSelectData.forEach(function (el) {
 ;
 
 (function ($) {
-  /* User Dashboard tab */
+  // User Dashboard Tab
   $(function () {
     var hash = window.location.hash;
     var selectedTab = $('.navbar .menu li a [target= "' + hash + '"]');
@@ -1624,30 +1623,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_atbdTooltip__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_atbdTooltip__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/login */ "./assets/src/js/components/login.js");
 /* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_components_login__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/dashboard/dashboardImageUploader */ "./assets/src/js/components/dashboard/dashboardImageUploader.js");
-/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/dashboard/dashboardSidebar */ "./assets/src/js/components/dashboard/dashboardSidebar.js");
-/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/dashboard/dashboardTab */ "./assets/src/js/components/dashboard/dashboardTab.js");
-/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/dashboard/dashBoardMoreBtn */ "./assets/src/js/components/dashboard/dashBoardMoreBtn.js");
-/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/dashboard/dashboardPagination */ "./assets/src/js/components/dashboard/dashboardPagination.js");
-/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/dashboard/dashboardSearch */ "./assets/src/js/components/dashboard/dashboardSearch.js");
-/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/dashboard/dashboardListing */ "./assets/src/js/components/dashboard/dashboardListing.js");
-/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/dashboard/dashboardResponsive */ "./assets/src/js/components/dashboard/dashboardResponsive.js");
-/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/dashboard/dashboardAnnouncement */ "./assets/src/js/components/dashboard/dashboardAnnouncement.js");
-/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/tab */ "./assets/src/js/components/tab.js");
-/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_components_tab__WEBPACK_IMPORTED_MODULE_21__);
-/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/atbdDropdown */ "./assets/src/js/components/atbdDropdown.js");
-/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_components_atbdDropdown__WEBPACK_IMPORTED_MODULE_22__);
-/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/atbdSelect */ "./assets/src/js/components/atbdSelect.js");
-/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSelect__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/tab */ "./assets/src/js/components/tab.js");
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_tab__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/atbdDropdown */ "./assets/src/js/components/atbdDropdown.js");
+/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/atbdSelect */ "./assets/src/js/components/atbdSelect.js");
+/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSelect__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/dashboard/dashboardImageUploader */ "./assets/src/js/components/dashboard/dashboardImageUploader.js");
+/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/dashboard/dashboardSidebar */ "./assets/src/js/components/dashboard/dashboardSidebar.js");
+/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/dashboard/dashboardTab */ "./assets/src/js/components/dashboard/dashboardTab.js");
+/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/dashboard/dashBoardMoreBtn */ "./assets/src/js/components/dashboard/dashBoardMoreBtn.js");
+/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/dashboard/dashboardPagination */ "./assets/src/js/components/dashboard/dashboardPagination.js");
+/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/dashboard/dashboardSearch */ "./assets/src/js/components/dashboard/dashboardSearch.js");
+/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/dashboard/dashboardListing */ "./assets/src/js/components/dashboard/dashboardListing.js");
+/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/dashboard/dashboardResponsive */ "./assets/src/js/components/dashboard/dashboardResponsive.js");
+/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/dashboard/dashboardAnnouncement */ "./assets/src/js/components/dashboard/dashboardAnnouncement.js");
+/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23__);
 /*
     File: Main.js
     Plugin: Directorist - Business Directory Plugin
@@ -1670,10 +1669,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
  // Dashboard Js
-
-
-
 
 
 
@@ -1692,7 +1691,8 @@ __webpack_require__.r(__webpack_exports__);
     containerID: "single-listing-slider"
   });
   single_listing_slider.init();
-})(jQuery);
+})(jQuery); // Booking Available Time
+
 
 var flatWrapper = document.querySelector(".flatpickr-calendar");
 var fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
