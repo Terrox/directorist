@@ -7,7 +7,6 @@
 @import "./../../component/plasma-slider-custom";
 @import "./../../component/general";
 @import "./../../component/search-result";
-@import "./../../component/listing-details";
 @import "./../../component/widget";
 @import "./../../component/pricing";
 @import "./../../component/button";
@@ -22,6 +21,7 @@
 
 // Modules
 @import "../../module/listings";
+@import "../../module/listing-details";
 @import "../../module/user-dashboard";
 @import "../../module/home";
 

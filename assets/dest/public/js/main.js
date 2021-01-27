@@ -346,6 +346,23 @@ atbdSelectData.forEach(function (el) {
 
 /***/ }),
 
+/***/ "./assets/src/js/components/booking.js":
+/*!*********************************************!*\
+  !*** ./assets/src/js/components/booking.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Booking Available Time
+var flatWrapper = document.querySelector(".flatpickr-calendar");
+var fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
+
+if (flatWrapper != null && fAvailableTime != null) {
+  flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
+}
+
+/***/ }),
+
 /***/ "./assets/src/js/components/dashboard/dashBoardMoreBtn.js":
 /*!****************************************************************!*\
   !*** ./assets/src/js/components/dashboard/dashBoardMoreBtn.js ***!
@@ -1189,6 +1206,114 @@ atbdSelectData.forEach(function (el) {
 
 /***/ }),
 
+/***/ "./assets/src/js/components/pureScriptTab.js":
+/*!***************************************************!*\
+  !*** ./assets/src/js/components/pureScriptTab.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*
+    Plugin: PureScriptTab
+    Version: 1.0.0
+    License: MIT
+*/
+var $ = jQuery;
+
+pureScriptTab = function pureScriptTab(selector1) {
+  var selector = document.querySelectorAll(selector1);
+  selector.forEach(function (el, index) {
+    a = el.querySelectorAll('.atbd_tn_link');
+    a.forEach(function (element, index) {
+      element.style.cursor = 'pointer';
+      element.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var ul = event.target.closest('.atbd_tab_nav'),
+            main = ul.nextElementSibling,
+            item_a = ul.querySelectorAll('.atbd_tn_link'),
+            section = main.querySelectorAll('.atbd_tab_inner');
+        item_a.forEach(function (ela, ind) {
+          ela.classList.remove('tabItemActive');
+        });
+        event.target.classList.add('tabItemActive');
+        section.forEach(function (element1, index) {
+          //console.log(element1);
+          element1.classList.remove('tabContentActive');
+        });
+        var target = event.target.target;
+        document.getElementById(target).classList.add('tabContentActive');
+      });
+    });
+  });
+};
+
+pureScriptTabChild = function pureScriptTabChild(selector1) {
+  var selector = document.querySelectorAll(selector1);
+  selector.forEach(function (el, index) {
+    a = el.querySelectorAll('.pst_tn_link');
+    a.forEach(function (element, index) {
+      element.style.cursor = 'pointer';
+      element.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var ul = event.target.closest('.pst_tab_nav'),
+            main = ul.nextElementSibling,
+            item_a = ul.querySelectorAll('.pst_tn_link'),
+            section = main.querySelectorAll('.pst_tab_inner');
+        item_a.forEach(function (ela, ind) {
+          ela.classList.remove('pstItemActive');
+        });
+        event.target.classList.add('pstItemActive');
+        section.forEach(function (element1, index) {
+          //console.log(element1);
+          element1.classList.remove('pstContentActive');
+        });
+        var target = event.target.target;
+        document.getElementById(target).classList.add('pstContentActive');
+      });
+    });
+  });
+};
+
+pureScriptTabChild2 = function pureScriptTabChild2(selector1) {
+  var selector = document.querySelectorAll(selector1);
+  selector.forEach(function (el, index) {
+    a = el.querySelectorAll('.pst_tn_link-2');
+    a.forEach(function (element, index) {
+      element.style.cursor = 'pointer';
+      element.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var ul = event.target.closest('.pst_tab_nav-2'),
+            main = ul.nextElementSibling,
+            item_a = ul.querySelectorAll('.pst_tn_link-2'),
+            section = main.querySelectorAll('.pst_tab_inner-2');
+        item_a.forEach(function (ela, ind) {
+          ela.classList.remove('pstItemActive2');
+        });
+        event.target.classList.add('pstItemActive2');
+        section.forEach(function (element1, index) {
+          //console.log(element1);
+          element1.classList.remove('pstContentActive2');
+        });
+        var target = event.target.target;
+        document.getElementById(target).classList.add('pstContentActive2');
+      });
+    });
+  });
+};
+
+if ($('.atbd_tab')) {
+  pureScriptTab('.atbd_tab');
+}
+
+pureScriptTab('.directorist_userDashboard-tab');
+pureScriptTabChild('.atbdp-bookings-tab');
+pureScriptTabChild2('.atbdp-bookings-tab-inner');
+
+/***/ }),
+
 /***/ "./assets/src/js/components/review/addReview.js":
 /*!******************************************************!*\
   !*** ./assets/src/js/components/review/addReview.js ***!
@@ -1571,6 +1696,21 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./assets/src/js/components/single-listing-page/slider.js":
+/*!****************************************************************!*\
+  !*** ./assets/src/js/components/single-listing-page/slider.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Plasma Slider Initialization 
+var single_listing_slider = new PlasmaSlider({
+  containerID: "single-listing-slider"
+});
+single_listing_slider.init();
+
+/***/ }),
+
 /***/ "./assets/src/js/components/tab.js":
 /*!*****************************************!*\
   !*** ./assets/src/js/components/tab.js ***!
@@ -1608,44 +1748,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_atbdSorting__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSorting__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_atbdAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/atbdAlert */ "./assets/src/js/components/atbdAlert.js");
 /* harmony import */ var _components_atbdAlert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_atbdAlert__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_profileForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/profileForm */ "./assets/src/js/components/profileForm.js");
-/* harmony import */ var _components_profileForm__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_profileForm__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_atbdModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/atbdModal */ "./assets/src/js/components/atbdModal.js");
-/* harmony import */ var _components_atbdModal__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_atbdModal__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _components_gridResponsive__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/gridResponsive */ "./assets/src/js/components/gridResponsive.js");
-/* harmony import */ var _components_gridResponsive__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_gridResponsive__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _components_formValidation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/formValidation */ "./assets/src/js/components/formValidation.js");
-/* harmony import */ var _components_formValidation__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_formValidation__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _components_atbdFavourite__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/atbdFavourite */ "./assets/src/js/components/atbdFavourite.js");
-/* harmony import */ var _components_atbdFavourite__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_components_atbdFavourite__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _components_atbdTooltip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/atbdTooltip */ "./assets/src/js/components/atbdTooltip.js");
-/* harmony import */ var _components_atbdTooltip__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_atbdTooltip__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/login */ "./assets/src/js/components/login.js");
-/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_components_login__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/tab */ "./assets/src/js/components/tab.js");
-/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_tab__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/atbdDropdown */ "./assets/src/js/components/atbdDropdown.js");
-/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_components_atbdDropdown__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/atbdSelect */ "./assets/src/js/components/atbdSelect.js");
-/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSelect__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/dashboard/dashboardImageUploader */ "./assets/src/js/components/dashboard/dashboardImageUploader.js");
-/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/dashboard/dashboardSidebar */ "./assets/src/js/components/dashboard/dashboardSidebar.js");
-/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/dashboard/dashboardTab */ "./assets/src/js/components/dashboard/dashboardTab.js");
-/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/dashboard/dashBoardMoreBtn */ "./assets/src/js/components/dashboard/dashBoardMoreBtn.js");
-/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/dashboard/dashboardPagination */ "./assets/src/js/components/dashboard/dashboardPagination.js");
-/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/dashboard/dashboardSearch */ "./assets/src/js/components/dashboard/dashboardSearch.js");
-/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/dashboard/dashboardListing */ "./assets/src/js/components/dashboard/dashboardListing.js");
-/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_21__);
-/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/dashboard/dashboardResponsive */ "./assets/src/js/components/dashboard/dashboardResponsive.js");
-/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_22__);
-/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/dashboard/dashboardAnnouncement */ "./assets/src/js/components/dashboard/dashboardAnnouncement.js");
-/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var _components_pureScriptTab__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/pureScriptTab */ "./assets/src/js/components/pureScriptTab.js");
+/* harmony import */ var _components_pureScriptTab__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_pureScriptTab__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_profileForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/profileForm */ "./assets/src/js/components/profileForm.js");
+/* harmony import */ var _components_profileForm__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_profileForm__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_atbdModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/atbdModal */ "./assets/src/js/components/atbdModal.js");
+/* harmony import */ var _components_atbdModal__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_atbdModal__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_gridResponsive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/gridResponsive */ "./assets/src/js/components/gridResponsive.js");
+/* harmony import */ var _components_gridResponsive__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_gridResponsive__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _components_formValidation__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/formValidation */ "./assets/src/js/components/formValidation.js");
+/* harmony import */ var _components_formValidation__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_components_formValidation__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _components_atbdFavourite__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/atbdFavourite */ "./assets/src/js/components/atbdFavourite.js");
+/* harmony import */ var _components_atbdFavourite__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_components_atbdFavourite__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _components_atbdTooltip__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/atbdTooltip */ "./assets/src/js/components/atbdTooltip.js");
+/* harmony import */ var _components_atbdTooltip__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_components_atbdTooltip__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/login */ "./assets/src/js/components/login.js");
+/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_components_login__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/tab */ "./assets/src/js/components/tab.js");
+/* harmony import */ var _components_tab__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_components_tab__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/atbdDropdown */ "./assets/src/js/components/atbdDropdown.js");
+/* harmony import */ var _components_atbdDropdown__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_components_atbdDropdown__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/atbdSelect */ "./assets/src/js/components/atbdSelect.js");
+/* harmony import */ var _components_atbdSelect__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSelect__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/dashboard/dashboardImageUploader */ "./assets/src/js/components/dashboard/dashboardImageUploader.js");
+/* harmony import */ var _components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardImageUploader__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/dashboard/dashboardSidebar */ "./assets/src/js/components/dashboard/dashboardSidebar.js");
+/* harmony import */ var _components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSidebar__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/dashboard/dashboardTab */ "./assets/src/js/components/dashboard/dashboardTab.js");
+/* harmony import */ var _components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardTab__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/dashboard/dashBoardMoreBtn */ "./assets/src/js/components/dashboard/dashBoardMoreBtn.js");
+/* harmony import */ var _components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashBoardMoreBtn__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/dashboard/dashboardPagination */ "./assets/src/js/components/dashboard/dashboardPagination.js");
+/* harmony import */ var _components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardPagination__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/dashboard/dashboardSearch */ "./assets/src/js/components/dashboard/dashboardSearch.js");
+/* harmony import */ var _components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardSearch__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/dashboard/dashboardListing */ "./assets/src/js/components/dashboard/dashboardListing.js");
+/* harmony import */ var _components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardListing__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/dashboard/dashboardResponsive */ "./assets/src/js/components/dashboard/dashboardResponsive.js");
+/* harmony import */ var _components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardResponsive__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/dashboard/dashboardAnnouncement */ "./assets/src/js/components/dashboard/dashboardAnnouncement.js");
+/* harmony import */ var _components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(_components_dashboard_dashboardAnnouncement__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var _components_single_listing_page_slider__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/single-listing-page/slider */ "./assets/src/js/components/single-listing-page/slider.js");
+/* harmony import */ var _components_single_listing_page_slider__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(_components_single_listing_page_slider__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var _components_booking__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/booking */ "./assets/src/js/components/booking.js");
+/* harmony import */ var _components_booking__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(_components_booking__WEBPACK_IMPORTED_MODULE_26__);
 /*
     File: Main.js
     Plugin: Directorist - Business Directory Plugin
@@ -1661,7 +1807,7 @@ __webpack_require__.r(__webpack_exports__);
  // Components
 
 
- // import './components/pureScriptTab';
+
 
 
 
@@ -1682,24 +1828,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // Single Listing Page
 
-;
-
-(function ($) {
-  // Plasma Slider Initialization 
-  var single_listing_slider = new PlasmaSlider({
-    containerID: "single-listing-slider"
-  });
-  single_listing_slider.init();
-})(jQuery); // Booking Available Time
+ // Booking
 
 
-var flatWrapper = document.querySelector(".flatpickr-calendar");
-var fAvailableTime = document.querySelector(".bdb-available-time-wrapper");
-
-if (flatWrapper != null && fAvailableTime != null) {
-  flatWrapper.insertAdjacentElement("beforeend", fAvailableTime);
-}
 
 /***/ }),
 
