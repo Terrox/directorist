@@ -1975,22 +1975,40 @@ function atbdp_display_price_range($price_range)
  * @since    4.0.0
  *
  */
-function atbdp_listings_count_by_category($term_id)
+function atbdp_listings_count_by_category( $term_id, $lisitng_type = '' )
 {
     $args = array(
         'fields'         => 'ids',
         'posts_per_page' => -1,
         'post_type'      => ATBDP_POST_TYPE,
         'post_status'    => 'publish',
-        'tax_query'      => array(
+    );
+
+    if( ! empty( $lisitng_type ) ) {
+        $args['tax_query'] = array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => ATBDP_CATEGORY,
+                'field' => 'term_id',
+                'terms' => $term_id,
+                'include_children' => true
+            ),
+            array(
+                'taxonomy' => ATBDP_TYPE,
+                'field' => 'term_id',
+                'terms' => (int) $lisitng_type,
+            )
+        );
+    } else {
+        $args['tax_query'] = array(
             array(
                 'taxonomy' => ATBDP_CATEGORY,
                 'field' => 'term_id',
                 'terms' => $term_id,
                 'include_children' => true
             )
-        ),
-    );
+        );
+    }
 
     $total_categories = ATBDP_Listings_Data_Store::get_listings( $args );
 
@@ -2066,22 +2084,40 @@ function atbdp_list_categories($settings)
  * @since    4.0.0
  *
  */
-function atbdp_listings_count_by_location($term_id)
+function atbdp_listings_count_by_location( $term_id, $lisitng_type = '' )
 {
     $args = array(
         'fields' => 'ids',
         'posts_per_page' => -1,
         'post_type' => ATBDP_POST_TYPE,
         'post_status' => 'publish',
-        'tax_query' => array(
+    );
+
+    if( ! empty( $lisitng_type ) ) {
+        $args['tax_query'] = array(
+            'relation' => 'AND',
             array(
                 'taxonomy' => ATBDP_LOCATION,
                 'field' => 'term_id',
                 'terms' => $term_id,
                 'include_children' => true
+            ),
+            array(
+                'taxonomy' => ATBDP_TYPE,
+                'field' => 'term_id',
+                'terms' => (int) $lisitng_type,
             )
-        )
-    );
+        );
+    } else {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => ATBDP_CATEGORY,
+                'field' => 'term_id',
+                'terms' => $term_id,
+                'include_children' => true
+            )
+        );
+    }
 
     $total_location = ATBDP_Listings_Data_Store::get_listings( $args );
     return count( $total_location );
@@ -3356,9 +3392,8 @@ function search_category_location_filter($settings, $taxonomy_id, $prefix = '')
 
 }
 
-function add_listing_category_location_filter($settings, $taxonomy_id, $term_id, $prefix = '', $plan_cat = array())
-{
-
+function add_listing_category_location_filter( $lisitng_type, $settings, $taxonomy_id, $term_id, $prefix = '', $plan_cat = array())
+{   
     if ($settings['immediate_category']) {
 
         if ($settings['term_id'] > $settings['parent'] && !in_array($settings['term_id'], $settings['ancestors'])) {
@@ -3378,29 +3413,35 @@ function add_listing_category_location_filter($settings, $taxonomy_id, $term_id,
         'hierarchical' => !empty($settings['hide_empty']) ? true : false
     );
 
-    $terms = get_terms($taxonomy_id, $args);
-
+    $terms             = get_terms($taxonomy_id, $args);
+    $listing_type      = get_term_by( 'id', $lisitng_type, ATBDP_TYPE );
+    $listing_type_slug = $listing_type->slug;
+    
     $html = '';
 
     if (count($terms) > 0) {
 
         foreach ($terms as $term) {
-            $settings['term_id'] = $term->term_id;
+            $directory_type    = get_term_meta( $term->term_id, '_directory_type', true );
+            $directory_type    = ! empty( $directory_type ) ? $directory_type : array();
+            if( in_array( $listing_type_slug, $directory_type ) ) {
+                $settings['term_id'] = $term->term_id;
 
-            $count = 0;
-            if (!empty($settings['hide_empty']) || !empty($settings['show_count'])) {
-                $count = atbdp_listings_count_by_category($term->term_id);
+                $count = 0;
+                if (!empty($settings['hide_empty']) || !empty($settings['show_count'])) {
+                    $count = atbdp_listings_count_by_category($term->term_id);
 
-                if (!empty($settings['hide_empty']) && 0 == $count) continue;
+                    if (!empty($settings['hide_empty']) && 0 == $count) continue;
+                }
+                $selected = in_array($term->term_id, $term_id) ? "selected" : '';
+                $html .= sprintf('<option value="%s" %s>', $term->term_id, $selected);
+                $html .= $prefix . $term->name;
+                if (!empty($settings['show_count'])) {
+                    $html .= ' (' . $count . ')';
+                }
+                $html .= add_listing_category_location_filter($lisitng_type, $settings, $taxonomy_id, $term_id, $prefix . '&nbsp;&nbsp;&nbsp;');
+                $html .= '</option>';
             }
-            $selected = in_array($term->term_id, $term_id) ? "selected" : '';
-            $html .= sprintf('<option value="%s" %s>', $term->term_id, $selected);
-            $html .= $prefix . $term->name;
-            if (!empty($settings['show_count'])) {
-                $html .= ' (' . $count . ')';
-            }
-            $html .= add_listing_category_location_filter($settings, $taxonomy_id, $term_id, $prefix . '&nbsp;&nbsp;&nbsp;');
-            $html .= '</option>';
         }
 
     }
@@ -4089,5 +4130,40 @@ if( ! function_exists( 'atbdp_field_assigned_plan' ) ) {
                 }
             }
         }
+    }
+}
+if( !function_exists('directory_types') ){
+    function directory_types() {
+        $listing_types = get_terms([
+            'taxonomy'   => ATBDP_TYPE,
+            'hide_empty' => false,
+            'orderby'    => 'date',
+            'order'      => 'DSCE',
+          ]);
+          return $listing_types;
+    }
+}
+if( !function_exists('default_directory_type') ){
+    function default_directory_type() {
+        $default_directory = '';
+        if( !empty( directory_types() ) ) {
+            foreach( directory_types() as $term ) {
+                $default = get_term_meta( $term->term_id, '_default', true );
+                if( $default ) {
+                    $default_directory = $term->term_id;
+                    break;
+                }
+            }
+        }
+        return $default_directory;
+    }
+}
+
+if( !function_exists('directorist_get_form_fields_by_directory_type') ){
+    function directorist_get_form_fields_by_directory_type( $field = 'id', $value = '' ) {
+        $term                   = get_term_by( $field, $value, ATBDP_TYPE );
+        $submission_form        = get_term_meta( $term->term_id, 'submission_form_fields', true );   
+        $submission_form_fields = $submission_form['fields'];
+        return $submission_form_fields;
     }
 }
