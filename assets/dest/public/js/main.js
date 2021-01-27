@@ -1656,8 +1656,9 @@ __webpack_require__.r(__webpack_exports__);
 /* eslint-disable */
 // Modules
 
- // Components
+ // Styles 
 
+ // Components
 
 
  // import './components/pureScriptTab';

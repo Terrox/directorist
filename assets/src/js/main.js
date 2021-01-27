@@ -10,8 +10,10 @@
 import './modules/helpers';
 import './modules/review';
 
-// Components
+// Styles 
 import './../scss/layout/public/main-style.scss';
+
+// Components
 import './components/atbdSorting';
 import './components/atbdAlert';
 // import './components/pureScriptTab';
