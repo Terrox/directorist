@@ -382,8 +382,6 @@ if (flatWrapper != null && fAvailableTime != null) {
     e.stopPropagation();
   });
   $(document).bind("click", function (e) {
-    console.log($(e.target).parents().hasClass('directorist_dropdown-menu__list'));
-
     if (!$(e.target).parents().hasClass('directorist_dropdown-menu__list')) {
       $(".directorist_dropdown-menu").removeClass("active");
       $(".directorist_btn-more").removeClass("active");
