@@ -5,12 +5,13 @@
     Author URI: www.aazztech.com
 */
 /* eslint-disable */
-// Modules
-import './modules/helpers';
-import './modules/review';
 
 // Styles 
 import './../scss/layout/public/main-style.scss';
+
+// Modules
+import './modules/helpers';
+import './modules/review';
 
 // Components
 import './components/atbdSorting';

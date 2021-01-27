@@ -1740,10 +1740,10 @@ if (tab_url.startsWith("#active_")) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/helpers */ "./assets/src/js/modules/helpers.js");
-/* harmony import */ var _modules_review__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/review */ "./assets/src/js/modules/review.js");
-/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../scss/layout/public/main-style.scss */ "./assets/src/scss/layout/public/main-style.scss");
-/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../scss/layout/public/main-style.scss */ "./assets/src/scss/layout/public/main-style.scss");
+/* harmony import */ var _scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_layout_public_main_style_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/helpers */ "./assets/src/js/modules/helpers.js");
+/* harmony import */ var _modules_review__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/review */ "./assets/src/js/modules/review.js");
 /* harmony import */ var _components_atbdSorting__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/atbdSorting */ "./assets/src/js/components/atbdSorting.js");
 /* harmony import */ var _components_atbdSorting__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_atbdSorting__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_atbdAlert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/atbdAlert */ "./assets/src/js/components/atbdAlert.js");
@@ -1800,9 +1800,9 @@ __webpack_require__.r(__webpack_exports__);
 */
 
 /* eslint-disable */
-// Modules
+// Styles 
+ // Modules
 
- // Styles 
 
  // Components
 

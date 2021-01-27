@@ -33,7 +33,8 @@ class Enqueue_Assets {
      */
     public function load_assets() {
 
-        $this->script_version = apply_filters( 'directorist_script_version', ATBDP_VERSION );
+        // $this->script_version = apply_filters( 'directorist_script_version', ATBDP_VERSION );
+        $this->script_version = md5( time() );
 
         // Load Vendor Assets
         $this->add_vendor_css_scripts();
@@ -122,12 +123,13 @@ class Enqueue_Assets {
         $scripts = [];
 
         $scripts['directorist-main-style'] = [
-            'file_name' => 'main-style',
+            'file_name' => 'main',
             'base_path' => DIRECTORIST_PUBLIC_CSS,
             'deps'      => [ 'atbdp-font-awesome', 'atbdp-line-awesome' ],
             'ver'       => $this->script_version,
             'group'     => 'public', // public || admin  || global
             'section'   => '',
+            'enable'   => true,
         ];
 
         $scripts = array_merge( $this->css_scripts, $scripts);
