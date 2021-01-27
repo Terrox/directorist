@@ -6,9 +6,12 @@
 */
 /* eslint-disable */
 
+// Modules
+import './modules/helpers';
+
+// Components
 import './../scss/layout/public/main-style.scss';
-import './components/itemSorting';
-import './components/helpers';
+import './components/atbdSorting';
 import './components/atbdReview';
 import './components/atbdAlert';
 // import './components/pureScriptTab';
