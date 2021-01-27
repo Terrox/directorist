@@ -13,14 +13,16 @@
 @import "./../../component/pricing";
 @import "./../../component/button";
 @import "./../../component/add-listing";
-@import "./../../component/user-dashboard";
-@import "./../../component/home";
 @import "./../../component/public-profile";
 @import "./../../component/location-category";
 @import "./../../component/range-slider";
 @import "./../../component/dropdown";
 @import "./../../component/switch";
 @import "./../../component/atbdDropdown";
+
+// Modules
+@import "../../module/user-dashboard";
+@import "../../module/home";
 
 .ads-advanced .bottom-inputs {
   flex-grow: 1;
