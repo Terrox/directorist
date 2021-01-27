@@ -8,11 +8,11 @@
 
 // Modules
 import './modules/helpers';
+import './modules/review';
 
 // Components
 import './../scss/layout/public/main-style.scss';
 import './components/atbdSorting';
-import './components/atbdReview';
 import './components/atbdAlert';
 // import './components/pureScriptTab';
 import './components/profileForm';
