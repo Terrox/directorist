@@ -204,7 +204,6 @@ document.body.addEventListener('click', function (e) {
 (function ($) {
   // Add or Remove from favourites
   $('#atbdp-favourites').on('click', function (e) {
-    //e.preventDefault();
     var data = {
       'action': 'atbdp_public_add_remove_favorites',
       'post_id': $("a.atbdp-favourites").data('post_id')
