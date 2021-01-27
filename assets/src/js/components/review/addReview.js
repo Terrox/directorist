@@ -1,4 +1,33 @@
 ;(function ($) {
+
+    // 	prepear_form_data
+    function prepear_form_data ( form, field_map, data ) {
+        if ( ! data || typeof data !== 'object' ) {
+        var data = {};
+        }
+
+        for ( var key in field_map) {
+        var field_item = field_map[ key ];
+        var field_key = field_item.field_key;
+        var field_type = field_item.type;
+
+        if ( 'name' === field_type ) {
+            var field = form.find( '[name="'+ field_key +'"]' );
+        } else {
+            var field = form.find( field_key );
+        }
+
+        if ( field.length ) {
+            var data_key = ( 'name' === field_type ) ? field_key : field.attr('name') ;
+            var data_value = ( field.val() ) ? field.val() : '';
+
+            data[data_key] = data_value;
+        }
+        }
+
+        return data;
+    }
+
     /* Add review to the database using ajax*/
     var submit_count = 1;
     $("#atbdp_review_form").on("submit", function () {
@@ -99,17 +128,6 @@
                 output +=
                     '</div>';
 
-                // output += '<div class="single_review"  id="single_review_'+response.data.id+'">' +
-                //     '<div class="review_top">' +
-                //     '<div class="reviewer"><i class="fa fa-user" aria-hidden="true"></i><p>'+name+'</p></div>' +
-                //     '<span class="review_time">'+d+'</span>' +
-                //     '<div class="br-theme-css-stars-static">' + print_static_rating(rating)+'</div>' +
-                //     '</div>' +
-                //     '<div class="review_content">' +
-                //     '<p> '+ content+ '</p>' +
-                //     '</div>' +
-                //     '</div>';
-
                 // as we have saved a review lets add a delete button so that user cann delete the review he has just added.
                 deleteBtn += '<button class="directory_btn btn btn-danger" type="button" id="atbdp_review_remove" data-review_id="' + response.data.id + '">Remove</button>';
                 $form.append(deleteBtn);
@@ -154,4 +172,5 @@
 
         return false;
     });
+    
 })(jQuery);
