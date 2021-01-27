@@ -33,8 +33,7 @@ class Enqueue_Assets {
      */
     public function load_assets() {
 
-        // $this->script_version = apply_filters( 'directorist_script_version', ATBDP_VERSION );
-        $this->script_version = md5( time() );
+        $this->script_version = apply_filters( 'directorist_script_version', ATBDP_VERSION );
 
         // Load Vendor Assets
         $this->add_vendor_css_scripts();
