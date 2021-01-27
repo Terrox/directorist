@@ -83,4 +83,59 @@
 
     	return false;
     });
+
+    /*USER DASHBOARD RELATED SCRIPTS*/
+    $(document).on('click', '#remove_listing', function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var id = $this.data('listing_id');
+        var data = 'listing_id=' + id;
+        swal({
+            title: atbdp_public_data.listing_remove_title,
+            text: atbdp_public_data.listing_remove_text,
+            type: "warning",
+            cancelButtonText: atbdp_public_data.review_cancel_btn_text,
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: atbdp_public_data.listing_remove_confirm_text,
+            showLoaderOnConfirm: true,
+            closeOnConfirm: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    // user has confirmed, now remove the listing
+                    atbdp_do_ajax($this, 'remove_listing', data, function (response) {
+                        $('body').append(response);
+                        if ('success' === response) {
+                            // show success message
+                            swal({
+                                title: atbdp_public_data.listing_delete,
+                                type: "success",
+                                timer: 200,
+                                showConfirmButton: false
+                            });
+                            $("#listing_id_" + id).remove();
+                            $this.remove();
+                        } else {
+                            // show error message
+                            swal({
+                                title: atbdp_public_data.listing_error_title,
+                                text: atbdp_public_data.listing_error_text,
+                                type: "error",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+
+
+                }
+
+            });
+
+        // send an ajax request to the ajax-handler.php and then delete the review of the given id
+
+    });
+    
 })(jQuery);

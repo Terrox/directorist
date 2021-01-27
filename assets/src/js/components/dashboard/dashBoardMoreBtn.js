@@ -1,4 +1,5 @@
 ;(function ($) {
+
     // User Dashboard Table More Button
     $('.directorist-dashboard-listings-tbody').on("click", '.directorist_btn-more', function(e){
         e.preventDefault();
@@ -15,4 +16,5 @@
             $(".directorist_btn-more").removeClass("active");
         }
     });
+    
 })(jQuery);
