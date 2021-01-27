@@ -8,7 +8,6 @@
 @import "./../../component/general";
 @import "./../../component/search-result";
 @import "./../../component/listing-details";
-@import "./../../component/listing";
 @import "./../../component/widget";
 @import "./../../component/pricing";
 @import "./../../component/button";
@@ -19,8 +18,10 @@
 @import "./../../component/dropdown";
 @import "./../../component/switch";
 @import "./../../component/atbdDropdown";
+@import "./../../component/tooltip";
 
 // Modules
+@import "../../module/listings";
 @import "../../module/user-dashboard";
 @import "../../module/home";
 
