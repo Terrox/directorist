@@ -226,6 +226,9 @@ final class Directorist_Base
 
             self::$instance->includes();
 
+            self::$instance->custom_post = new ATBDP_Custom_Post; // create custom post
+            self::$instance->taxonomy = new ATBDP_Custom_Taxonomy;
+
             self::$instance->enquirer = new ATBDP_Enqueuer;
             self::$instance->enqueue_assets = new Directorist\Enqueue_Assets;
 
@@ -236,8 +239,7 @@ final class Directorist_Base
             self::$instance->settings_panel = new ATBDP_Settings_Panel;
             self::$instance->settings_panel->run();
 
-            self::$instance->custom_post = new ATBDP_Custom_Post; // create custom post
-            self::$instance->taxonomy = new ATBDP_Custom_Taxonomy;
+           
 
             self::$instance->hooks = new ATBDP_Hooks;
             self::$instance->metabox = new ATBDP_Metabox;
