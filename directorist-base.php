@@ -231,14 +231,14 @@ final class Directorist_Base
 
             self::$instance->enquirer = new ATBDP_Enqueuer;
 
-            // ATBDP_Listing_Type_Manager
-            self::$instance->multi_directory_manager = new ATBDP_Multi_Directory_Manager;
+            // Multi Directory Manager
+            self::$instance->multi_directory_manager = new Directorist\Multi_Directory_Manager;
             self::$instance->multi_directory_manager->run();
+            
+            new Directorist\Multi_Directory_Extended;
 
             self::$instance->settings_panel = new ATBDP_Settings_Panel;
             self::$instance->settings_panel->run();
-
-           
 
             self::$instance->hooks = new ATBDP_Hooks;
             self::$instance->metabox = new ATBDP_Metabox;
