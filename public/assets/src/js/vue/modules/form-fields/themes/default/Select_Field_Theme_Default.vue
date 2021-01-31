@@ -10,14 +10,17 @@
             
             <div class="directorist_dropdown-option" v-if="theOptions" :class="{ ['--show']: show_option_modal }">
                 <ul>
-                    <li v-for="( option, option_key ) in theOptions" :key="option_key">
-                        <a href="#" 
-                            :class="{ active: ( option.value == value ) ? true : false }"
-                            v-html="( option.label ) ? option.label : ''"
-                            @click.prevent="updateOption( option.value )"
-                        >
-                        </a>
-                    </li>
+                    <template v-for="( option, option_key ) in theOptions">
+                        <li :key="option_key" v-if="typeof skip === undefined || ( typeof skip !== undefined && ! skip.includes( option.value ) )">
+                            <a href="#" 
+                                :class="{ active: ( option.value == value ) ? true : false }"
+                                v-html="( option.label ) ? option.label : ''"
+                                @click.prevent="updateOption( option.value )"
+                            >
+                            </a>
+                        </li>
+                    </template>
+                    
                 </ul>
             </div>
         </div>

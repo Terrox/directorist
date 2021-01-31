@@ -4,9 +4,12 @@
         <p class="cptm-form-group-info" v-if="description.length" v-html="description"></p>
 
         <div class="">
-            <select-field 
-                label="Condition"
-                :options="[ { value: 'or', label: 'Or' } ]"
+            <select-field label="Compare" :value="compare" :options="compareOptions"/>
+            <multi-fields-field
+                :options="conditionalFields"
+                v-model="conditions"
+                add-new-button-label="Add Condition"
+                remove-button-label="Remove Condition"
             />
         </div>
     </div>

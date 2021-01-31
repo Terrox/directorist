@@ -72,7 +72,7 @@ class Multi_Directory_Extended {
         $fields = [
             'show_if' => [
                 'type'  => 'show-if',
-                'label' => 'Show If',
+                'label' => 'Show If Condition',
                 'value' => [],
                 // 'value'  => [
                 //     'compare' => 'or',

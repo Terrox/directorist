@@ -8,65 +8,20 @@
         </p>
 
         <div class="cptm-form-builder-active-fields-container">
-          <div
-            class="cptm-form-builder-active-fields-group"
-            v-for="(group, group_key) in groups"
-            :key="group_key"
-            :class="{
-              ['cptm-d-none']: group.isDragging,
-              ['shrink']: group.shrink,
-            }"
-          >
-            <div
-              class="cptm-form-builder-group-header-section"
-              v-if="has_group"
-            >
+          <div class="cptm-form-builder-active-fields-group" v-for="(group, group_key) in groups" :key="group_key" :class="{ ['cptm-d-none']: group.isDragging, ['shrink']: group.shrink }">
+            <div class="cptm-form-builder-group-header-section" v-if="has_group">
               <div class="cptm-form-builder-group-header">
-                <dropable-element
-                  :dropable="
-                    current_dragging_group !== group_key && elementIsDragging
-                  "
-                  :drop-inside="current_dragging_widget !== '' ? true : false"
-                  @drop="
-                    handleDroppedOnGroup({ group_key, drop_direction: $event })
-                  "
-                  wrapper-class="cptm-form-builder-group-title-area__dropable-wrapper"
-                  dropable-placeholder-class="cptm-form-builder-group-title-area__dropable-placeholder"
-                >
-                  <div
-                    class="cptm-form-builder-group-title-area"
-                    :draggable="
-                      typeof group.draggable !== 'undefined'
-                        ? group.draggable
-                        : true
-                    "
-                    @dragstart="activeGroupOnDragStart(group_key, $event)"
-                    @dragend="activeGroupOnDragEnd()"
-                  >
+                <dropable-element :dropable="current_dragging_group !== group_key && elementIsDragging" :drop-inside="current_dragging_widget !== '' ? true : false" @drop="handleDroppedOnGroup({ group_key, drop_direction: $event })" wrapper-class="cptm-form-builder-group-title-area__dropable-wrapper" dropable-placeholder-class="cptm-form-builder-group-title-area__dropable-placeholder">
+                  <div class="cptm-form-builder-group-title-area" :draggable="typeof group.draggable !== 'undefined' ? group.draggable : true" @dragstart="activeGroupOnDragStart(group_key, $event)" @dragend="activeGroupOnDragEnd()">
                     <h3 class="cptm-form-builder-group-title">
                       {{ group.label ? group.label : "" }}
-                      <a
-                        href="#"
-                        class="cptm-form-builder-header-action-link cptm-ml-5 cptm-link-light"
-                        v-if="hasGroupOptions(group_key)"
-                        @click.prevent="
-                          toggleActiveGroupOptionCollapseState(group_key)
-                        "
-                      >
+                      <a href="#" class="cptm-form-builder-header-action-link cptm-ml-5 cptm-link-light" v-if="hasGroupOptions(group_key)" @click.prevent="toggleActiveGroupOptionCollapseState(group_key)">
                         <span class="fa fa-pen" aria-hidden="true"></span>
                       </a>
                     </h3>
 
                     <div class="cptm-form-builder-group-title-actions">
-                      <a
-                        href="#"
-                        class="cptm-form-builder-header-action-link"
-                        v-if="group.type !== 'widget_group'"
-                        :class="getActiveGroupCollapseClass(group_key)"
-                        @click.prevent="
-                          toggleActiveGroupCollapseState(group_key)
-                        "
-                      >
+                      <a href="#" class="cptm-form-builder-header-action-link" v-if="group.type !== 'widget_group'" :class="getActiveGroupCollapseClass(group_key)" @click.prevent="toggleActiveGroupCollapseState(group_key)">
                         <!-- <span class="uil uil-angle-double-up" aria-hidden="true"></span> -->
                         <span class="fa fa-angle-up" aria-hidden="true"></span>
                       </a>
@@ -88,169 +43,62 @@
                 </div>
               </div>
 
-              <slide-up-down
-                :active="getActiveGroupOptionCollapseState(group_key)"
-                :duration="500"
-              >
-                <div
-                  class="cptm-form-builder-group-options"
-                  v-if="getGroupOptions(group_key)"
-                >
-                  <div
-                    v-for="(option, option_key) in getGroupOptions(group_key)"
-                    :class="fieldWrapperClass(option_key, option)"
-                    :key="option_key"
-                  >
+              <slide-up-down :active="getActiveGroupOptionCollapseState(group_key)" :duration="500">
+                <div class="cptm-form-builder-group-options" v-if="getGroupOptions(group_key)">
+                  <div v-for="(option, option_key) in getGroupOptions(group_key)" :class="fieldWrapperClass(option_key, option)" :key="option_key">
                     <component
                       :is="option.type + '-field'"
                       :key="option_key"
                       :root="getGroupOptions(group_key)"
                       :feild-id="fieldId + '_' + group_key + '_' + option_key"
                       v-bind="option"
-                      @update="
-                        updateActiveGroupOptionData(
-                          option_key,
-                          group_key,
-                          $event
-                        )
-                      "
-                    >
-                    </component>
+                      @update="updateActiveGroupOptionData( option_key, group_key, $event )"
+                    />
                   </div>
                 </div>
               </slide-up-down>
             </div>
 
-            <slide-up-down
-              :active="getActiveGroupCollapseState(group_key)"
-              :duration="500"
-            >
+            <slide-up-down :active="getActiveGroupCollapseState(group_key)" :duration="500">
               <div class="cptm-form-builder-group-fields">
                 <div class="cptm-restricted-area cptm-form-fields-restricted-area" v-if="(group.fields && group.fields.length) && formFieldsHasRestriction( group_key )">
                   <h3 v-html="restrictedFieldsWarningText"></h3>
                 </div>
 
-                <div
-                  class="cptm-form-builder-group-field-item"
-                  v-for="(field_key, field_index) in group.fields"
-                  :key="field_index"
-                  :class="{
-                    ['shrink']:
-                      current_dragging_state.active_widget.id === field_key,
-                    ['cptm-d-none']:
-                      current_dragging_state.active_widget.id === field_key &&
-                      current_dragging_state.active_widget.hide
-                        ? true
-                        : false,
-                  }"
-                >
-                  <dropable-element
-                    :dropable="
-                      activeGroupItemIsDropable(
-                        field_key,
-                        field_index,
-                        group_key
-                      )
-                    "
-                    @drop="
-                      handleDroppedOnActiveField({
-                        field_key,
-                        field_index,
-                        group_key,
-                        drop_direction: $event,
-                      })
-                    "
-                    wrapper-class="cptm-form-builder-group-title-area__dropable-wrapper"
-                    dropable-placeholder-class="cptm-form-builder-group-title-area__dropable-placeholder"
+                <div class="cptm-form-builder-group-field-item" v-for="(field_key, field_index) in group.fields" :key="field_index" :class="{ ['shrink']: current_dragging_state.active_widget.id === field_key, ['cptm-d-none']: current_dragging_state.active_widget.id === field_key && current_dragging_state.active_widget.hide ? true : false, }">
+                  <dropable-element 
+                    :dropable="activeGroupItemIsDropable( field_key, field_index, group_key )"
+                    @drop="handleDroppedOnActiveField({ field_key, field_index, group_key, drop_direction: $event, })"
+                    wrapper-class="cptm-form-builder-group-title-area__dropable-wrapper" dropable-placeholder-class="cptm-form-builder-group-title-area__dropable-placeholder"
                   >
                     <div class="cptm-form-builder-group-field-item-actions">
-                      <a
-                        href="#"
-                        class="cptm-form-builder-group-field-item-action-link action-trash"
-                        v-if="!getActiveFieldsSettings(field_key, 'lock')"
-                        @click.prevent="
-                          trashActiveFieldItem(
-                            field_key,
-                            field_index,
-                            group_key
-                          )
-                        "
-                      >
-                        <span
-                          class="uil uil-trash-alt"
-                          aria-hidden="true"
-                        ></span>
+                      <a href="#" class="cptm-form-builder-group-field-item-action-link action-trash" v-if="!getActiveFieldsSettings(field_key, 'lock')" @click.prevent="trashActiveFieldItem( field_key, field_index, group_key )">
+                        <span class="uil uil-trash-alt" aria-hidden="true"></span>
                       </a>
                     </div>
 
-                    <div
-                      class="cptm-form-builder-group-field-item-header"
-                      draggable="true"
-                      @dragstart="
-                        activeFieldOnDragStart(
-                          field_key,
-                          field_index,
-                          group_key
-                        )
-                      "
-                      @dragend="activeFieldOnDragEnd()"
-                    >
-                      <h4
-                        class="cptm-title-3"
-                        v-html="getActiveFieldsHeaderTitle(field_key)"
-                      ></h4>
-                      <div
-                        class="cptm-form-builder-group-field-item-header-actions"
-                      >
-                        <a
-                          href="#"
-                          class="cptm-form-builder-header-action-link action-collapse-up"
-                          :class="getActiveFieldCollapseClass(field_key)"
-                          @click.prevent="
-                            toggleActiveFieldCollapseState(field_key)
-                          "
-                        >
-                          <span
-                            class="fa fa-angle-up"
-                            aria-hidden="true"
-                          ></span>
+                    <div class="cptm-form-builder-group-field-item-header" draggable="true" @dragstart="activeFieldOnDragStart( field_key, field_index, group_key )" @dragend="activeFieldOnDragEnd()">
+                      <h4 class="cptm-title-3" v-html="getActiveFieldsHeaderTitle(field_key)"></h4>
+                      <div class="cptm-form-builder-group-field-item-header-actions">
+                        <a href="#" class="cptm-form-builder-header-action-link action-collapse-up" :class="getActiveFieldCollapseClass(field_key)" @click.prevent="toggleActiveFieldCollapseState(field_key)">
+                          <span class="fa fa-angle-up" aria-hidden="true"></span>
                         </a>
                       </div>
                     </div>
 
-                    <slide-up-down
-                      :active="getActiveFieldCollapseState(field_key)"
-                      :duration="300"
-                    >
-                      <div
-                        class="cptm-form-builder-group-field-item-body"
-                        v-if="getActiveFieldsSettings(field_key, 'options')"
-                      >
-                        <div
-                          v-for="(option, option_key) in getWidgetOptions(
-                            field_key
-                          )"
-                          :class="fieldWrapperClass(option_key, option)"
-                          :key="option_key"
-                        >
-                          <component
-                            :is="option.type + '-field'"
+                    <slide-up-down :active="getActiveFieldCollapseState(field_key)" :duration="300">
+                      <div class="cptm-form-builder-group-field-item-body" v-if="getActiveFieldsSettings(field_key, 'options')">
+                        <div v-for="(option, option_key) in getWidgetOptions( field_key )" :class="fieldWrapperClass(option_key, option)" :key="option_key">
+                          <component 
+                            :is="option.type + '-field'" 
                             :root="getWidgetOptions(field_key)"
-                            :key="option_key"
-                            :field-id="
-                              fieldId + '_' + field_key + '_' + option_key
-                            "
-                            v-bind="getSanitizedFieldsOptions(option)"
+                            :field-list="fieldList"
+                            :skip="[ field_key ]"
+                            :key="option_key" :field-id="fieldId + '_' + field_key + '_' + option_key" 
+                            v-bind="getSanitizedFieldsOptions(option)" 
                             :value="active_fields[field_key][option_key]"
-                            @update="
-                              updateActiveFieldsOptionData({
-                                field_key,
-                                option_key,
-                                value: $event,
-                              })
-                            "
-                          >
-                          </component>
+                            @update="updateActiveFieldsOptionData({field_key, option_key, value: $event, })"
+                          />
                         </div>
                       </div>
                     </slide-up-down>
@@ -259,35 +107,21 @@
               </div>
             </slide-up-down>
 
-            <slide-up-down
-              :active="getActiveGroupCollapseState(group_key)"
-              :duration="500"
-            >
-              <div
-                class="cptm-form-builder-group-field-drop-area"
-                :class="
-                  group_key === active_group_drop_area ? 'drag-enter' : ''
-                "
+            <slide-up-down :active="getActiveGroupCollapseState(group_key)" :duration="500">
+              <div class="cptm-form-builder-group-field-drop-area" :class="group_key === active_group_drop_area ? 'drag-enter' : ''"
                 v-if="!group.fields.length && group.type !== 'widget_group'"
                 @dragenter="activeGroupOnDragEnter(group_key)"
                 @dragover.prevent="activeGroupOnDragOver(group_key)"
                 @dragleave="activeGroupOnDragLeave(group_key)"
                 @drop="activeFieldOnDrop({ group_key })"
               >
-                <p class="cptm-form-builder-group-field-drop-area-label">
-                  Drop Here
-                </p>
+                <p class="cptm-form-builder-group-field-drop-area-label">Drop Here</p>
               </div>
             </slide-up-down>
           </div>
 
           <div class="cptm-form-builder-active-fields-footer">
-            <button
-              type="button"
-              class="cptm-btn cptm-btn-secondery"
-              v-if="canAddSections"
-              @click="addNewActiveFieldSection()"
-            >
+            <button type="button" class="cptm-btn cptm-btn-secondery" v-if="canAddSections" @click="addNewActiveFieldSection()">
               Add new section
             </button>
           </div>
@@ -401,6 +235,7 @@ export default {
     ...mapState({
       fields: "fields",
     }),
+
     canAddSections() {
       if (!this.has_group) {
         return false;
@@ -665,6 +500,23 @@ export default {
       }
 
       return widgets;
+    },
+
+    fieldList() {
+      let field_list = [];
+
+      if ( typeof this.active_fields !== 'object' ) { return field_list }
+      if ( ! Object.keys( this.active_fields ).length ) { return field_list }
+
+      for ( let field in this.active_fields ) {
+        field_list.push({
+          value: field, 
+          label: ( this.active_fields[ field ].label ) ? this.active_fields[ field ].label : ''
+        });
+
+      }
+
+      return field_list;
     }
   },
 
@@ -1142,7 +994,6 @@ export default {
     },
 
     updateActiveGroupOptionData(option_key, group_key, $event) {
-      // console.log( 'updateActiveGroupOptionData', option_key, group_key, $event );
       Vue.set(this.groups[group_key].options[option_key], "value", $event);
       if (typeof this.groups[group_key][option_key] !== "undefined") {
         Vue.set(this.groups[group_key], option_key, $event);
@@ -1250,20 +1101,17 @@ export default {
     },
 
     resetCurrentDraggingState(key) {
-      if (!this.current_dragging_state[key]) {
+      if ( ! this.current_dragging_state[key] ) {
         return;
       }
 
-      for (let field_key in this.current_dragging_state[key]) {
+      for ( let field_key in this.current_dragging_state[key] ) {
         this.current_dragging_state[key][field_key] = "";
-        // console.log( field_key, this.current_dragging_state[ key ] );
       }
     },
 
-    activeGroupItemIsDropable(field_key, field_index, group_key) {
-      if (this.current_dragging_widget === "") {
-        return false;
-      }
+    activeGroupItemIsDropable( field_key, field_index, group_key ) {
+      if ( this.current_dragging_widget === "" ) { return false; }
 
       if (
         this.current_dragging_widget.field_key === field_key &&
@@ -1420,7 +1268,7 @@ export default {
         field: field,
       };
 
-      if (typeof field.type !== "undefined") {
+      if ( field.type && field.type === "section") {
         data.widget_type = "group";
         this.current_dragging_widget_group = data;
         return;
@@ -1569,7 +1417,7 @@ export default {
     },
 
     formFieldsHasRestriction( group_key ) {
-      let has_restriction = this.current_dragging_group !== "" || this.current_dragging_widget_group !== "";
+      let has_restriction = this.current_dragging_group !== "";
 
       return has_restriction;
     },

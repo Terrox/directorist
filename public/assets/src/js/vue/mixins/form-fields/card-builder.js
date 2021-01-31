@@ -30,7 +30,7 @@ export default {
             const deprecated_widgests_keys = Object.keys( deprecated_widgests );
             if ( ! deprecated_widgests_keys.length ) { return; }
 
-            console.log( this.local_layout );
+            // console.log( this.local_layout );
 
             for ( let section_key in this.local_layout ) {
                 const section = this.local_layout[ section_key ];

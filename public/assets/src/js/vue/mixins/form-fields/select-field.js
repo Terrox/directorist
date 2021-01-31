@@ -16,6 +16,7 @@ export default {
 
     watch: {
         local_value() {
+            console.log( this.local_value );
             this.$emit( 'update', this.local_value );
         },
 

@@ -108,6 +108,12 @@ export default {
         optionsSource: {
             required: false,
         },
+        fieldList: {
+            default: '',
+        },
+        skip: {
+            default: '',
+        },
         showDefaultOption: {
             type: Boolean,
             default: false,
