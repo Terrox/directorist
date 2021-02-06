@@ -159,17 +159,17 @@ if ( ! class_exists('ATBDP_Settings_Panel') ) {
                     'button-label'    => __( 'Run Importer', 'directorist' ),
                 ];
 
+
+                // e_var_dump( Directorist\Listings_Export::get_listings_data() );
+                // die;
+
                 $fields['listing_export_button'] = [
                     'type'             => 'export-data',
                     'label'            => __( 'Export Listings', 'directorist' ),
                     'button-label'     => __( 'Export', 'directorist' ),
                     'export-file-name' => __( 'listings', 'directorist' ),
                     'export-as'        => 'csv', // csv | json
-                    'data' => [
-                        // [ 'title' => 'Listing title 1', 'description' => 'Lorem ipsom...' ],
-                        // [ 'title' => 'Listing title 2', 'description' => 'Lorem ipsom...' ],
-                        // [ 'title' => 'Listing title 3', 'description' => 'Lorem ipsom...' ],
-                    ],
+                    'data' => Directorist\Listings_Export::get_listings_data(),
                 ];
 
                 $c = '<b><span style="color:#c71585;">'; //color start
