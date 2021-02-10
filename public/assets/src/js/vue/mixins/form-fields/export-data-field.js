@@ -45,6 +45,8 @@ export default {
             let dataStr = "data:text/csv;charset=utf-8,";
 
             let tr_count = 0;
+            let delimeter = '~';
+
             for ( let tr of this.data ) {
                 if ( ! tr || typeof tr !== 'object' ) { continue; }
 
@@ -55,17 +57,18 @@ export default {
                         header_row_array.push( td );
                     }
 
-                    let header_row = header_row_array.join(',');
+                    let header_row = header_row_array.join( delimeter );
                     dataStr += header_row + "\r\n";
                 }
                 
                 // Body Row
                 let body_row_array = [];
                 for ( let td in tr ) {
-                    body_row_array.push( tr[ td ] );
+                    let data = ( typeof tr[ td ] === 'object' ) ? JSON.stringify( tr[ td ] ) : tr[ td ];
+                    body_row_array.push( data );
                 }
 
-                let body_row = body_row_array.join(',');
+                let body_row = body_row_array.join( delimeter );
                 dataStr += body_row + "\r\n";
 
                 tr_count++;
