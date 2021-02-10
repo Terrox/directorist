@@ -256,6 +256,9 @@ input[type="file"].ezmu__file-input + .ezmu__input-label {
 .ezmu__thumbnail-list-item {
   margin: 5px;
   width: 100%;
+  max-width: 300px;
+  -ms-flex-preferred-size: 300px;
+  flex-basis: 300px;
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -432,6 +435,10 @@ input[type="file"].ezmu__file-input + .ezmu__input-label {
   justify-content: center;
   background-color: #d4d4d4;
 }
+.ezmu__thumbnail-list-item_back{
+  height: 200px;
+  width: 100%;
+}
 .ezmu__thumbnail-img {
   display: block;
   width: 100%;
@@ -491,7 +498,7 @@ input[type="file"].ezmu__file-input + .ezmu__input-label {
   list-style: none;
   display: inline-block;
   margin-bottom: 5px;
-  margin-right: 20px;
+  margin-right: 20px !important;
   color:gray;
   font-size: 14px;
   transition: all ease-in-out 300ms;
