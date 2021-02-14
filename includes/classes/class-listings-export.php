@@ -24,13 +24,17 @@ class Listings_Export {
                 'verify'      => 'verifyTaxonomyField',
                 'update_data' => 'updateTaxonomyFieldData',
             ],
-            'price_module_fields' => [
-                'verify'      => 'verifyPriceModuleFields',
-                'update_data' => 'updatePriceModuleFieldsData',
+            'listing_image_module_field' => [
+                'verify'      => 'verifyListingImageModuleField',
+                'update_data' => 'updateListingImageModuleFieldsData',
             ],
-            'map_module_fields' => [
-                'verify'      => 'verifyMapModuleFields',
-                'update_data' => 'updateMapModuleFieldsData',
+            'price_module_field' => [
+                'verify'      => 'verifyPriceModuleField',
+                'update_data' => 'updatePriceModuleFieldData',
+            ],
+            'map_module_field' => [
+                'verify'      => 'verifyMapModuleField',
+                'update_data' => 'updateMapModuleFieldData',
             ],
             'meta_key_field' => [
                 'verify'      => 'verifyMetaKeyField',
@@ -43,14 +47,12 @@ class Listings_Export {
                 $listings->the_post();
                 
                 $row = [];
+                $row['id'] = get_the_ID();
                 $row['directory_type'] = self::get_directory_slug_by_id( get_the_id() );
 
                 $directory_type_id = get_post_meta( get_the_ID(), '_directory_type', true );
                 $submission_form   = get_term_meta( $directory_type_id, 'submission_form_fields', true );
 
-                // var_dump( $directory_type_id );
-                
-                
                 if ( 'array' === gettype( $submission_form ) && ! empty( $submission_form['fields'] ) ) {
                     foreach ( $submission_form['fields'] as $field_key => $field_args ) {
                         foreach ( $field_map as $field_map_key => $field_map_args ) {
@@ -133,6 +135,49 @@ class Listings_Export {
         return $row;
     }
 
+    // verifyListingImageModuleField
+    public static function verifyListingImageModuleField( array $args = [] ) {
+        if ( empty( $args['widget_group'] ) ) { return false; }
+        if ( empty( $args['widget_name'] ) ) { return false; }
+        if ( empty( $args['field_key'] ) ) { return false; }
+        if ( 'preset' !== $args['widget_group'] ) { return false; }
+        if ( 'listing_img' !== $args['field_key'] ) { return false; }
+        
+        return true;
+    }
+
+    // updateListingImageModuleFieldsData
+    public static function updateListingImageModuleFieldsData( array $row = [], string $field_key = '', array $field_args = [] ) {
+        
+        $image_urls          = [];
+        $_listing_prv_img_id = get_post_meta( get_the_ID(), '_listing_prv_img', true );
+        $_listing_img_id     = get_post_meta( get_the_ID(), '_listing_img', true );
+
+        if ( empty( $_listing_prv_img_id ) && empty( $_listing_img_id ) ) {
+            return $row;
+        }
+
+        if ( ! empty( $_listing_prv_img_id ) ) {
+            $preview_image_url = wp_get_attachment_image_url( $_listing_prv_img_id, 'full' );
+            $image_urls[] = $preview_image_url;
+        }
+
+        if ( ! empty( $_listing_img_id ) ) {
+            foreach ( $_listing_img_id as $_img_id ) {
+
+                if ( $_img_id === $_listing_prv_img_id ) { continue; }
+
+                $image_url = wp_get_attachment_image_url( $_img_id, 'full' );
+                $image_urls[] = $image_url;
+            }
+        }
+
+        $image_urls = implode( ',', $image_urls );
+        $row[ $field_args['field_key'] ] = $image_urls;
+
+        return $row;
+    }
+
     // verifyMetaKeyField
     public static function verifyMetaKeyField( array $args = [] ) {
         if ( empty( $args['widget_group'] ) ) { return false; }
@@ -145,13 +190,13 @@ class Listings_Export {
     // updateMetaKeyFieldData
     public static function updateMetaKeyFieldData( array $row = [], string $field_key = '', array $field_args = [] ) {
         $value = get_post_meta( get_the_id(), '_' . $field_args['field_key'], true );
-        $row[ $field_key ] = $value;
+        $row[ $field_args['field_key'] ] = $value;
 
         return $row;
     }
 
-    // verifyPriceModuleFields
-    public static function verifyPriceModuleFields( array $args = [] ) {
+    // verifyPriceModuleField
+    public static function verifyPriceModuleField( array $args = [] ) {
         if ( empty( $args['widget_group'] ) ) { return false; }
         if ( empty( $args['widget_name'] ) ) { return false; }
         if ( 'pricing' !== $args['widget_name'] ) { return false; }
@@ -159,8 +204,8 @@ class Listings_Export {
         return true;
     }
 
-    // updatePriceModuleFieldsData
-    public static function updatePriceModuleFieldsData( array $row = [], string $field_key = '', array $field_args = [] ) {
+    // updatePriceModuleFieldData
+    public static function updatePriceModuleFieldData( array $row = [], string $field_key = '', array $field_args = [] ) {
         $row[ 'price' ] = get_post_meta( get_the_id(), '_price', true );
         $row[ 'price_range' ] = get_post_meta( get_the_id(), '_price_range', true );
         $row[ 'atbd_listing_pricing' ] = get_post_meta( get_the_id(), '_atbd_listing_pricing', true );
@@ -169,8 +214,8 @@ class Listings_Export {
     }
 
 
-    // verifyMapModuleFields
-    public static function verifyMapModuleFields( array $args = [] ) {
+    // verifyMapModuleField
+    public static function verifyMapModuleField( array $args = [] ) {
         if ( empty( $args['widget_group'] ) ) { return false; }
         if ( empty( $args['widget_name'] ) ) { return false; }
         if ( 'map' !== $args['widget_name'] ) { return false; }
@@ -178,8 +223,8 @@ class Listings_Export {
         return true;
     }
 
-    // updateMapModuleFieldsData
-    public static function updateMapModuleFieldsData( array $row = [], string $field_key = '', array $field_args = [] ) {
+    // updateMapModuleFieldData
+    public static function updateMapModuleFieldData( array $row = [], string $field_key = '', array $field_args = [] ) {
         $row[ 'hide_map' ] = get_post_meta( get_the_id(), '_hide_map', true );
         $row[ 'manual_lat' ] = get_post_meta( get_the_id(), '_manual_lat', true );
         $row[ 'manual_lng' ] = get_post_meta( get_the_id(), '_manual_lng', true );

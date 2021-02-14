@@ -9,15 +9,16 @@
 if (!defined('ABSPATH')) {
 	exit;
 }
-$file            = isset($_GET['file']) ? wp_unslash($_GET['file']) : '';
-$delimiter       = isset($_GET['delimiter']) ? wp_unslash($_GET['delimiter']) : ',';
-$posts           = csv_get_data($file, true, $delimiter);
-$total           = count($posts);
-$update_existing = isset($_GET['update_existing']) ? sanitize_key($_GET['update_existing']) : false;
+$file            = isset( $_GET['file'] ) ? wp_unslash( $_GET['file'] ) : '';
+$delimiter       = isset( $_GET['delimiter'] ) ? wp_unslash( $_GET['delimiter'] ) : ',';
+$posts           = csv_get_data( $file, true, $delimiter );
+$total           = count( $posts );
+$update_existing = isset( $_GET['update_existing'] ) ? sanitize_key( $_GET['update_existing'] ) : false;
 
-$builder_posts = csv_get_data( $file, true, '~' );
+$builder_posts    = csv_get_data( $file, true, ',' );
 $csv_from_builder = csv_from_builder( $builder_posts );
-$delimiter = ( $csv_from_builder ) ? '~' : $delimiter;
+$delimiter        = ( $csv_from_builder ) ? ',' : $delimiter;
+$total            = ( $csv_from_builder ) ? count( $builder_posts ) : $total;
 
 // csv_from_builder
 function csv_from_builder( $data = [] ) {

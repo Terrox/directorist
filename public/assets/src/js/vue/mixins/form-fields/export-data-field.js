@@ -44,17 +44,19 @@ export default {
 
             let dataStr = "data:text/csv;charset=utf-8,";
 
-            let tr_count = 0;
-            let delimeter = '~';
+            let tr_count  = 0;
+            let delimeter = ',';
 
-            for ( let tr of this.data ) {
+            let table = this.justifyTable( this.data );
+
+            for ( let tr of table ) {
                 if ( ! tr || typeof tr !== 'object' ) { continue; }
 
                 // Header Row
                 let header_row_array = [];
                 if ( 0 === tr_count ) {
                     for ( let td in tr ) {
-                        header_row_array.push( td );
+                        header_row_array.push( `"${td}"` );
                     }
 
                     let header_row = header_row_array.join( delimeter );
@@ -64,8 +66,8 @@ export default {
                 // Body Row
                 let body_row_array = [];
                 for ( let td in tr ) {
-                    let data = ( typeof tr[ td ] === 'object' ) ? JSON.stringify( tr[ td ] ) : tr[ td ];
-                    body_row_array.push( data );
+                    let data = ( typeof tr[ td ] === 'object' ) ? '' : tr[ td ];
+                    body_row_array.push( `"${data}"` );
                 }
 
                 let body_row = body_row_array.join( delimeter );
@@ -95,5 +97,30 @@ export default {
             linkElement.setAttribute('download', exportFileDefaultName);
             linkElement.click();
         },
+
+        justifyTable( table ) {
+
+            if ( ! Array.isArray( table ) ) { return table; }
+            if ( ! table.length ) { return table; }
+
+            let tr_lengths = [];
+            table.forEach( ( item, index ) => {
+                tr_lengths.push( Object.keys( item ).length );
+            });
+
+            let top_tr = tr_lengths.indexOf( Math.max( ...tr_lengths ) );
+            const modal_tr = table[ top_tr ];
+
+            let justify_table = [];
+            table.forEach( ( item, index ) => {
+                let tr = {};
+                for ( let key in modal_tr ) {
+                    tr[ key ] = ( item[ key ] ) ? item[ key ] : '';
+                }
+                justify_table.push( tr );
+            });
+
+            return justify_table;
+        }
     }
 }

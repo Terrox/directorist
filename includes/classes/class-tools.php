@@ -136,8 +136,10 @@
                     }
 
                     foreach ($metas as $index => $value) {
-                        $meta_value = $post[$value] ? $post[$value] : '';
-                        if($meta_value){
+                        $meta_value = $post[ $value ] ? $post[ $value ] : '';
+                        $meta_value = maybe_unserialize( maybe_unserialize( $meta_value ) );
+
+                        if ( $meta_value ) {
                             update_post_meta($post_id, '_'.$index, $meta_value);
                         }
                     }
@@ -154,10 +156,22 @@
                     
                     update_post_meta($post_id, '_directory_type', $directory_type);
                     $preview_url = isset($post[$preview_image]) ? $post[$preview_image] : '';
+                    $preview_url = explode( ',', $preview_url );
 
                     if ( $preview_url ) {
-                       $attachment_id = self::atbdp_insert_attachment_from_url($preview_url, $post_id);
-                       update_post_meta($post_id, '_listing_prv_img', $attachment_id);
+                        $ind = 0;
+                        foreach ( $preview_url as $_url ) {
+                            $attachment_id = self::atbdp_insert_attachment_from_url($_url, $post_id);
+
+                            if ( 1 === $ind ) {
+                                update_post_meta($post_id, '_listing_prv_img', $attachment_id);
+                            } else {
+                                update_post_meta($post_id, '_listing_img', $attachment_id);
+                            }
+                            
+                            $ind++;
+                        }
+                        
                     }
 
                     $count++;

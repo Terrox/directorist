@@ -159,10 +159,6 @@ if ( ! class_exists('ATBDP_Settings_Panel') ) {
                     'button-label'    => __( 'Run Importer', 'directorist' ),
                 ];
 
-
-                // e_var_dump( Directorist\Listings_Export::get_listings_data() );
-                // die;
-
                 $fields['listing_export_button'] = [
                     'type'             => 'export-data',
                     'label'            => __( 'Export Listings', 'directorist' ),
