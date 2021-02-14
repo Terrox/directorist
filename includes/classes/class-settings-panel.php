@@ -1963,7 +1963,7 @@ Please remember that your order may be canceled if you do not make your payment 
                 'single_listing_template' => [
                     'label' => __('Template', 'directorist'),
                     'type'  => 'select',
-                    'value' => 'current_theme_template',
+                    'value' => 'theme_template_page',
                     'show-if' => [
                         'where' => "disable_single_listing",
                         'conditions' => [
@@ -1972,12 +1972,16 @@ Please remember that your order may be canceled if you do not make your payment 
                     ],
                     'options' => [
                         [
+                            'value' => 'theme_template_page',
+                            'label' => __('Theme Template (Page)', 'directorist'),
+                        ],
+                        [
                             'value' => 'current_theme_template',
-                            'label' => __('Current Theme Template (used for posts)', 'directorist'),
+                            'label' => __('Theme Template (Post)', 'directorist'),
                         ],
                         [
                             'value' => 'directorist_template',
-                            'label' => __('Directorist Custom Template', 'directorist'),
+                            'label' => __('Directorist Template', 'directorist'),
                         ],
                     ],
                 ],
@@ -2166,20 +2170,9 @@ Please remember that your order may be canceled if you do not make your payment 
                     ],
                 ],
                 // badge settings
-                'display_new_badge_cart' => [
-                    'type' => 'toggle',
-                    'label' => __('Display New Badge', 'directorist'),
-                    'value' => true,
-                ],
                 'new_badge_text' => [
                     'type' => 'text',
                     'label' => __('New Badge Text', 'directorist'),
-                    'show-if' => [
-                        'where' => "display_new_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                     'value' => __('New', 'directorist'),
                 ],
                 'new_listing_day' => [
@@ -2189,55 +2182,21 @@ Please remember that your order may be canceled if you do not make your payment 
                     'min' => '1',
                     'max' => '100',
                     'step' => '1',
-                    'show-if' => [
-                        'where' => "display_new_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
-                ],
-                'display_feature_badge_cart' => [
-                    'type' => 'toggle',
-                    'label' => __('Display Featured Badge', 'directorist'),
-                    'value' => true,
                 ],
                 'feature_badge_text' => [
                     'type' => 'text',
                     'label' => __('Featured Badge Text', 'directorist'),
-                    'show-if' => [
-                        'where' => "display_feature_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                     'value' => __('Featured', 'directorist'),
-                ],
-                'display_popular_badge_cart' => [
-                    'type' => 'toggle',
-                    'label' => __('Display Popular Badge', 'directorist'),
-                    'value' => true,
                 ],
                 'popular_badge_text' => [
                     'type' => 'text',
                     'label' => __('Popular Badge Text', 'directorist'),
-                    'show-if' => [
-                        'where' => "display_popular_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                     'value' => __('Popular', 'directorist'),
                 ],
                 'listing_popular_by' => [
                     'label' => __('Popular Based on', 'directorist'),
                     'type'  => 'select',
                     'value' => 'view_count',
-                    'show-if' => [
-                        'where' => "display_popular_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                     'options' => [
                         [
                             'value' => 'view_count',
@@ -2256,12 +2215,6 @@ Please remember that your order may be canceled if you do not make your payment 
                 'views_for_popular' => [
                     'type' => 'text',
                     'label' => __('Threshold in Views Count', 'directorist'),
-                    'show-if' => [
-                        'where' => "display_popular_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                     'value' => 5,
                 ],
                 'average_review_for_popular' => [
@@ -2271,12 +2224,6 @@ Please remember that your order may be canceled if you do not make your payment 
                     'min' => '.5',
                     'max' => '4.5',
                     'step' => '.5',
-                    'show-if' => [
-                        'where' => "display_popular_badge_cart",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ],
                 ],
                 
                 // review settings 
@@ -2566,6 +2513,22 @@ Please remember that your order may be canceled if you do not make your payment 
                     'value'         => __('Favorite Listings', 'directorist'),
                     'show-if' => [
                         'where' => "fav_listings_tab",
+                        'conditions' => [
+                            ['key' => 'value', 'compare' => '=', 'value' => true],
+                        ],
+                    ],
+                ],
+                'announcement_tab' => [
+                    'type'  => 'toggle',
+                    'label' => __('Display Announcements Tab', 'directorist'),
+                    'value' => true,
+                ],
+                'announcement_tab_text'    => [
+                    'type'          => 'text',
+                    'label'         => __('"Announcement" Tab Label', 'directorist'),
+                    'value'         => __('Announcements', 'directorist'),
+                    'show-if' => [
+                        'where' => "announcement_tab",
                         'conditions' => [
                             ['key' => 'value', 'compare' => '=', 'value' => true],
                         ],
@@ -3815,6 +3778,11 @@ Please remember that your order may be canceled if you do not make your payment 
                         ],
                     ],
                 ],
+                'display_user_type' => [
+                    'label'         => __('Enable', 'directorist'),
+                    'type'          => 'toggle',
+                    'value'         => false,
+                ],
                 'reg_signup'    => [
                     'type'          => 'text',
                     'label'         => __('Text', 'directorist'),
@@ -4621,6 +4589,13 @@ Please remember that your order may be canceled if you do not make your payment 
                                         'display_bio_reg', 'reg_bio', 'require_bio_reg'
                                      ],
                                 ],
+                                'user_type' => [
+                                    'title'       => __('User Type Registration', 'directorist'),
+                                    'description' => '',
+                                    'fields'      => [ 
+                                        'display_user_type'
+                                     ],
+                                ],
                                 'privacy_policy' => [
                                     'title'       => __('Privacy Policy', 'directorist'),
                                     'description' => '',
@@ -4635,6 +4610,7 @@ Please remember that your order may be canceled if you do not make your payment 
                                         'regi_terms_condition', 'regi_terms_label', 'regi_terms_label_link'
                                      ],
                                 ],
+                            
                                 'signup_button' => [
                                     'title'       => __('Sign Up Button', 'directorist'),
                                     'description' => '',
@@ -4720,7 +4696,7 @@ Please remember that your order may be canceled if you do not make your payment 
                             'sections' => apply_filters( 'atbdp_listing_settings_user_dashboard_sections', [
                                 'labels' => [
                                     'fields'      => [
-                                        'my_listing_tab', 'my_listing_tab_text', 'user_listings_pagination', 'user_listings_per_page', 'my_profile_tab', 'my_profile_tab_text', 'fav_listings_tab', 'fav_listings_tab_text', 'submit_listing_button'
+                                        'my_listing_tab', 'my_listing_tab_text', 'user_listings_pagination', 'user_listings_per_page', 'my_profile_tab', 'my_profile_tab_text', 'fav_listings_tab', 'fav_listings_tab_text', 'announcement_tab', 'announcement_tab_text', 'submit_listing_button'
                                     ],
                                 ],
                             ] ),
@@ -5000,21 +4976,21 @@ Please remember that your order may be canceled if you do not make your payment 
                                     'title'       => __('Badge Management', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
-                                        'display_new_badge_cart', 'new_badge_text', 'new_listing_day', 'display_feature_badge_cart', 'feature_badge_text'
+                                        'new_badge_text', 'new_listing_day'
                                     ],
                                 ],
                                 'popular_badge' => [
                                     'title'       => __('Popular Badge', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
-                                        'display_popular_badge_cart', 'popular_badge_text', 'listing_popular_by', 'views_for_popular', 'average_review_for_popular'
+                                        'popular_badge_text', 'listing_popular_by', 'views_for_popular', 'average_review_for_popular'
                                     ],
                                 ],
                                 'featured_badge' => [
                                     'title'       => __('Featured Badge', 'directorist'),
                                     'description' => '',
                                     'fields'      => [
-                                        'featured_listing_title'
+                                        'feature_badge_text'
                                     ],
                                 ],
                             ] ),

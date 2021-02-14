@@ -94,8 +94,6 @@ class Directorist_Listings {
 	public $display_mark_as_fav;
 	public $display_publish_date;
 	public $display_contact_info;
-	public $display_feature_badge_cart;
-	public $display_popular_badge_cart;
 	public $enable_tagline;
 	public $enable_excerpt;
 	public $display_author_image;
@@ -200,7 +198,6 @@ class Directorist_Listings {
 		$this->options['font_type']                       = get_directorist_option('font_type','line');
 		$this->options['display_publish_date']            = get_directorist_option('display_publish_date', 1) ? true : false;
 		$this->options['publish_date_format']             = get_directorist_option('publish_date_format', 'time_ago');
-		$this->options['display_feature_badge_cart']      = get_directorist_option( 'display_feature_badge_cart', 1 ) ? true : false;
 	}
 
 	// update_search_options
@@ -367,6 +364,7 @@ class Directorist_Listings {
 			'business_hours'          => ! empty( $bdbh ) ? atbdp_sanitize_array( $bdbh ) : array(),
 			'enable247hour'           => get_post_meta( $id, '_enable247hour', true ),
 			'disable_bz_hour_listing' => get_post_meta( $id, '_disable_bz_hour_listing', true ),
+			'bdbh_version' 			  => get_post_meta( $id, '_bdbh_version', true ),
 			'author_id'               => $author_id,
 			'author_data'             => $author_data,
 			'author_full_name'        => $author_first_name . ' ' . $author_last_name,
@@ -1017,6 +1015,11 @@ class Directorist_Listings {
 		return apply_filters( 'atbdp_listing_search_query_argument', $args );
 	}
 
+	public function archive_view_template() {
+		$template_file = "archive/{$this->view}-view";
+		Helper::get_template( $template_file, array( 'listings' => $this ) );
+	}
+
 	public function render_shortcode() {
 		wp_enqueue_script('adminmainassets');
 		wp_enqueue_script('atbdp_search_listing');
@@ -1040,11 +1043,42 @@ class Directorist_Listings {
 		}
 		
 		// Load the template
-		$template_file = "listings-archive/listings-{$this->view}";
-		URI_Helper::get_template( $template_file, array('listings' => $this), 'listings_archive' );
+		Helper::get_template( 'archive-contents', array( 'listings' => $this ), 'listings_archive' );
 
 		return ob_get_clean();
 	}
+
+	public function have_posts() {
+		return !empty( $this->query_results->ids ) ? true : false;
+	}
+
+	public function post_ids() {
+		return $this->query_results->ids;
+	}
+
+	public function loop_template( $loop = 'grid', $id = NULL ) {
+		if( ! $id ) return;
+		global $post;
+		$post = get_post( $id );
+		setup_postdata( $id );
+		$this->set_loop_data();
+
+		if ( $loop == 'grid' ) {
+			$active_template = $this->loop['card_fields']['active_template'];
+			$template = ( $active_template == 'grid_view_with_thumbnail' ) ? 'loop-grid' : 'loop-grid-nothumb';
+		}
+		elseif ( $loop == 'list' ) {
+			$active_template = $this->loop['list_fields']['active_template'];
+			$template = ( $active_template == 'list_view_with_thumbnail' ) ? 'loop-list' : 'loop-list-nothumb';
+		}
+		else {
+			$template = 'grid';
+		}
+
+		Helper::get_template( 'archive/' . $template, array( 'listings' => $this ) );
+		wp_reset_postdata();
+	}
+
 
 	public function setup_loop( array $args = [] ) {
 		$default = [
@@ -1065,11 +1099,6 @@ class Directorist_Listings {
 				$counter++;
 				$GLOBALS['post'] = get_post( $listings_id );
 				setup_postdata( $GLOBALS['post'] );
-				/**
-				 * @since 6.5.6
-				 * 
-				 */
-				do_action( 'atbdp_listings_loop', $counter );
 				$this->set_loop_data();
 
 				if ( $args['template'] == 'grid' ) {
@@ -1083,8 +1112,8 @@ class Directorist_Listings {
 				else {
 					$template = $args['template'];
 				}
-
-				URI_Helper::get_template( "listings-archive/loop/" . $template, array('listings' => $this) );
+				
+				Helper::get_template( "archive/fields/" . $template, array('listings' => $this) );
 			endforeach;
 
 			$GLOBALS['post'] = $original_post;
@@ -1099,7 +1128,7 @@ class Directorist_Listings {
 		$view      = ! empty( $this->view ) ? $this->view : '';
 
 		foreach ( $this->views as $value => $label ) {
-			$active_class = ( $view === $value ) ? ' active' : '';
+			$active_class = ( $view === $value ) ? 'active' : '';
 			$link         = add_query_arg( 'view', $value );
 			$link_item    = array();
 
@@ -1200,16 +1229,7 @@ class Directorist_Listings {
 		);
 	}
 
-	public function loop_template( $loop = 'grid' ) {
-		while ($this->query->have_posts()) {
-			$this->query->the_post();
-			$this->set_loop_data();
-			URI_Helper::get_template( "listings-archive/loop/$loop", array('listings' => $this) );
-		}
-		wp_reset_postdata();
-	}
-
-	public function map_template() {
+	public function render_map() {
 		if ( 'google' == $this->select_listing_map ) {
 			$this->load_google_map();
 		}
@@ -1377,7 +1397,7 @@ class Directorist_Listings {
 				ob_start();
 
 				if (!empty($opt['display_map_info']) && (!empty($opt['display_image_map']) || !empty($opt['display_title_map']) || $opt['display_address_map']) || !empty($opt['display_direction_map'])) {
-					URI_Helper::get_template( 'listings-archive/loop/openstreet-map', $opt );
+					Helper::get_template( 'archive/fields/openstreet-map', $opt );
 				}
 
 				$ls_data['info_content'] = ob_get_clean();
@@ -1466,7 +1486,7 @@ class Directorist_Listings {
 					
 					if ( ! empty( $ls_data['manual_lat'] ) && ! empty( $ls_data['manual_lng'] ) ) {
 						$opt['ls_data'] = $ls_data;
-						URI_Helper::get_template( 'listings-archive/loop/google-map', $opt );
+						Helper::get_template( 'archive/fields/google-map', $opt );
 					}
 
 				endforeach;
@@ -1514,7 +1534,7 @@ class Directorist_Listings {
 		}
 
 		public function loop_thumb_card_template() {
-			URI_Helper::get_template( 'listings-archive/loop/thumb-card', array('listings' => $this) );
+			Helper::get_template( 'archive/fields/thumb-card', array('listings' => $this) );
 		}
 
 		public function loop_get_published_date( $data ) {
@@ -1536,6 +1556,16 @@ class Directorist_Listings {
 				$title = $this->loop['title'];
 			}
 			return $title;
+		}
+
+		public function loop_is_favourite() {
+			$favourites = (array) get_user_meta( get_current_user_id(), 'atbdp_favourites', true );
+			if ( in_array( get_the_id() , $favourites ) ) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		public function item_found_title_for_search($count) {
@@ -1584,16 +1614,20 @@ class Directorist_Listings {
 			$count = $this->query_results->total;
 
 			if ( $this->type == 'search_result' ) {
-				$title = $this->item_found_title_for_search($count);
+				$title = $this->item_found_title_for_search( $count );
 			}
 			else {
-				$title = sprintf('<span>%s</span> %s', $count, $this->header_title);
+				$title = sprintf('<span>%s</span> %s', $count, $this->header_title );
 			}
-			return apply_filters('atbdp_total_listings_found_text', "<h3>{$title}</h3>", $title);
+			return apply_filters('directorist_listings_found_text', $title );
 		}
 
 		public function masonary_grid_attr() {
 			return ($this->view_as !== 'masonry_grid') ? '' : ' data-uk-grid';
+		}
+
+		public function grid_view_class() {
+			return $this->view_as == 'masonry_grid' ? 'directorist-grid-masonary' : 'directorist-grid-normal';
 		}
 
 		public function get_the_location() {
@@ -1624,7 +1658,11 @@ class Directorist_Listings {
 		}
 
 		public function loop_wrapper_class() {
-			return ($this->loop['featured']) ? 'directorist-featured-listings' : '';
+			$class  = '';
+			$class .= $this->loop['featured'] ? 'directorist-featured' : '';
+			$class .= $this->info_display_in_single_line ? 'directorist-single-line' : '';
+			$class  = apply_filters( 'directorist_loop_wrapper_class', $class );
+			return $class;
 		}
 
 		public function loop_link_attr() {
@@ -1656,18 +1694,11 @@ class Directorist_Listings {
 			return ( $this->display_viewas_dropdown || $this->display_sortby_dropdown ) ? true : false;
 		}
 
-		public function filter_container_class() {
-			echo ( 'overlapping' === $this->filters_display ) ? 'ads_float' : 'ads_slide';
-		}
-
 		public function render_card_field( $field ) {
-							
-
 			if ( $field['type'] == 'badge' ) {
 				$this->render_badge_template($field);
 			}
 			else {
-			
 				$submission_form_fields = get_term_meta( $this->current_listing_type, 'submission_form_fields', true );
 				$original_field = !empty( $submission_form_fields['fields'][$field['widget_key']] ) ? $submission_form_fields['fields'][$field['widget_key']] : '';
 
@@ -1686,7 +1717,7 @@ class Directorist_Listings {
 					$load_template = false;
 				}
 				
-				$label = !empty( $field['show_label'] ) ? $field['label'].' ' : '';
+				$label = !empty( $field['show_label'] ) ? $field['label']: '';
 				$args = array(
 					'listings' => $this,
 					'post_id'  => $id,
@@ -1694,16 +1725,35 @@ class Directorist_Listings {
 					'value'    => $value,
 					'label'    => $label,
 					'icon'     => !empty( $field['icon'] ) ? $field['icon'] : '',
-					'original_field'    => $submission_form_fields,
+					'original_field' => $submission_form_fields,
 				);
 
-				
-				$template = 'listings-archive/loop/' . $field['widget_name'];
-				// e_var_dump( $template );
-				if( $load_template ) {
-					URI_Helper::get_template( $template, $args );
+				if ( $this->is_custom_field( $field ) ) {
+					$template = 'archive/custom-fields/' . $field['widget_name'];
+				}
+				else {
+					$template = 'archive/fields/' . $field['widget_name'];
 				}
 
+				if( $load_template ) {
+					Helper::get_template( $template, $args );
+				}
+
+			}
+		}
+
+		public function is_custom_field( $data ) {
+			$fields = [ 'checkbox', 'color_picker', 'date', 'file', 'number', 'radio', 'select', 'text', 'textarea', 'time', 'url' ];
+			return in_array( $data['widget_name'], $fields ) ? true : false;
+		}
+
+		public function print_label( $label ) {
+			if ( $label ) {
+				$label_text = $label . ': ';
+				echo apply_filters( 'directorist_loop_label', $label_text, $label );
+			}
+			else {
+				return;
 			}
 		}
 
@@ -1713,43 +1763,34 @@ class Directorist_Listings {
 					echo $before;$this->render_card_field( $field );echo $after;
 				}
 			}
-			
 		}
 
 		public function render_badge_template( $field ) {
 			global $post;
 			$id = get_the_ID();
-			// for development purpose
-			do_action( 'atbdp_all_listings_badge_template', $field );
 
 			switch ($field['widget_key']) {
 				case 'popular_badge':
 				$field['class'] = 'popular';
-				$popular_listing_id = atbdp_popular_listings( $id );
-				if ( $popular_listing_id === $id ) {
-					URI_Helper::get_template( 'listings-archive/loop/badge', $field );
+				$field['label'] = Helper::popular_badge_text();
+				if ( Helper::is_popular( $id ) ) {
+					Helper::get_template( 'archive/fields/badge', $field );
 				}
 				break;
 
 				case 'featured_badge':
 				$field['class'] = 'featured';
-				$featured = get_post_meta( $id, '_featured', true );
-				if ( $featured ) {
-					URI_Helper::get_template( 'listings-archive/loop/badge', $field );
+				$field['label'] = Helper::featured_badge_text();
+				if ( Helper::is_featured( $id ) ) {
+					Helper::get_template( 'archive/fields/badge', $field );
 				}
 				break;
 
 				case 'new_badge':
 				$field['class'] = 'new';
-
-				$new_listing_time = get_directorist_option('new_listing_day');
-				$each_hours = 60 * 60 * 24; // seconds in a day
-				$s_date1 = strtotime(current_time('mysql')); // seconds for date 1
-				$s_date2 = strtotime($post->post_date); // seconds for date 2
-				$s_date_diff = abs($s_date1 - $s_date2); // different of the two dates in seconds
-				$days = round($s_date_diff / $each_hours); // divided the different with second in a day
-				if ($days <= (int)$new_listing_time) {
-					URI_Helper::get_template( 'listings-archive/loop/badge', $field );
+				$field['label'] = Helper::new_badge_text();
+				if ( Helper::is_new( $id ) ) {
+					Helper::get_template( 'archive/fields/badge', $field );
 				}
 				break;
 			}
@@ -1766,21 +1807,80 @@ class Directorist_Listings {
 		}
 
 		public function sortby_dropdown_template() {
-			$html = URI_Helper::get_template_contents( 'listings-archive/sortby-dropdown', array('listings' => $this) );
-			echo apply_filters('atbdp_listings_header_sort_by_button', $html);
+			Helper::get_template( 'archive/sortby-dropdown', array( 'listings' => $this ) );
 		}
 
 		public function viewas_dropdown_template() {
-			$html = URI_Helper::get_template_contents( 'listings-archive/viewas-dropdown', array('listings' => $this) );
-			echo apply_filters('atbdp_listings_view_as', $html, $this->view, $this->views);
+			Helper::get_template( 'archive/viewas-dropdown', array( 'listings' => $this ) );
 		}
 
-		public function advanced_search_form_template() {
+		public function search_form_template() {
 			$args = array(
 				'listings'   => $this,
 				'searchform' => new Directorist_Listing_Search_Form( $this->type, $this->current_listing_type ),
 			);
-			URI_Helper::get_template( 'listings-archive/advanced-search-form', $args );
+			Helper::get_template( 'archive/search-form', $args );
+		}
+
+		public function filter_btn_html() {
+			if ( $this->has_filters_icon ) {
+				return sprintf( '<span class="%s-filter"></span> %s', atbdp_icon_type(), $this->filter_button_text );
+			}
+			else {
+				return $this->filter_button_text;
+			}
+		}
+
+		public function directory_type_nav_template() {
+			$count = count( $this->listing_types );
+			$enable_multi_directory = get_directorist_option( 'enable_multi_directory', false );
+			if ( $count > 1 && ! empty( $enable_multi_directory ) ) {
+				Helper::get_template( 'archive/directory-type-nav', array('listings' => $this) );
+			}
+		}
+
+		public function header_bar_template() {
+			if ( !$this->header ) {
+				return;
+			}
+
+			Helper::get_template( 'archive/header-bar', array('listings' => $this) );
+		}
+
+		public function single_line_display_class() {
+			return $this->info_display_in_single_line ? 'directorist-single-line' : '';
+		}
+
+		public function pagination( $echo = true ) {
+			$navigation = '';
+			$paged = 1;
+			$largeNumber = 999999999;
+
+			$total = ( isset( $this->query_results->total_pages ) ) ? $this->query_results->total_pages : $this->query_results->max_num_pages;
+			$paged = ( isset( $this->query_results->current_page ) ) ? $this->query_results->current_page : $paged;
+
+			$links = paginate_links(array(
+				'base'      => str_replace($largeNumber, '%#%', esc_url(get_pagenum_link($largeNumber))),
+				'format'    => '?paged=%#%',
+				'current'   => max(1, $paged),
+				'total'     => $total,
+				'prev_text' => apply_filters('directorist_pagination_prev_text', '<span class="fa fa-chevron-left"></span>'),
+				'next_text' => apply_filters('directorist_pagination_next_text', '<span class="fa fa-chevron-right atbdp_right_nav"></span>'),
+			));
+
+			if ( $links ) {
+				$navigation = '<div class="directorist-pagination">'.$links.'</div>';
+			}
+
+
+			$result = apply_filters('directorist_pagination', $navigation, $links, $this->query_results, $paged );
+
+			if ( $echo ) {
+				echo $result;
+			}
+			else {
+				return $result;
+			}
 		}
 
     	// Hooks ------------
@@ -1788,7 +1888,7 @@ class Directorist_Listings {
 			$count = count( $listings->listing_types );
 			$enable_multi_directory = get_directorist_option( 'enable_multi_directory', false );
 			if ( $count > 1 && ! empty( $enable_multi_directory ) ) {
-				URI_Helper::get_template( 'listings-archive/listing-types', array('listings' => $listings) );
+				Helper::get_template( 'archive/listing-types', array('listings' => $listings) );
 			}
 		}
 
@@ -1797,15 +1897,14 @@ class Directorist_Listings {
 				return;
 			}
 
-			URI_Helper::get_template( 'listings-archive/listings-header', array('listings' => $listings) );
+			Helper::get_template( 'archive/listings-header', array('listings' => $listings) );
 		}
 
 		public static function featured_badge( $content ) {
 			$featured = get_post_meta( get_the_ID(), '_featured', true );
-			$display_feature_badge_cart = get_directorist_option( 'display_feature_badge_cart', 1 ) ? true : false;
 			$feature_badge_text         = get_directorist_option( 'feature_badge_text', __( 'Featured', 'directorist' ) );
 
-			if ( $featured && $display_feature_badge_cart ) {
+			if ( $featured ) {
 				$badge_html = '<span class="atbd_badge atbd_badge_featured">' . $feature_badge_text. '</span>';
 				return $content . $badge_html;
 			}
@@ -1815,10 +1914,9 @@ class Directorist_Listings {
 
 		public static function popular_badge( $content ) {
 			$popular_listing_id = atbdp_popular_listings(get_the_ID());
-			$display_popular_badge_cart = get_directorist_option( 'display_popular_badge_cart', 1 ) ? true : false;
 			$popular_badge_text         = get_directorist_option( 'popular_badge_text', __( 'Popular', 'directorist' ) );
 			
-			if ($popular_listing_id === get_the_ID() && $display_popular_badge_cart) {
+			if ( $popular_listing_id === get_the_ID() ) {
 				$badge = '<span class="atbd_badge atbd_badge_popular">' . $popular_badge_text . '</span>';
 				return $content . $badge;
 			}
@@ -1831,7 +1929,6 @@ class Directorist_Listings {
 
 			$new_listing_time = get_directorist_option('new_listing_day');
 			$new_badge_text = get_directorist_option('new_badge_text', 'New');
-			$enable_new_listing = get_directorist_option('display_new_badge_cart', 1);
 			$each_hours = 60 * 60 * 24; // seconds in a day
 			$s_date1 = strtotime(current_time('mysql')); // seconds for date 1
 			$s_date2 = strtotime($post->post_date); // seconds for date 2
@@ -1839,9 +1936,7 @@ class Directorist_Listings {
 			$days = round($s_date_diff / $each_hours); // divided the different with second in a day
 			$new = '<span class="atbd_badge atbd_badge_new">' . $new_badge_text . '</span>';
 			if ($days <= (int)$new_listing_time) {
-				if (!empty($enable_new_listing)) {
-					return  $content .= $new;
-				}
+				return  $content .= $new;
 
 			}
 
@@ -1850,10 +1945,9 @@ class Directorist_Listings {
 
     public static function featured_badge_list_view( $content ) {
     	$featured = get_post_meta(get_the_ID(), '_featured', true);
-    	$display_feature_badge_cart = get_directorist_option('display_feature_badge_cart', 1);
     	$feature_badge_text = get_directorist_option('feature_badge_text', 'Featured');
 
-    	if ( $featured && !empty( $display_feature_badge_cart ) ) {
+    	if ( $featured ) {
     		$badge = "<span class='atbd_badge atbd_badge_featured'>$feature_badge_text</span>";
     		$content .= $badge;
     	}
@@ -1862,10 +1956,9 @@ class Directorist_Listings {
     }
 
     public static function populer_badge_list_view( $content ) {
-    	$display_popular_badge_cart = get_directorist_option('display_popular_badge_cart', 1);
     	$popular_badge_text = get_directorist_option('popular_badge_text', 'Popular');
 
-    	if ( atbdp_popular_listings(get_the_ID()) === get_the_ID() && !empty($display_popular_badge_cart)) {
+    	if ( atbdp_popular_listings(get_the_ID()) === get_the_ID() ) {
     		$badge = "<span class='atbd_badge atbd_badge_popular'>$popular_badge_text</span>";
     		$content .= $badge;
     	}
@@ -1883,6 +1976,7 @@ class Directorist_Listings {
     	$content = '';
     	$plan_hours              = true;
     	$disable_bz_hour_listing = get_post_meta(get_the_ID(), '_disable_bz_hour_listing', true);
+		$bdbh_version 			 = get_post_meta(get_the_ID(), '_bdbh_version', true);
     	$enable247hour           = get_post_meta(get_the_ID(), '_enable247hour', true);
     	$bdbh                    = get_post_meta(get_the_ID(), '_bdbh', true);
     	$business_hours          = !empty($bdbh) ? atbdp_sanitize_array($bdbh) : array();

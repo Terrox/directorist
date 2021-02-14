@@ -178,8 +178,7 @@ if (!class_exists('ATBDP_Add_Listing')):
                     }
                 }
 
-                // wp_send_json($dummy);
-                // die;
+                // wp_send_json($metas);
                 if( $error ){
                     $data['error_msg'] = $error;
                     $data['error'] = true;

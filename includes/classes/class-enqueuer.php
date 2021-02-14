@@ -18,27 +18,24 @@ class ATBDP_Enqueuer {
 
     public function __construct() {
         global $pagenow;
+
         $current_url = $current_url="//".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         if (  ( strpos( $current_url, '/edit/' ) !== false ) && ( $pagenow = 'at_biz_dir' ) ) {
             $arr = explode('/edit/', $current_url);
             $important = $arr[1];
-            $this->listing_id = (int) $important;            
+            $this->listing_id = (int) $important;
         }
-        add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_picker_scripts' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+        // add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
         // best hook to enqueue scripts for front-end is 'template_redirect'
         // 'Professional WordPress Plugin Development' by Brad Williams
-        add_action( 'wp_enqueue_scripts', array( $this, 'front_end_enqueue_scripts' ), -10 );
-        add_action( 'wp_enqueue_scripts', array( $this, 'search_listing_scripts_styles' ) );
 
-        add_action( 'tiny_mce_before_init', array( $this, 'tiny_mce_custom_format' ) );
-    }
-
-    // tiny_mce_custom_format
-    public function tiny_mce_custom_format( $in ) {
-        $in['content_css'] = ATBDP_PUBLIC_ASSETS . 'css/tiny-mce.css';
-
-        return $in;
+        $atbdp_legacy_template = get_directorist_option( 'atbdp_legacy_template', false );
+        if ( ! empty( $atbdp_legacy_template ) ) {
+            add_action( 'wp_enqueue_scripts', array( $this, 'front_end_enqueue_scripts' ), 20 );
+            add_action( 'wp_enqueue_scripts', array( $this, 'search_listing_scripts_styles' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_picker_scripts' ) );
+        }
     }
 
     public function custom_color_picker_scripts() {
@@ -72,24 +69,18 @@ class ATBDP_Enqueuer {
     public function admin_enqueue_scripts( $page ) {
         $select_listing_map = get_directorist_option( 'select_listing_map', 'openstreet' );
         // Admin Assets
-        if ( is_admin() ) {
-            if( 'plugins.php' === $page ) {
-                wp_register_script( 'plugins', ATBDP_ADMIN_ASSETS . 'js/plugins.js', array( 'jquery' ), ATBDP_VERSION, true );
-                wp_register_style( 'plugins-css', ATBDP_ADMIN_ASSETS . 'css/plugins.css', array(), ATBDP_VERSION );
 
-                wp_enqueue_script( 'plugins' );
-                wp_enqueue_style( 'plugins-css' );
-
-            }
-            if('at_biz_dir_page_tools' === $page){
-                wp_register_script( 'atbdp-import-export', ATBDP_ADMIN_ASSETS . 'js/import-export.js', array( 'jquery' ), ATBDP_VERSION, true );
-                wp_enqueue_script( 'atbdp-import-export' );
-                $tool_data = array(
-                    'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-                );
-                wp_localize_script( 'atbdp-import-export', 'import_export_data', $tool_data );
-            }
-        }
+        // === Added to the new enqueuer ===
+        // if ( is_admin() ) {
+        //     if('at_biz_dir_page_tools' === $page){
+        //         wp_register_script( 'atbdp-import-export', ATBDP_ADMIN_ASSETS . 'js/import-export.js', array( 'jquery' ), ATBDP_VERSION, true );
+        //         wp_enqueue_script( 'atbdp-import-export' );
+        //         $tool_data = array(
+        //             'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        //         );
+        //         wp_localize_script( 'atbdp-import-export', 'import_export_data', $tool_data );
+        //     }
+        // }
         global $typenow;
 
         if ( ATBDP_POST_TYPE == $typenow ) {
@@ -101,101 +92,110 @@ class ATBDP_Enqueuer {
                 'select2script',
                 'bs-tooltip',
             );
+
             $disable_map = get_directorist_option( 'display_map_field' );
-            if ( ! empty( $disable_map ) ) {
-                // get the map api from the user settings
-                $map_api_key = get_directorist_option( 'map_api_key', 'AIzaSyCwxELCisw4mYqSv_cBfgOahfrPFjjQLLo' ); // eg. zaSyBtTwA-Y_X4OMsIsc9WLs7XEqavZ3ocQLQ
-                //Google map needs to be enqueued from google server with a valid API key. So, it is not possible to store map js file locally as this file will be unique for all users based on their MAP API key.
-                wp_register_script( 'atbdp-google-map-front', '//maps.googleapis.com/maps/api/js?key=' . $map_api_key . '&libraries=places', false, ATBDP_VERSION, true );
-                wp_register_script( 'atbdp-markerclusterer', ATBDP_PUBLIC_ASSETS . 'js/markerclusterer.js', array( 'atbdp-google-map-front' ) );
+            
+            // === Added to the new enqueuer ===
+            // if ( ! empty( $disable_map ) ) {
+            //     // get the map api from the user settings
+            //     $map_api_key = get_directorist_option( 'map_api_key', 'AIzaSyCwxELCisw4mYqSv_cBfgOahfrPFjjQLLo' ); // eg. zaSyBtTwA-Y_X4OMsIsc9WLs7XEqavZ3ocQLQ
+            //     //Google map needs to be enqueued from google server with a valid API key. So, it is not possible to store map js file locally as this file will be unique for all users based on their MAP API key.
+            //     wp_register_script( 'atbdp-google-map-front', '//maps.googleapis.com/maps/api/js?key=' . $map_api_key . '&libraries=places', false, ATBDP_VERSION, true );
+            //     wp_register_script( 'atbdp-markerclusterer', ATBDP_PUBLIC_ASSETS . 'js/markerclusterer.js', array( 'atbdp-google-map-front' ) );
 
-                $admin_scripts_dependency[] = 'atbdp-google-map-front';
-            }
+            //     $admin_scripts_dependency[] = 'atbdp-google-map-front';
+            // }
+            
+            // === Added to the new enqueuer ===
+            // wp_register_style( 'leaflet-css', ATBDP_PUBLIC_ASSETS . 'css/openstreet-map/leaflet.css');
+            // wp_register_script( 'openstreet_layer', ATBDP_PUBLIC_ASSETS . 'js/openstreet-map/openstreetlayers.js', array('jquery'), ATBDP_VERSION, true);
+            // if ('openstreet' == $select_listing_map) {
+            //     wp_enqueue_script( 'openstreet_layer' );
+            //     wp_enqueue_style('leaflet-css');
+            // }
 
-            wp_register_style( 'leaflet-css', ATBDP_PUBLIC_ASSETS . 'css/openstreet-map/leaflet.css');
-            wp_register_script( 'openstreet_layer', ATBDP_PUBLIC_ASSETS . 'js/openstreet-map/openstreetlayers.js', array('jquery'), ATBDP_VERSION, true);
-            if ('openstreet' == $select_listing_map) {
-                wp_enqueue_script( 'openstreet_layer' );
-                wp_enqueue_style('leaflet-css');
-            }
+
             // Register all styles for the admin pages
+            // === Added to the new enqueuer ===
             /*Public Common Asset: */
-            wp_register_style( 'atbdp-font-awesome', ATBDP_PUBLIC_ASSETS . 'css/font-awesome.min.css', false, ATBDP_VERSION );
-            wp_register_style( 'atbdp-line-awesome', ATBDP_PUBLIC_ASSETS . 'css/line-awesome.min.css', false, ATBDP_VERSION );
-            wp_register_style( 'sweetalertcss', ATBDP_PUBLIC_ASSETS . 'css/sweetalert.min.css', false, ATBDP_VERSION );
-            wp_register_style( 'select2style', ATBDP_PUBLIC_ASSETS . 'css/select2.min.css', false, ATBDP_VERSION );
-            wp_register_style( 'atbdp-admin-bootstrap-style', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
-            wp_register_style( 'atbdp-admin', ATBDP_ADMIN_ASSETS . 'css/style.css', array( 'atbdp-line-awesome', 'atbdp-font-awesome', 'select2style' ), ATBDP_VERSION );
-            wp_register_style( 'atbdp-pluploadcss', ATBDP_ADMIN_ASSETS . 'css/directorist-plupload.min.css', array( 'atbdp-font-awesome', 'select2style' ), ATBDP_VERSION );
-
-            wp_register_script( 'sweetalert', ATBDP_PUBLIC_ASSETS . 'js/sweetalert.min.js', array( 'jquery' ), ATBDP_VERSION, true );
-
+            // wp_register_style( 'atbdp-font-awesome', ATBDP_PUBLIC_ASSETS . 'css/font-awesome.min.css', false, ATBDP_VERSION );
+            // wp_register_style( 'atbdp-line-awesome', ATBDP_PUBLIC_ASSETS . 'css/line-awesome.min.css', false, ATBDP_VERSION );
+            // wp_register_style( 'sweetalertcss', ATBDP_PUBLIC_ASSETS . 'css/sweetalert.min.css', false, ATBDP_VERSION );
+            // wp_register_style( 'select2style', ATBDP_PUBLIC_ASSETS . 'css/select2.min.css', false, ATBDP_VERSION );
+            // wp_register_style( 'atbdp-admin-bootstrap-style', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
+            // wp_register_style( 'atbdp-admin', ATBDP_ADMIN_ASSETS . 'css/style.css', array( 'atbdp-line-awesome', 'atbdp-font-awesome', 'select2style' ), ATBDP_VERSION );
+            // wp_register_style( 'atbdp-pluploadcss', ATBDP_ADMIN_ASSETS . 'css/directorist-plupload.min.css', array( 'atbdp-font-awesome', 'select2style' ), ATBDP_VERSION );
+            
+            // === Added to the new enqueuer ===
             /*Public Common Asset: */
-            wp_register_script( 'select2script', ATBDP_PUBLIC_ASSETS . 'js/select2.min.js', array( 'jquery' ), ATBDP_VERSION, true );
-            wp_register_script( 'popper', ATBDP_ADMIN_ASSETS . 'js/popper.min.js', array( 'jquery' ), ATBDP_VERSION, true );
-            wp_register_script( 'bs-tooltip', ATBDP_ADMIN_ASSETS . 'js/tooltip.js', array( 'jquery', 'popper' ), ATBDP_VERSION, true );
-            wp_register_script( 'atbdp-admin-script', ATBDP_ADMIN_ASSETS . 'js/main.js', $admin_scripts_dependency, ATBDP_VERSION, true );
-            wp_register_script( 'atbdp-plupload-min', ATBDP_ADMIN_ASSETS . 'js/directorist-plupload.min.js', array( 'jquery' ), ATBDP_VERSION );
-            wp_register_script( 'atbdp-plupload', ATBDP_ADMIN_ASSETS . 'js/directorist-plupload.js', array( 'atbdp-plupload-min', 'jquery-ui-datepicker' ), ATBDP_VERSION );
+            // wp_register_script( 'sweetalert', ATBDP_PUBLIC_ASSETS . 'js/sweetalert.min.js', array( 'jquery' ), ATBDP_VERSION, true );
+            // wp_register_script( 'select2script', ATBDP_PUBLIC_ASSETS . 'js/select2.min.js', array( 'jquery' ), ATBDP_VERSION, true );
+            // wp_register_script( 'popper', ATBDP_ADMIN_ASSETS . 'js/popper.min.js', array( 'jquery' ), ATBDP_VERSION, true );
+            // wp_register_script( 'bs-tooltip', ATBDP_ADMIN_ASSETS . 'js/tooltip.js', array( 'jquery', 'popper' ), ATBDP_VERSION, true );
+            // wp_register_script( 'atbdp-admin-script', ATBDP_ADMIN_ASSETS . 'js/main.js', $admin_scripts_dependency, ATBDP_VERSION, true );
+            // wp_register_script( 'atbdp-plupload-min', ATBDP_ADMIN_ASSETS . 'js/directorist-plupload.min.js', array( 'jquery' ), ATBDP_VERSION );
+            // wp_register_script( 'atbdp-plupload', ATBDP_ADMIN_ASSETS . 'js/directorist-plupload.js', array( 'atbdp-plupload-min', 'jquery-ui-datepicker' ), ATBDP_VERSION );
             // Styles
             //@todo; later minify the bootstrap
             /*@todo; we can also load scripts and style using very strict checking like loading based on post.php or edit.php etc. For example, sweetalert should be included in the post.php file where the user will add/edit listing */
             /* enqueue all styles*/
-
-            wp_enqueue_style( 'atbdp-admin-bootstrap-style' );
-            wp_enqueue_style( 'atbdp-font-awesome' );
-            wp_enqueue_style( 'atbdp-line-awesome' );
-            wp_enqueue_style( 'sweetalertcss' );
-            wp_enqueue_style( 'select2style' );
-            wp_enqueue_style( 'custom-colors' );
+            
+            // === Added to the new enqueuer ===
+            // wp_enqueue_style( 'atbdp-admin-bootstrap-style' );
+            // wp_enqueue_style( 'atbdp-font-awesome' );
+            // wp_enqueue_style( 'atbdp-line-awesome' );
+            // wp_enqueue_style( 'sweetalertcss' );
+            // wp_enqueue_style( 'select2style' );
+            // wp_enqueue_style( 'custom-colors' );
             /* WP COLOR PICKER */
-            wp_enqueue_style( 'wp-color-picker' );
-
+            // wp_enqueue_style( 'wp-color-picker' );
+            
+            // === Added to the new enqueuer ===
             /* Enqueue all scripts */
             //wp_enqueue_script('atbdp-bootstrap'); // maybe we do not need the bootstrap js in the admin panel at the moment.
-            wp_enqueue_script( 'sweetalert' );
-            if ( ! $disable_map ) {wp_enqueue_script( 'atbdp-google-map-admin' );}
-            wp_enqueue_script( 'select2script' );
-            wp_enqueue_script( 'atbdp-admin-script' );
-            $font_type = get_directorist_option( 'font_type', 'line' );
-            $icon_type = ( 'line' == $font_type ) ? 'la' : 'fa';
-            // Internationalization text for javascript file especially add-listing.js
-            $i18n_text = array(
-                'confirmation_text'       => __( 'Are you sure', 'directorist' ),
-                'ask_conf_sl_lnk_del_txt' => __( 'Do you really want to remove this Social Link!', 'directorist' ),
-                'confirm_delete'          => __( 'Yes, Delete it!', 'directorist' ),
-                'deleted'                 => __( 'Deleted!', 'directorist' ),
-                'icon_choose_text'        => __( 'Select an icon', 'directorist' ),
-                'upload_image'            => __( 'Select or Upload Slider Image', 'directorist' ),
-                'upload_cat_image'        => __( 'Select Category Image', 'directorist' ),
-                'choose_image'            => __( 'Use this Image', 'directorist' ),
-                'select_prv_img'          => __( 'Select Preview Image', 'directorist' ),
-                'insert_prv_img'          => __( 'Insert Preview Image', 'directorist' ),
-            );
-            // is MI extension enabled and active?
-            $data = array(
-                'nonce'          => wp_create_nonce( 'atbdp_nonce_action_js' ),
-                'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-                'import_page_link'      => admin_url( 'edit.php?post_type=at_biz_dir&page=tools' ),
-                'nonceName'      => 'atbdp_nonce_js',
-                'countryRestriction'      => get_directorist_option( 'country_restriction' ),
-                'restricted_countries'    => get_directorist_option( 'restricted_countries' ),
-                'AdminAssetPath' => ATBDP_ADMIN_ASSETS,
-                'i18n_text'      => $i18n_text,
-                'icon_type'      => $icon_type
-            );
-            wp_localize_script( 'atbdp-admin-script', 'atbdp_admin_data', $data );
-            wp_enqueue_media();
+            // wp_enqueue_script( 'sweetalert' );
+            // if ( ! $disable_map ) {wp_enqueue_script( 'atbdp-google-map-admin' );}
+            // wp_enqueue_script( 'select2script' );
+            // wp_enqueue_script( 'atbdp-admin-script' );
+            // $font_type = get_directorist_option( 'font_type', 'line' );
+            // $icon_type = ( 'line' == $font_type ) ? 'la' : 'fa';
+            // // Internationalization text for javascript file especially add-listing.js
+            // $i18n_text = array(
+            //     'confirmation_text'       => __( 'Are you sure', 'directorist' ),
+            //     'ask_conf_sl_lnk_del_txt' => __( 'Do you really want to remove this Social Link!', 'directorist' ),
+            //     'confirm_delete'          => __( 'Yes, Delete it!', 'directorist' ),
+            //     'deleted'                 => __( 'Deleted!', 'directorist' ),
+            //     'icon_choose_text'        => __( 'Select an icon', 'directorist' ),
+            //     'upload_image'            => __( 'Select or Upload Slider Image', 'directorist' ),
+            //     'upload_cat_image'        => __( 'Select Category Image', 'directorist' ),
+            //     'choose_image'            => __( 'Use this Image', 'directorist' ),
+            //     'select_prv_img'          => __( 'Select Preview Image', 'directorist' ),
+            //     'insert_prv_img'          => __( 'Insert Preview Image', 'directorist' ),
+            // );
+            // // is MI extension enabled and active?
+            // $data = array(
+            //     'nonce'          => wp_create_nonce( 'atbdp_nonce_action_js' ),
+            //     'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+            //     'import_page_link'      => admin_url( 'edit.php?post_type=at_biz_dir&page=tools' ),
+            //     'nonceName'      => 'atbdp_nonce_js',
+            //     'countryRestriction'      => get_directorist_option( 'country_restriction' ),
+            //     'restricted_countries'    => get_directorist_option( 'restricted_countries' ),
+            //     'AdminAssetPath' => ATBDP_ADMIN_ASSETS,
+            //     'i18n_text'      => $i18n_text,
+            //     'icon_type'      => $icon_type
+            // );
+            // wp_localize_script( 'atbdp-admin-script', 'atbdp_admin_data', $data );
+            // wp_enqueue_media();
 
         }
 
         if ( ATBDP_CUSTOM_FIELD_POST_TYPE == $typenow ) {
-            wp_enqueue_style( 'atbdp-custom-field', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
+            // wp_enqueue_style( 'atbdp-custom-field', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
 
         }
         // lets add a small stylesheet for order listing page
         if (  ( ATBDP_ORDER_POST_TYPE || ATBDP_CUSTOM_FIELD_POST_TYPE ) == $typenow ) {
-            wp_enqueue_style( 'atbdp-admin', ATBDP_ADMIN_ASSETS . 'css/style.css', false, ATBDP_VERSION );
+            wp_enqueue_style('atbdp-admin', ATBDP_ADMIN_ASSETS . 'css/style.css', false, ATBDP_VERSION );
         }
     }
 
@@ -208,8 +208,8 @@ class ATBDP_Enqueuer {
         $select_listing_map       = get_directorist_option( 'select_listing_map', 'google' );
         $front_scripts_dependency = array( 'jquery' );
         // @Todo; make unminified css minified then enqueue them.
-        wp_register_style( 'atbdp-bootstrap-style', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
-        wp_register_style( 'atbdp-bootstrap-style-rtl', ATBDP_PUBLIC_ASSETS . 'css/bootstrap-rtl.css', false, ATBDP_VERSION );
+        // wp_register_style( 'atbdp-bootstrap-style', ATBDP_PUBLIC_ASSETS . 'css/bootstrap.css', false, ATBDP_VERSION );
+        // wp_register_style( 'atbdp-bootstrap-style-rtl', ATBDP_PUBLIC_ASSETS . 'css/bootstrap-rtl.css', false, ATBDP_VERSION );
         wp_register_style( 'atbdp-font-awesome', ATBDP_PUBLIC_ASSETS . 'css/font-awesome.min.css', false, ATBDP_VERSION );
         wp_register_style( 'atbdp-line-awesome', ATBDP_PUBLIC_ASSETS . 'css/line-awesome.min.css', false, ATBDP_VERSION );
         wp_register_style( 'sweetalertcss', ATBDP_PUBLIC_ASSETS . 'css/sweetalert.min.css', false, ATBDP_VERSION );
@@ -255,9 +255,9 @@ class ATBDP_Enqueuer {
         wp_register_script( 'leaflet-load-scripts', ATBDP_PUBLIC_ASSETS . 'js/openstreet-map/load-scripts.js', array(), ATBDP_VERSION, true );
 
         // Google map
-        $map_api_key = get_directorist_option( 'map_api_key', 'AIzaSyCwxELCisw4mYqSv_cBfgOahfrPFjjQLLo' ); // eg. zaSyBtTwA-Y_X4OMsIsc9WLs7XEqavZ3ocQLQ
-        wp_register_script( 'atbdp-google-map-front', '//maps.googleapis.com/maps/api/js?key=' . $map_api_key . '&libraries=places', false, ATBDP_VERSION, true );
-        wp_register_script( 'atbdp-markerclusterer', ATBDP_PUBLIC_ASSETS . 'js/markerclusterer.js', array( 'atbdp-google-map-front' ) );
+        // $map_api_key = get_directorist_option( 'map_api_key', 'AIzaSyCwxELCisw4mYqSv_cBfgOahfrPFjjQLLo' ); // eg. zaSyBtTwA-Y_X4OMsIsc9WLs7XEqavZ3ocQLQ
+        // wp_register_script( 'atbdp-google-map-front', '//maps.googleapis.com/maps/api/js?key=' . $map_api_key . '&libraries=places', false, ATBDP_VERSION, true );
+        // wp_register_script( 'atbdp-markerclusterer', ATBDP_PUBLIC_ASSETS . 'js/markerclusterer.js', array( 'atbdp-google-map-front' ) );
 
         wp_register_script( 'atbdp-uikit-grid', ATBDP_PUBLIC_ASSETS . 'js/grid.min.js', array( 'jquery', 'atbdp-uikit' ), ATBDP_VERSION, true );
         wp_register_script( 'atbdp-rating', ATBDP_PUBLIC_ASSETS . 'js/jquery.barrating.min.js', array( 'jquery' ), ATBDP_VERSION, true );
@@ -294,11 +294,11 @@ class ATBDP_Enqueuer {
 
         /* Enqueue all styles*/
         if ( is_rtl() ) {
-            wp_enqueue_style( 'atbdp-bootstrap-style-rtl' );
+            // wp_enqueue_style( 'atbdp-bootstrap-style-rtl' );
             wp_enqueue_style( 'atbdp-style-rtl' );
             wp_enqueue_style( 'atbdp-media-uploader-style-rtl' );
         } else {
-            wp_enqueue_style( 'atbdp-bootstrap-style' );
+            // wp_enqueue_style( 'atbdp-bootstrap-style' );
             wp_enqueue_style( 'atbdp-style' );
             wp_enqueue_style( 'atbdp-media-uploader-style' );
         }
@@ -311,7 +311,7 @@ class ATBDP_Enqueuer {
         wp_enqueue_style( 'atmodal' );
 
         /* Enqueue all scripts */
-        wp_enqueue_script( 'atbdp-bootstrap-script' );
+        // wp_enqueue_script( 'atbdp-bootstrap-script' );
         wp_enqueue_script( 'atbdp-rating' );
         wp_enqueue_script( 'atbdp-plasma-slider-script' );
 
@@ -540,7 +540,7 @@ class ATBDP_Enqueuer {
         wp_register_style( 'sweetalertcss', ATBDP_ADMIN_ASSETS . 'css/sweetalert.min.css', false, ATBDP_VERSION );
         wp_register_script( 'sweetalert', ATBDP_ADMIN_ASSETS . 'js/sweetalert.min.js', array( 'jquery' ), ATBDP_VERSION, true );
         wp_enqueue_style( 'sweetalertcss' );
-        wp_enqueue_script( 'atbdp-bootstrap-script' );
+        // wp_enqueue_script( 'atbdp-bootstrap-script' );
         $dependency = array(
             'jquery',
             'atbdp-rating',
@@ -563,7 +563,7 @@ class ATBDP_Enqueuer {
         wp_register_script( 'atbdp_custom_field_validator', ATBDP_PUBLIC_ASSETS . 'js/custom_field_validator.js', $dependency, ATBDP_VERSION, true );
         wp_enqueue_script( 'atbdp_add_listing_validator' );
         wp_enqueue_script( 'atbdp_custom_field_validator' );
-        
+
         $submission_form = get_term_meta( $this->current_listing_type(), 'submission_form_fields', true );
         $new_tag         = !empty( $submission_form['fields']['tag']['allow_new'] ) ? $submission_form['fields']['tag']['allow_new'] : '';
         $tag_placeholder = !empty( $submission_form['fields']['tag']['placeholder'] ) ? $submission_form['fields']['tag']['placeholder'] : '';
@@ -592,7 +592,7 @@ class ATBDP_Enqueuer {
             'nonce'           => wp_create_nonce( 'atbdp_nonce_action_js' ),
             'ajaxurl'         => admin_url( 'admin-ajax.php' ),
             'nonceName'       => 'atbdp_nonce_js',
-            'media_uploader'  => apply_filters( 'atbdp_media_uploader', [ 
+            'media_uploader'  => apply_filters( 'atbdp_media_uploader', [
                 [
                     'element_id'        => '_listing_gallery',
                     'meta_name'         => 'listing_img',
@@ -915,7 +915,7 @@ class ATBDP_Enqueuer {
 
     public function user_dashboard_scripts_styles() {
         /* Enqueue all styles*/
-        wp_enqueue_style( 'atbdp-bootstrap-style' );
+        // wp_enqueue_style( 'atbdp-bootstrap-style' );
         wp_enqueue_style( 'atbdp-stars' );
         wp_enqueue_style( 'atbdp-line-awesome' );
         wp_enqueue_style( 'atbdp-font-awesome' );
@@ -923,7 +923,7 @@ class ATBDP_Enqueuer {
         wp_enqueue_style( 'atbdp-responsive' );
 
         /* Enqueue all scripts */
-        wp_enqueue_script( 'atbdp-bootstrap-script' );
+        // wp_enqueue_script( 'atbdp-bootstrap-script' );
         wp_enqueue_script( 'atbdp-rating' );
         wp_enqueue_script( 'atbdp-google-map-front' );
         wp_enqueue_script( 'atbdp-user-dashboard' );
@@ -979,8 +979,8 @@ class ATBDP_Enqueuer {
         );
         wp_enqueue_script( 'atbdp_search_listing' );
         wp_localize_script( 'atbdp_search_listing', 'atbdp_search_listing', $data );
+        wp_localize_script( 'atbdp-search-listing', 'atbdp_search_listing', $data );
         wp_localize_script( $handel, 'atbdp_range_slider', $data );
-
     }
 }
 

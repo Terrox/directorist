@@ -23,6 +23,36 @@ class ATBDP_User {
         add_filter('pre_get_posts', array($this,'restrict_listing_to_the_author'));
         // allow contributor upload images for now. @todo; later it will be better to add custom rules and capability
         add_action('plugins_loaded', array($this, 'user_functions_ready_hook'));// before we add custom image uploading, lets use WordPress default image uploading by letting subscriber and contributor upload imaging capability
+
+        add_filter( 'manage_users_columns', array( $this,'manage_users_columns' ), 10, 1 );
+        add_filter( 'manage_users_custom_column', array( $this,'manage_users_custom_column' ), 10, 3 );
+    }
+
+    public function manage_users_custom_column( $val, $column_name, $user_id ) {
+        $get_user_type = get_user_meta( $user_id, '_user_type', true );
+        $get_user_type = ! empty( $get_user_type ) ? $get_user_type : '';
+        $user_type = '';
+        if( 'author' == $get_user_type ) {
+            $user_type = __( 'Author', 'directorist' );
+        } elseif( 'general' == $get_user_type ) {
+            $user_type = __( 'User', 'directorist' );
+        } elseif( 'become_author' == $get_user_type ) {
+            $author_pending = __( "Author ( Pending )"); 
+            $approve        = "<a href='' id='atbdp-user-type-approve' data-userId={$user_id} data-nonce=". wp_create_nonce( 'atbdp_user_type_approve' ) ."><span>Approve </span></a>";
+            $deny           = "<a href='' id='atbdp-user-type-deny' data-userId={$user_id} data-nonce=". wp_create_nonce( 'atbdp_user_type_deny' ) ."><span>Deny</span></a>";
+            $user_type      = "<div class='atbdp-user-type' id='user-type-". $user_id ."'>" .$author_pending . $approve . $deny . "</div>";
+        }
+
+        switch ($column_name) {
+            case 'user_type' :
+                return $user_type;
+            default:
+        }
+        return $val;
+    }
+    function manage_users_columns( $column ) {
+        $column['user_type'] = 'User Type';
+        return $column;
     }
 
     public function user_functions_ready_hook()
@@ -103,7 +133,7 @@ class ATBDP_User {
         return false;
     }
 
-    public function registration_validation( $username, $password, $email, $website, $first_name, $last_name, $bio, $privacy_policy, $t_c_check )  {
+    public function registration_validation( $username, $password, $email, $website, $first_name, $last_name, $bio, $user_type, $privacy_policy, $t_c_check )  {
         global $reg_errors;
         $require_website             = get_directorist_option('require_website_reg',0);
         $display_website             = get_directorist_option('display_website_reg',1);
@@ -111,6 +141,7 @@ class ATBDP_User {
         $require_fname               = get_directorist_option('require_fname_reg',0);
         $display_lname               = get_directorist_option('display_lname_reg',1);
         $require_lname               = get_directorist_option('require_lname_reg',0);
+        $display_user_type           = get_directorist_option('display_user_type',1);
         $display_bio                 = get_directorist_option('display_bio_reg',1);
         $require_bio                 = get_directorist_option('require_bio_reg',0);
         $display_password            = get_directorist_option('display_password_reg',1);
@@ -133,6 +164,10 @@ class ATBDP_User {
         if(!empty($require_lname) && !empty($display_lname) && empty($last_name)){
             $lname_validation = 'yes';
         }
+        //user type validation
+        if( ! empty( $display_user_type ) && empty( $user_type ) ) {
+            $user_type_validation = 'yes';
+        }
         //bio validation
         if(!empty($require_bio) && !empty($display_bio) && empty($bio)){
             $bio_validation = 'yes';
@@ -146,7 +181,7 @@ class ATBDP_User {
             $t_c_validation = 'yes';
         }
         $reg_errors = new WP_Error;
-        if ( empty( $username ) || !empty( $password_validation ) || empty( $email ) || !empty($website_validation) || !empty($fname_validation) || !empty($lname_validation) || !empty($bio_validation) || !empty($privacy_validation) || !empty($t_c_validation)) {
+        if ( empty( $username ) || !empty( $password_validation ) || empty( $email ) || !empty($website_validation) || !empty($fname_validation) || !empty($lname_validation) || !empty($bio_validation) || !empty($privacy_validation) || !empty($t_c_validation) || ! empty( $user_type_validation ) ) {
             $reg_errors->add('field', __('Required form field is missing. Please fill all required fields.', 'directorist'));
         }
 
@@ -172,6 +207,10 @@ class ATBDP_User {
             $reg_errors->add( 'empty_privacy', __('Privacy field is required', 'directorist') );
         }
         if ( empty( $t_c_check ) ) {
+            $reg_errors->add( 'empty_terms', __('Terms and Condition field is required', 'directorist') );
+        }
+
+        if ( empty( $user_type_validation ) ) {
             $reg_errors->add( 'empty_terms', __('Terms and Condition field is required', 'directorist') );
         }
 
@@ -225,6 +264,7 @@ class ATBDP_User {
         $require_lname               = get_directorist_option('require_lname_reg',0);
         $display_password            = get_directorist_option('display_password_reg',1);
         $require_password            = get_directorist_option('require_password_reg',0);
+        $display_user_type           = get_directorist_option( 'display_user_type', 1 );
         $display_bio                 = get_directorist_option('display_bio_reg',1);
         $require_bio                 = get_directorist_option('require_bio_reg',0);
         $registration_privacy        = get_directorist_option('registration_privacy',1);
@@ -244,6 +284,7 @@ class ATBDP_User {
             $website = !empty($_POST['website']) ? $_POST[ 'website' ] : '';
             $first_name = !empty($_POST['fname']) ? $_POST[ 'fname' ] : '';
             $last_name = !empty($_POST['lname']) ? $_POST[ 'lname' ] : '';
+            $user_type = !empty($_POST['user_type']) ? $_POST[ 'user_type' ] : '';
             $bio = !empty($_POST['bio']) ? $_POST[ 'bio' ] : '';
             $privacy_policy = !empty($_POST['privacy_policy']) ? sanitize_text_field($_POST[ 'privacy_policy' ]) : '';
             $t_c_check = !empty($_POST['t_c_check']) ? sanitize_text_field($_POST[ 't_c_check' ]) : '';
@@ -267,6 +308,9 @@ class ATBDP_User {
             if(!empty($require_bio) && !empty($display_bio) && empty($bio)){
                 $bio_validation = 'yes';
             }
+            if( ! empty( $display_user_type ) && empty( $user_type) ) {
+                $user_type_validation      = 'yes';
+            }
             //privacy validation
             if(!empty($registration_privacy) && empty($privacy_policy)){
                 $privacy_validation = 'yes';
@@ -276,7 +320,7 @@ class ATBDP_User {
                 $t_c_validation = 'yes';
             }
             // validate all the inputs
-            $validation = $this->registration_validation( $username, $password, $email, $website, $first_name, $last_name, $bio, $privacy_policy, $t_c_check );
+            $validation = $this->registration_validation( $username, $password, $email, $website, $first_name, $last_name, $bio, $user_type, $privacy_policy, $t_c_check );
             if ('passed' !== $validation){
                 if (empty( $username ) || !empty( $password_validation ) || empty( $email ) || !empty($website_validation) || !empty($fname_validation) || !empty($lname_validation) || !empty($bio_validation)|| !empty($privacy_validation)|| !empty($t_c_validation)){
                     wp_safe_redirect(ATBDP_Permalink::get_registration_page_link(array('errors' => 1)));
@@ -299,6 +343,9 @@ class ATBDP_User {
                 }elseif(!is_email( $email )){
                     wp_safe_redirect(ATBDP_Permalink::get_registration_page_link(array('errors' => 6)));
                     exit();
+                } elseif( ! empty( $user_type_validation ) ) {
+                    wp_safe_redirect(ATBDP_Permalink::get_registration_page_link(array('errors' => 8)));
+                    exit();
                 }
             }
 
@@ -316,6 +363,7 @@ class ATBDP_User {
             $website          =   !empty($_POST['website']) ? esc_url_raw( $_POST['website'] ) : '';
             $first_name       =   !empty($_POST['fname']) ? sanitize_text_field( $_POST['fname'] ) : '';
             $last_name        =   !empty($_POST['lname']) ? sanitize_text_field( $_POST['lname'] ) : '';
+            $user_type        =   !empty($_POST['user_type']) ? $_POST['user_type'] : '';
             $bio              =   !empty($_POST['bio']) ? sanitize_textarea_field( $_POST['bio'] ) : '';
             $previous_page    =   !empty($_POST['previous_page']) ? esc_url_raw( $_POST['previous_page'] ) : '';
             // call @function complete_registration to create the user
@@ -331,6 +379,7 @@ class ATBDP_User {
                 do_action('atbdp_user_registration_completed', $user_id);
                 update_user_meta($user_id, '_atbdp_generated_password', $password);
                 update_user_meta($user_id, '_atbdp_privacy', $privacy_policy);
+                update_user_meta($user_id, '_user_type', $user_type);
                 update_user_meta($user_id, '_atbdp_terms_and_conditions', $t_c_check);
                 // user has been created successfully, now work on activation process
                 wp_new_user_notification($user_id, null, 'admin'); // send activation to the admin

@@ -87,6 +87,43 @@ if (!class_exists('ATBDP_Ajax_Handler')) :
 
             add_action('wp_ajax_atbdp_listing_types_form', array( $this, 'atbdp_listing_types_form' ) );
             add_action('wp_ajax_nopriv_atbdp_listing_types_form', array( $this, 'atbdp_listing_types_form' ) );
+
+            //dashboard become author 
+            add_action( 'wp_ajax_atbdp_become_author', array( $this, 'atbdp_become_author' ) );
+            add_action( 'wp_ajax_atbdp_user_type_approved', array( $this, 'atbdp_user_type_approved' ) );
+            add_action( 'wp_ajax_atbdp_user_type_deny', array( $this, 'atbdp_user_type_deny' ) );
+        }
+
+        public function atbdp_user_type_deny() {
+            if ( wp_verify_nonce( $_POST['_nonce'], 'atbdp_user_type_deny' ) ) { 
+                $user_id = ! empty( $_POST['userId'] ) ? $_POST['userId'] : '';
+                update_user_meta( $user_id, '_user_type', 'general' );
+                wp_send_json( array(
+                    'user_type' => __( 'User', 'directorist' )
+                )
+                );
+            }
+        }
+
+        public function atbdp_user_type_approved() {
+            if ( wp_verify_nonce( $_POST['_nonce'], 'atbdp_user_type_approve' ) ) { 
+                $user_id = ! empty( $_POST['userId'] ) ? $_POST['userId'] : '';
+                update_user_meta( $user_id, '_user_type', 'author' );
+                wp_send_json( array(
+                    'user_type' => __( 'Author', 'directorist' )
+                )
+                );
+            }
+        }
+
+        public function atbdp_become_author() {
+            if ( wp_verify_nonce( $_POST['nonce'], 'atbdp_become_author' ) ) { 
+                $user_id = ! empty( $_POST['userId'] ) ? $_POST['userId'] : '';
+                do_action( 'atbdp_become_author', $user_id );
+                update_user_meta( $user_id, '_user_type', 'become_author' );
+                $success_message = __( 'Send successfully', 'directorist' );
+                wp_send_json($success_message);
+            }
         }
 
         // atbdp_quick_ajax_login
@@ -221,7 +258,7 @@ if (!class_exists('ATBDP_Ajax_Handler')) :
                 if( $category ) {
                     if( in_array( $category, $categories ) ) {
                         ob_start();
-                        \Directorist\Directorist_Listing_Forms::instance()->add_listing_category_custom_field_template( $value, $post_id );
+                        \Directorist\Directorist_Listing_Form::instance()->add_listing_category_custom_field_template( $value, $post_id );
                         $template .= ob_get_clean();
                     }
                 }
@@ -632,11 +669,11 @@ if (!class_exists('ATBDP_Ajax_Handler')) :
                         $avatar_img = get_avatar($author_id, apply_filters('atbdp_avatar_size', 32));
 
                         // Set the desired output into a variable
-                        $msg .= '<div class="atbd_single_review atbdp_static" id="single_review_' . $review->id . '">';
-                        $msg .= '<div class="atbd_review_top">';
-                        $msg .= '<div class="atbd_avatar_wrapper">';
+                        $msg .= '<div class="directorist-signle-review" id="directorist-single-review-' . $review->id . '">';
+                        $msg .= '<div class="directorist-signle-review__top">';
+                        $msg .= '<div class="directorist-signle-review-avatar-wrap">';
                         if (!empty($enable_reviewer_img)) {
-                            $msg .= '<div class="atbd_review_avatar">';
+                            $msg .= '<div class="directorist-signle-review-avatar">';
                             if (empty($u_pro_pic)) {
                                 $msg .= $avatar_img;
                             }
@@ -645,27 +682,29 @@ if (!class_exists('ATBDP_Ajax_Handler')) :
                             }
                             $msg .= '</div>';
                         }
-                        $msg .= '<div class="atbd_name_time">';
+                        $msg .= '<div class="directorist-signle-review-avatar__info">';
                         $msg .= '<p>' . esc_html($review->name) . '</p>';
-                        $msg .= '<span class="review_time">' .
+                        $msg .= '<span class="directorist-signle-review-time">' .
                             sprintf(__('%s ago', 'directorist'), human_time_diff(strtotime($review->date_created), current_time('timestamp'))) . '</span>';
                         $msg .= '</div>';
                         $msg .= '</div>';
-                        $msg .= '<div class="atbd_rated_stars">';
+                        $msg .= '<div class="directorist-rated-stars">';
                         $msg .= ATBDP()->review->print_static_rating($review->rating);
                         $msg .= '</div>';
                         $msg .= '</div>';
                         if( !empty( $enable_reviewer_content ) ) {
-                        $msg .= '<div class="review_content">';
+                        $msg .= '<div class="directorist-signle-review__content">';
                         $msg .= '<p>' . stripslashes(esc_html($review->content)) . '</p>';
                         $msg .= '</div>';
                         }
                         $msg .= '</div>';
                     endforeach;
                 } else {
-                    $msg .= ' <div class="notice atbd-alert atbd-alert-info" id="review_notice">
-                                <span class="' . atbdp_icon_type(false) . '-info-circle" aria-hidden="true"></span> ' .
-                        __('No reviews found. Be the first to post a review !', 'directorist') . '</div>';
+                    $msg .= ' <div class="directorist-alert directorist-alert-info" id="review_notice">
+                                <div class="directorist-alert__content">
+                                    <span class="' . atbdp_icon_type(false) . '-info-circle" aria-hidden="true"></span> ' .
+                                    __('No reviews found. Be the first to post a review !', 'directorist') . '</div>
+                                </div>';
                 }
                 // Optional, wrap the output into a container
                 $msg = "<div class='atbdp-universal-content'>" . $msg . "</div><br class = 'clear' />";

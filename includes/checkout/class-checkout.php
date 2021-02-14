@@ -64,7 +64,7 @@ class ATBDP_Checkout
         // get the listing id from the url query var
         $listing_id = get_query_var('atbdp_listing_id');
         // vail if the id is empty or post type is not our post type.
-        if (empty($listing_id) || (!empty($listing_id) && ATBDP_POST_TYPE != get_post_type($listing_id))) {
+        if ( directorist_payment_guard() ) {
             return __('Sorry, Something went wrong. Listing ID is missing. Please try again.', 'directorist');
         }
         // if the checkout form is submitted, then process placing order
@@ -126,7 +126,7 @@ class ATBDP_Checkout
                 'after'         => $after, 
             );
             //displaying data for checkout
-            \Directorist\URI_Helper::get_template( 'payment/checkout', array( 'checkout' => $args ) );
+            \Directorist\Helper::get_template( 'payment/checkout', array( 'checkout' => $args ) );
         }
         return ob_get_clean();
     }
@@ -184,7 +184,7 @@ class ATBDP_Checkout
         $data['container_fluid']  = 'container-fluid';
         $data['order_id']         = (!empty($order_id)) ? $order_id : '';
 
-        \Directorist\URI_Helper::get_template( 'payment/payment-receipt', $data );
+        \Directorist\Helper::get_template( 'payment/payment-receipt', $data );
 
         return ob_get_clean();
     }
@@ -196,7 +196,7 @@ class ATBDP_Checkout
      */
     private function create_order($listing_id = 0, $data = array())
     {
-        if (empty($listing_id)) return; // vail if not listing id is provided
+        if ( directorist_payment_guard() ) return; // vail if not listing id is provided
         // create an order
         $order_id = wp_insert_post(array(
             'post_content' => '',
@@ -237,10 +237,6 @@ class ATBDP_Checkout
             update_post_meta($order_id, '_amount', $amount);
             update_post_meta($order_id, '_payment_gateway', $gateway);
             update_post_meta($order_id, '_payment_status', 'created');
-            $updated_plan_id = get_post_meta($listing_id, '_fm_plans', true);
-            if (is_fee_manager_active() && $updated_plan_id) {
-                update_post_meta($order_id, '_fm_plan_ordered', $updated_plan_id);
-            }
             // Hook for developer
             do_action('atbdp_order_created', $order_id, $listing_id); /*@todo; do something to prevent multiple order creation when user try to repeat failed payment*/
             $this->process_payment($amount, $gateway, $order_id, $listing_id, $data);
@@ -337,7 +333,7 @@ class ATBDP_Checkout
     public function transaction_failure()
     {
         ob_start();
-        \Directorist\URI_Helper::get_template( 'payment/transaction-failure' );
+        \Directorist\Helper::get_template( 'payment/transaction-failure' );
 
         return ob_get_clean();
     }

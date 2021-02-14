@@ -35,11 +35,11 @@ class ATBDP_Metabox {
 		$listing_meta_fields =  ob_get_clean();
 
 		ob_start();
-		$this->render_listing_taxonomies( $term_id, ATBDP_CATEGORY );
+		$this->render_listing_taxonomies( $listing_id, $term_id, ATBDP_CATEGORY );
 		$listing_categories =  ob_get_clean();
 
 		ob_start();
-		$this->render_listing_taxonomies( $term_id, ATBDP_LOCATION );
+		$this->render_listing_taxonomies( $listing_id, $term_id, ATBDP_LOCATION );
 		$listing_locations =  ob_get_clean();
 
 		wp_send_json_success( array(
@@ -48,25 +48,31 @@ class ATBDP_Metabox {
 			'listing_locations'   => $listing_locations,
 		) );
 
-		die();
 	}
 
-	public function render_listing_taxonomies( $term_id, $taxonomy_id ) {
+	public function render_listing_taxonomies( $listing_id, $term_id, $taxonomy_id ) {
 		$listing_type 		= get_term_by( 'id', $term_id, ATBDP_TYPE );
 		$listing_type_slug  = $listing_type->slug;
 		$args = array(
 			'hide_empty' => 0,
 			'hierarchical' => false
 		);
-	
-		$terms = get_terms( $taxonomy_id, $args);
+		$saving_terms   = get_the_terms( $listing_id, $taxonomy_id );
+		$saving_values    = array();
+		if( $saving_terms ) {
+			foreach( $saving_terms as $saving_term ) {
+				$saving_values[] = $saving_term->term_id;
+			}
+		}
+		$terms 			= get_terms( $taxonomy_id, $args);
 
 		if( $terms ) {
 			foreach( $terms as $term ) {
 				$directory_type = get_term_meta( $term->term_id, '_directory_type', true );
 				$directory_type = ! empty ( $directory_type ) ? $directory_type : array();
+				$checked		= in_array( $term->term_id, $saving_values ) ? 'checked' : '';
 				if( in_array( $listing_type_slug, $directory_type) ) { ?>
-					<li id="<?php echo $taxonomy_id; ?>-<?php echo $term->term_id; ?>"><label class="selectit"><input value="<?php echo $term->term_id; ?>" type="checkbox" name="tax_input[<?php echo $taxonomy_id; ?>][]" id="in-<?php echo $taxonomy_id; ?>-<?php echo $term->term_id; ?>"> <?php echo $term->name; ?></label></li>
+					<li id="<?php echo $taxonomy_id; ?>-<?php echo $term->term_id; ?>"><label class="selectit"><input value="<?php echo $term->term_id; ?>" type="checkbox" name="tax_input[<?php echo $taxonomy_id; ?>][]" id="in-<?php echo $taxonomy_id; ?>-<?php echo $term->term_id; ?>" <?php echo ! empty( $checked ) ? $checked : ''; ?>> <?php echo $term->name; ?></label></li>
 
 				<?php
 				}
@@ -81,7 +87,7 @@ class ATBDP_Metabox {
 	public function render_listing_meta_fields( $type, $id ) {
 		$form_data = $this->build_form_data( $type );
 		foreach ( $form_data as $section ) {
-			\Directorist\Directorist_Listing_Forms::instance($id)->add_listing_section_template( $section );
+			\Directorist\Directorist_Listing_Form::instance($id)->section_template( $section );
 		}
 	}
 
@@ -237,8 +243,11 @@ class ATBDP_Metabox {
 			wp_set_object_terms($post_id, (int)$listing_type, ATBDP_TYPE);
 		}
 
+		if( ! is_fee_manager_active() ){
+			$metas['_featured']          = !empty($p['featured'])? (int) $p['featured'] : 0;
+	   }
+
 		$metas['_never_expire']      = !empty($p['never_expire']) ? (int) $p['never_expire'] : '';
-		$metas['_featured']          = !empty($p['featured'])? (int) $p['featured'] : 0;
 		$exp_dt 					 = !empty($p['exp_date']) ? atbdp_sanitize_array($p['exp_date']) : array(); // get expiry date from the $_POST and then later sanitize it.
 		//prepare expiry date, if we receive complete expire date from the submitted post, then use it, else use the default data
 		if (!is_empty_v($exp_dt) && !empty($exp_dt['aa'])){
@@ -255,7 +264,7 @@ class ATBDP_Metabox {
 		}
 		// var_dump( $metas );die;
 		$metas['_expiry_date']  = $exp_dt;
-		$metas = apply_filters('atbdp_listing_meta_admin_submission', $metas);
+		$metas = apply_filters('atbdp_listing_meta_admin_submission', $metas, $p);
 		// save the meta data to the database
 
 		foreach ($metas as $meta_key => $meta_value) {

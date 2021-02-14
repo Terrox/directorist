@@ -3208,7 +3208,7 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                 ]
             ];
 
-            $listing_card_widget = [
+            $listing_card_widget = apply_filters( 'directorist_listing_card_widgets', [
                 'listing_title' => [
                     'type' => "title",
                     'label' => "Listing Title",
@@ -3570,12 +3570,6 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                     'label' => "View Count",
                     'icon' => 'uil uil-text-fields',
                     'hook' => "atbdp_view_count",
-                    'show_if' => [
-                        'where' => "submission_form_fields.value.fields",
-                        'conditions' => [
-                            ['key' => '_any.widget_name', 'compare' => '=', 'value' => 'view_count'],
-                        ],
-                    ],
                     'options' => [
                         'title' => "View Count Settings",
                         'fields' => [
@@ -3881,7 +3875,7 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                         ],
                     ],
                 ],
-            ];
+            ] );
 
 
             $listing_card_list_view_widget = $listing_card_widget;
@@ -4312,25 +4306,6 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                     ],
                     'value' => [],
                 ],
-                
-
-                'enable_similar_listings' => [
-                    'type'  => 'toggle',
-                    'label' => 'Enable similar listings',
-                    'value' => true,
-                ],
-                'similar_listings_title' => [
-                    'type'  => 'text',
-                    'label' => 'Section Title',
-                    'value' => 'Similar Listings',
-                    /* 'show_if' => [
-                        'id' => "enable_similar_listings__title",
-                        'where' => "enable_similar_listings",
-                        'conditions' => [
-                            ['key' => 'value', 'compare' => '=', 'value' => true],
-                        ],
-                    ], */
-                ],
                 'similar_listings_logics' => [
                     'type'    => 'radio',
                     'name'    => 'similar_listings_logics',
@@ -4612,7 +4587,7 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                     ],
                 ],
 
-                'listings_card_grid_view' => [
+                'listings_card_grid_view' => apply_filters( 'directorist_listing_card_layouts', [
                     'type' => 'card-builder',
                     'card_templates' => [
                         'grid_view_with_thumbnail' => [
@@ -4628,9 +4603,9 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                             'layout'   => $listing_card_grid_view_without_thumbnail_layout,
                         ],
                     ],
-                ],
+                ] ),
 
-                'listings_card_list_view' => [
+                'listings_card_list_view' => apply_filters( 'directorist_listing_list_layouts', [
                     'type' => 'card-builder',
                     'card_templates' => [
                         'list_view_with_thumbnail' => [
@@ -4646,11 +4621,11 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                             'layout'   => $listing_card_list_view_without_thumbnail_layout,
                         ],
                     ],
-                ],
+                ] ),
 
             ]);
             
-            $this->layouts = apply_filters('atbdp_listing_type_settings_layout', [
+            self::$layouts = apply_filters('atbdp_listing_type_settings_layout', [
                 'general' => [
                     'label' => 'General',
                     'icon' => '<i class="uil uil-estate"></i>',
@@ -4791,8 +4766,6 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                                 'other' => [
                                     'title' => 'Similar Listings',
                                     'fields' => [
-                                        'enable_similar_listings',
-                                        'similar_listings_title',
                                         'similar_listings_logics',
                                         'listing_from_same_author',
                                         'similar_listings_number_of_listings_to_show',
@@ -4883,7 +4856,7 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
                     'value' => 'example@email.com',
                 ];
 
-                $this->layouts['submission_form']['submenu']['settings']['sections']['guest_submission'] = [
+                self::$layouts['submission_form']['submenu']['settings']['sections']['guest_submission'] = [
                     'title' => __('Guest Submission', 'directorist'),
                     'container' => 'short-width',
                     'fields' => [
@@ -4988,7 +4961,7 @@ if ( ! class_exists('ATBDP_Multi_Directory_Manager') ) {
 
             $cptm_data = [
                 'fields'  => self::$fields,
-                'layouts' => $this->layouts,
+                'layouts' => self::$layouts,
                 'config'  => self::$config,
                 'options' => $this->options,
                 'id'      => $listing_type_id,
